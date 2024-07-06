@@ -1,4 +1,5 @@
-main.d main.o: .././main.c ../Header\ Files/main_header.h \
+Source Files/timer.d Source Files/timer.o: ../Source\ Files/timer.c \
+ ../Header\ Files/timer.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\io.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\sfr_defs.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\inttypes.h \
@@ -12,10 +13,9 @@ main.d main.o: .././main.c ../Header\ Files/main_header.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\common.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\fuse.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\lock.h \
- c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\interrupt.h \
- ../Header\ Files/serial.h ../Header\ Files/timer.h
+ c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\interrupt.h
 
-../Header\ Files/main_header.h:
+../Header\ Files/timer.h:
 
 c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\io.h:
 
@@ -44,7 +44,3 @@ c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\fuse.h:
 c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\lock.h:
 
 c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\interrupt.h:
-
-../Header\ Files/serial.h:
-
-../Header\ Files/timer.h:

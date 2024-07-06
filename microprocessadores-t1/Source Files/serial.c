@@ -1,6 +1,6 @@
 #include "serial.h"
 
-void uart_init() {
+void uart_init(void) {
 	// Configurar baud rate 4800
 	UBRR0H = 0;
 	UBRR0L = 207;
