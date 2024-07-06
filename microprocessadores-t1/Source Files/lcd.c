@@ -54,10 +54,15 @@ void limpa_display(void) {
 	_delay_ms(2); // Wait for command to complete
 }
 
-void escreve_string(char nome[]) {
+void escreve_string(char linha, char texto[]) {
+	if (linha == 1)
+	escreve_comando_LCD(0x80); // Set cursor to start of line 1
+	else if (linha == 2)
+	escreve_comando_LCD(0xC0); // Set cursor to start of line 2
+
 	unsigned char c;
-	for (c = 0; nome[c] != '\0'; c++) {
-		escreve_dado_LCD(nome[c]);
+	for (c = 0; texto[c] != '\0'; c++) {
+		escreve_dado_LCD(texto[c]);
 	}
 }
 
