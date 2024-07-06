@@ -16,9 +16,21 @@ Discarded input sections
  .text          0x0000000000000000        0x0 main.o
  .data          0x0000000000000000        0x0 main.o
  .bss           0x0000000000000000        0x0 main.o
+ .text          0x0000000000000000        0x0 Source Files/display.o
+ .data          0x0000000000000000        0x0 Source Files/display.o
+ .bss           0x0000000000000000        0x0 Source Files/display.o
+ .debug_line    0x0000000000000000        0x0 Source Files/display.o
+ .debug_str     0x0000000000000000        0x0 Source Files/display.o
+ .comment       0x0000000000000000       0x30 Source Files/display.o
  .text          0x0000000000000000        0x0 Source Files/serial.o
  .data          0x0000000000000000        0x0 Source Files/serial.o
  .bss           0x0000000000000000        0x0 Source Files/serial.o
+ .text          0x0000000000000000        0x0 Source Files/teclado.o
+ .data          0x0000000000000000        0x0 Source Files/teclado.o
+ .bss           0x0000000000000000        0x0 Source Files/teclado.o
+ .debug_line    0x0000000000000000        0x0 Source Files/teclado.o
+ .debug_str     0x0000000000000000        0x0 Source Files/teclado.o
+ .comment       0x0000000000000000       0x30 Source Files/teclado.o
  .text          0x0000000000000000        0x0 Source Files/timer.o
  .data          0x0000000000000000        0x0 Source Files/timer.o
  .bss           0x0000000000000000        0x0 Source Files/timer.o
@@ -85,7 +97,9 @@ Linker script and memory map
 Address of section .data set to 0x800200
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const/crtatmega2560.o
 LOAD main.o
+LOAD Source Files/display.o
 LOAD Source Files/serial.o
+LOAD Source Files/teclado.o
 LOAD Source Files/timer.o
 START GROUP
 END GROUP

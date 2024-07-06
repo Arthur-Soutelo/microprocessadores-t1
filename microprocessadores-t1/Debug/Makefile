@@ -40,7 +40,9 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../main.c \
+../Source\ Files/display.c \
 ../Source\ Files/serial.c \
+../Source\ Files/teclado.c \
 ../Source\ Files/timer.c
 
 
@@ -52,22 +54,30 @@ ASM_SRCS +=
 
 OBJS +=  \
 main.o \
+Source\ Files/display.o \
 Source\ Files/serial.o \
+Source\ Files/teclado.o \
 Source\ Files/timer.o
 
 OBJS_AS_ARGS +=  \
 main.o \
+"Source Files/display.o" \
 "Source Files/serial.o" \
+"Source Files/teclado.o" \
 "Source Files/timer.o"
 
 C_DEPS +=  \
 main.d \
+Source\ Files/display.d \
 Source\ Files/serial.d \
+Source\ Files/teclado.d \
 Source\ Files/timer.d
 
 C_DEPS_AS_ARGS +=  \
 main.d \
+"Source Files/display.d" \
 "Source Files/serial.d" \
+"Source Files/teclado.d" \
 "Source Files/timer.d"
 
 OUTPUT_FILE_PATH +=microprocessadores-t1.elf
@@ -91,7 +101,21 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
+Source\ Files/display.o: ../Source\ Files/display.c
+	@echo Building file: $<
+	@echo Invoking: XC8 C Compiler : 2.46
+	$(QUOTE)C:\Program Files\Microchip\xc8\v2.46\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega2560  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega2560__ -DDEBUG  -I".." -I"../Header Files" -I"../Source Files"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 Source\ Files/serial.o: ../Source\ Files/serial.c
+	@echo Building file: $<
+	@echo Invoking: XC8 C Compiler : 2.46
+	$(QUOTE)C:\Program Files\Microchip\xc8\v2.46\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega2560  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega2560__ -DDEBUG  -I".." -I"../Header Files" -I"../Source Files"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Source\ Files/teclado.o: ../Source\ Files/teclado.c
 	@echo Building file: $<
 	@echo Invoking: XC8 C Compiler : 2.46
 	$(QUOTE)C:\Program Files\Microchip\xc8\v2.46\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega2560  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega2560__ -DDEBUG  -I".." -I"../Header Files" -I"../Source Files"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

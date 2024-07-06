@@ -103,6 +103,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Header Files\display.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Header Files\timer.h">
       <SubType>compile</SubType>
     </Compile>
@@ -115,7 +118,13 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Source Files\display.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Source Files\serial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Source Files\teclado.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Source Files\timer.c">
