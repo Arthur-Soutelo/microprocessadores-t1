@@ -10,7 +10,7 @@
 
 	#define KEYPAD_COLS_PORT PORTA
 	#define KEYPAD_COLS_DIR  DDRA
-	#define KEYPAD_ROWS_PIN  PINA
+	#define KEYPAD_COLS_PIN  PINA
 
 	#define COL1_PIN PA0
 	#define COL2_PIN PA1
@@ -24,5 +24,6 @@
 
 	void keypad_init(void);
 	char keypad_getkey(void);
+	static unsigned char debounce(unsigned char col);
 
 #endif // KEYPAD_H

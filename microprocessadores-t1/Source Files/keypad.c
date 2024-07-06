@@ -23,12 +23,9 @@ char keypad_getkey(void) {
 		KEYPAD_COLS_PORT |= (1 << (COL1_PIN + col)); // Set column high
 
 		for (row = 0; row < 4; row++) {
-			if (!(KEYPAD_ROWS_PIN & (1 << (ROW1_PIN + row)))) { // Check if key is pressed
-				_delay_ms(10); // Debounce delay
-				if (!(KEYPAD_ROWS_PIN & (1 << (ROW1_PIN + row)))) { // Check again after debounce
-					KEYPAD_COLS_PORT &= ~(1 << (COL1_PIN + col)); // Reset column
-					return keys[row][col]; // Return pressed key
-				}
+			if (debounce(col)) { // Check if key is pressed and debounced
+				KEYPAD_COLS_PORT &= ~(1 << (COL1_PIN + col)); // Reset column
+				return keys[row][col]; // Return pressed key
 			}
 		}
 
@@ -36,4 +33,25 @@ char keypad_getkey(void) {
 	}
 
 	return 0; // Return 0 if no key pressed
+}
+
+static unsigned char debounce(unsigned char col) {
+	unsigned char count = 0;
+	unsigned char keylast = 0;
+	unsigned char keynow = 1;
+
+	while (count < 7) {
+		_delay_ms(2); // Adjust debounce delay as needed
+		keynow = KEYPAD_COLS_PIN & (1 << (ROW1_PIN + col));
+
+		if (keynow == keylast) {
+			count++;
+			} else {
+			count = 0;
+		}
+
+		keylast = keynow;
+	}
+
+	return keynow;
 }
