@@ -19,25 +19,26 @@ Discarded input sections
  .text          0x0000000000000000        0x0 Source Files/lcd.o
  .data          0x0000000000000000        0x0 Source Files/lcd.o
  .bss           0x0000000000000000        0x0 Source Files/lcd.o
- .text.atraso   0x0000000000000000        0xa Source Files/lcd.o
- .text.escreve_dado_LCD
-                0x0000000000000000       0x48 Source Files/lcd.o
- .text.escreve_string
-                0x0000000000000000       0x26 Source Files/lcd.o
- .text.escreve_comando_LCD
-                0x0000000000000000       0x48 Source Files/lcd.o
- .text.limpa_display
+ .text.delay_ms
+                0x0000000000000000        0x6 Source Files/lcd.o
+ .text.write_data_LCD
+                0x0000000000000000       0x4c Source Files/lcd.o
+ .text.write_command_LCD
+                0x0000000000000000       0x4c Source Files/lcd.o
+ .text.write_string
+                0x0000000000000000       0x3c Source Files/lcd.o
+ .text.clear_display
                 0x0000000000000000       0x10 Source Files/lcd.o
  .text.init_LCD
                 0x0000000000000000       0x2c Source Files/lcd.o
- .debug_info    0x0000000000000000      0x4bb Source Files/lcd.o
+ .debug_info    0x0000000000000000      0x4e1 Source Files/lcd.o
  .debug_abbrev  0x0000000000000000       0xe2 Source Files/lcd.o
- .debug_loc     0x0000000000000000       0xd3 Source Files/lcd.o
+ .debug_loc     0x0000000000000000      0x127 Source Files/lcd.o
  .debug_aranges
                 0x0000000000000000       0x48 Source Files/lcd.o
  .debug_ranges  0x0000000000000000       0x38 Source Files/lcd.o
- .debug_line    0x0000000000000000      0x1b9 Source Files/lcd.o
- .debug_str     0x0000000000000000       0x14 Source Files/lcd.o
+ .debug_line    0x0000000000000000      0x1d6 Source Files/lcd.o
+ .debug_str     0x0000000000000000        0xa Source Files/lcd.o
  .comment       0x0000000000000000       0x30 Source Files/lcd.o
  .debug_frame   0x0000000000000000       0x84 Source Files/lcd.o
  .text          0x0000000000000000        0x0 Source Files/serial.o

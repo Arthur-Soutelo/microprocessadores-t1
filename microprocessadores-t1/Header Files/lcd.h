@@ -19,10 +19,10 @@
 	#define LCD_DDR    DDRB
 
 	void init_LCD(void);
-	void escreve_dado_LCD(char dado);
-	void escreve_comando_LCD(char comando);
-	void limpa_display(void);
-	void escreve_string(char nome[]);
-	void atraso(void);
+	void write_data_LCD(char data);
+	void write_command_LCD(char command);
+	void clear_display(void);
+	void write_string(char line, char text[]);
+	void delay_ms(unsigned int ms);
 
 #endif // LCD_H_

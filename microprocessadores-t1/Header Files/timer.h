@@ -8,10 +8,11 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-	void config_timer_600Hz();
-	void config_timer_2kHz();
-
+	void config_timer1_600Hz();
+	void config_timer1_2kHz();
 	void timer1_stop(void);
+	
+	void timer0_delay_us(unsigned int microseconds);
 
 
 #endif /* TIMER_H_ */
