@@ -103,6 +103,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Header Files\keypad.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Header Files\lcd.h">
       <SubType>compile</SubType>
     </Compile>
@@ -124,7 +127,7 @@
     <Compile Include="Source Files\serial.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Source Files\teclado.c">
+    <Compile Include="Source Files\keypad.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Source Files\timer.c">

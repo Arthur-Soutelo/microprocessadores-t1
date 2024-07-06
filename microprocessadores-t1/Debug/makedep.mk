@@ -8,7 +8,7 @@ Source Files\lcd.c
 
 Source Files\serial.c
 
-Source Files\teclado.c
+Source Files\keypad.c
 
 Source Files\timer.c
 

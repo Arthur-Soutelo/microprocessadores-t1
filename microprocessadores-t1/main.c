@@ -1,5 +1,6 @@
-// Projeto 1- Microprocessadores	-	Turma : B	-	2024
-//Authors: Arthur Antonio Soutelo Araujo - 00304292 e Gabriel Rosado dos Santos Mendes - 00301564
+// Tabalho 1- Microprocessadores	-	Turma : B	-	2024
+// Author: Arthur Antonio Soutelo Araujo	- 00304292
+// Author: Gabriel Rosado dos Santos Mendes - 00301564
 
 #include "main_header.h"
 
@@ -14,11 +15,8 @@ int main(void){
 
     uart_init();	// Inicializar UART
     sei();			// Ativa interrupt
-
-    unsigned char received_char;
     
-    while (1) {
-	    received_char = uart_receive();
+    while(1){
 	    
     }
 }
