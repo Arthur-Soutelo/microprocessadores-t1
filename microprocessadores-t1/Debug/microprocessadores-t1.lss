@@ -3,434 +3,299 @@ microprocessadores-t1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00000274  00000308  2**0
+  0 .data         00000000  00800200  00800200  00000242  2**0
                   ALLOC, LOAD, DATA
-  1 .text         00000148  00000000  00000000  00000094  2**1
+  1 .text         00000140  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      0000005b  00000000  00000000  00000308  2**0
+  2 .comment      0000005b  00000000  00000000  00000242  2**0
                   CONTENTS, READONLY
-  3 .stack.descriptors.hdr 0000002a  00000000  00000000  00000363  2**0
+  3 .stack.descriptors.hdr 0000002a  00000000  00000000  0000029d  2**0
                   CONTENTS, READONLY
-  4 .debug_aranges 00000088  00000000  00000000  0000038d  2**0
+  4 .debug_aranges 00000058  00000000  00000000  000002c7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001566  00000000  00000000  00000415  2**0
+  5 .debug_info   000011a1  00000000  00000000  0000031f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000cc3  00000000  00000000  0000197b  2**0
+  6 .debug_abbrev 00000c30  00000000  00000000  000014c0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000502  00000000  00000000  0000263e  2**0
+  7 .debug_line   000003c6  00000000  00000000  000020f0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000d0  00000000  00000000  00002b40  2**2
+  8 .debug_frame  0000008c  00000000  00000000  000024b8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000438  00000000  00000000  00002c10  2**0
+  9 .debug_str    000003fd  00000000  00000000  00002544  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000067  00000000  00000000  00003048  2**0
+ 10 .debug_loc    00000049  00000000  00000000  00002941  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000058  00000000  00000000  000030af  2**0
+ 11 .debug_ranges 00000038  00000000  00000000  0000298a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .text         00000004  00000264  00000264  000002f8  2**1
+ 12 .text         00000004  000001c0  000001c0  00000234  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 13 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00003108  2**2
+ 13 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000029c4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 14 .text.__vector_20 00000034  0000018c  0000018c  00000220  2**1
+ 14 .text.__vector_20 00000034  00000140  00000140  000001b4  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 15 .text.main    00000044  00000148  00000148  000001dc  2**1
+ 15 .text.main    00000010  000001a2  000001a2  00000216  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 16 .text.uart_init 00000018  00000208  00000208  0000029c  2**1
+ 16 .text.uart_init 00000018  00000174  00000174  000001e8  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 17 .text.uart_receive 0000000e  00000248  00000248  000002dc  2**1
+ 17 .text.uart_receive 0000000e  000001b2  000001b2  00000226  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 18 .text.uart_send 0000000e  00000256  00000256  000002ea  2**1
+ 18 .text.__dummy_fini 00000002  000001c8  000001c8  0000023c  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 19 .text.config_timer_600Hz 00000024  000001c0  000001c0  00000254  2**1
+ 19 .text.__dummy_funcs_on_exit 00000002  000001ca  000001ca  0000023e  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 20 .text.config_timer_2kHz 00000024  000001e4  000001e4  00000278  2**1
+ 20 .text.__dummy_simulator_exit 00000002  000001cc  000001cc  00000240  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 21 .text.timer1_stop 00000012  00000236  00000236  000002ca  2**1
+ 21 .text.exit    00000016  0000018c  0000018c  00000200  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 22 .data.MY_VARIABLE_TCNT1 00000002  00800200  00000272  00000306  2**0
-                  CONTENTS, ALLOC, LOAD, DATA
- 23 .text.__dummy_fini 00000002  0000026c  0000026c  00000300  2**1
-                  CONTENTS, ALLOC, LOAD, READONLY, CODE
- 24 .text.__dummy_funcs_on_exit 00000002  0000026e  0000026e  00000302  2**1
-                  CONTENTS, ALLOC, LOAD, READONLY, CODE
- 25 .text.__dummy_simulator_exit 00000002  00000270  00000270  00000304  2**1
-                  CONTENTS, ALLOC, LOAD, READONLY, CODE
- 26 .text.exit    00000016  00000220  00000220  000002b4  2**1
-                  CONTENTS, ALLOC, LOAD, READONLY, CODE
- 27 .text._Exit   00000004  00000268  00000268  000002fc  2**1
+ 22 .text._Exit   00000004  000001c4  000001c4  00000238  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
-   0:	0c 94 76 00 	jmp	0xec	; 0xec <__ctors_end>
-   4:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-   8:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-   c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  10:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  14:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  18:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  1c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  20:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  24:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  28:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  2c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  30:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  34:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  38:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  3c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  40:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  44:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  48:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  4c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  50:	0c 94 c6 00 	jmp	0x18c	; 0x18c <__vector_20>
-  54:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  58:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  5c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  60:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  64:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  68:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  6c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  70:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  74:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  78:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  7c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  80:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  84:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  88:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  8c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  90:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  94:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  98:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  9c:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  a0:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  a4:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  a8:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  ac:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  b0:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  b4:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  b8:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  bc:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  c0:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  c4:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  c8:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  cc:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  d0:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  d4:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  d8:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  dc:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
-  e0:	0c 94 32 01 	jmp	0x264	; 0x264 <__bad_interrupt>
+   0:	0c 94 72 00 	jmp	0xe4	; 0xe4 <__ctors_end>
+   4:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+   8:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+   c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  10:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  14:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  18:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  1c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  20:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  24:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  28:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  2c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  30:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  34:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  38:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  3c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  40:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  44:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  48:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  4c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  50:	0c 94 a0 00 	jmp	0x140	; 0x140 <_etext>
+  54:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  58:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  5c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  60:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  64:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  68:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  6c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  70:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  74:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  78:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  7c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  80:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  84:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  88:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  8c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  90:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  94:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  98:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  9c:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  a0:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  a4:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  a8:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  ac:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  b0:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  b4:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  b8:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  bc:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  c0:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  c4:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  c8:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  cc:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  d0:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  d4:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  d8:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  dc:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
+  e0:	0c 94 e0 00 	jmp	0x1c0	; 0x1c0 <__bad_interrupt>
 
-000000e4 <.dinit>:
-  e4:	02 00       	.word	0x0002	; ????
-  e6:	02 02       	muls	r16, r18
-  e8:	00 02       	muls	r16, r16
-  ea:	72 00       	.word	0x0072	; ????
+000000e4 <__ctors_end>:
+  e4:	11 24       	eor	r1, r1
+  e6:	1f be       	out	0x3f, r1	; 63
+  e8:	cf ef       	ldi	r28, 0xFF	; 255
+  ea:	d1 e2       	ldi	r29, 0x21	; 33
+  ec:	de bf       	out	0x3e, r29	; 62
+  ee:	cd bf       	out	0x3d, r28	; 61
+  f0:	00 e0       	ldi	r16, 0x00	; 0
+  f2:	0c bf       	out	0x3c, r16	; 60
 
-000000ec <__ctors_end>:
-  ec:	11 24       	eor	r1, r1
-  ee:	1f be       	out	0x3f, r1	; 63
-  f0:	cf ef       	ldi	r28, 0xFF	; 255
-  f2:	d1 e2       	ldi	r29, 0x21	; 33
-  f4:	de bf       	out	0x3e, r29	; 62
-  f6:	cd bf       	out	0x3d, r28	; 61
-  f8:	00 e0       	ldi	r16, 0x00	; 0
-  fa:	0c bf       	out	0x3c, r16	; 60
+000000f4 <__do_copy_data>:
+  f4:	e4 ee       	ldi	r30, 0xE4	; 228
+  f6:	f0 e0       	ldi	r31, 0x00	; 0
+  f8:	40 e0       	ldi	r20, 0x00	; 0
+  fa:	19 c0       	rjmp	.+50     	; 0x12e <__do_clear_bss+0x8>
+  fc:	b7 91       	elpm	r27, Z+
+  fe:	a7 91       	elpm	r26, Z+
+ 100:	37 91       	elpm	r19, Z+
+ 102:	27 91       	elpm	r18, Z+
+ 104:	07 91       	elpm	r16, Z+
+ 106:	07 fd       	sbrc	r16, 7
+ 108:	0e c0       	rjmp	.+28     	; 0x126 <__do_clear_bss>
+ 10a:	97 91       	elpm	r25, Z+
+ 10c:	87 91       	elpm	r24, Z+
+ 10e:	ef 01       	movw	r28, r30
+ 110:	f9 2f       	mov	r31, r25
+ 112:	e8 2f       	mov	r30, r24
+ 114:	0b bf       	out	0x3b, r16	; 59
+ 116:	07 90       	elpm	r0, Z+
+ 118:	0d 92       	st	X+, r0
+ 11a:	a2 17       	cp	r26, r18
+ 11c:	b3 07       	cpc	r27, r19
+ 11e:	d9 f7       	brne	.-10     	; 0x116 <__do_copy_data+0x22>
+ 120:	fe 01       	movw	r30, r28
+ 122:	1b be       	out	0x3b, r1	; 59
+ 124:	04 c0       	rjmp	.+8      	; 0x12e <__do_clear_bss+0x8>
 
-000000fc <__do_copy_data>:
-  fc:	e4 ee       	ldi	r30, 0xE4	; 228
-  fe:	f0 e0       	ldi	r31, 0x00	; 0
- 100:	40 e0       	ldi	r20, 0x00	; 0
- 102:	19 c0       	rjmp	.+50     	; 0x136 <__do_clear_bss+0x8>
- 104:	b7 91       	elpm	r27, Z+
- 106:	a7 91       	elpm	r26, Z+
- 108:	37 91       	elpm	r19, Z+
- 10a:	27 91       	elpm	r18, Z+
- 10c:	07 91       	elpm	r16, Z+
- 10e:	07 fd       	sbrc	r16, 7
- 110:	0e c0       	rjmp	.+28     	; 0x12e <__do_clear_bss>
- 112:	97 91       	elpm	r25, Z+
- 114:	87 91       	elpm	r24, Z+
- 116:	ef 01       	movw	r28, r30
- 118:	f9 2f       	mov	r31, r25
- 11a:	e8 2f       	mov	r30, r24
- 11c:	0b bf       	out	0x3b, r16	; 59
- 11e:	07 90       	elpm	r0, Z+
- 120:	0d 92       	st	X+, r0
- 122:	a2 17       	cp	r26, r18
- 124:	b3 07       	cpc	r27, r19
- 126:	d9 f7       	brne	.-10     	; 0x11e <__do_copy_data+0x22>
- 128:	fe 01       	movw	r30, r28
- 12a:	1b be       	out	0x3b, r1	; 59
- 12c:	04 c0       	rjmp	.+8      	; 0x136 <__do_clear_bss+0x8>
+00000126 <__do_clear_bss>:
+ 126:	1d 92       	st	X+, r1
+ 128:	a2 17       	cp	r26, r18
+ 12a:	b3 07       	cpc	r27, r19
+ 12c:	e1 f7       	brne	.-8      	; 0x126 <__do_clear_bss>
+ 12e:	e4 3e       	cpi	r30, 0xE4	; 228
+ 130:	f4 07       	cpc	r31, r20
+ 132:	21 f7       	brne	.-56     	; 0xfc <__do_copy_data+0x8>
+ 134:	0e 94 d1 00 	call	0x1a2	; 0x1a2 <main>
+ 138:	0c 94 c6 00 	jmp	0x18c	; 0x18c <exit>
 
-0000012e <__do_clear_bss>:
- 12e:	1d 92       	st	X+, r1
- 130:	a2 17       	cp	r26, r18
- 132:	b3 07       	cpc	r27, r19
- 134:	e1 f7       	brne	.-8      	; 0x12e <__do_clear_bss>
- 136:	eb 3e       	cpi	r30, 0xEB	; 235
- 138:	f4 07       	cpc	r31, r20
- 13a:	21 f7       	brne	.-56     	; 0x104 <__do_copy_data+0x8>
- 13c:	0e 94 a4 00 	call	0x148	; 0x148 <_etext>
- 140:	0c 94 10 01 	jmp	0x220	; 0x220 <exit>
+0000013c <_exit>:
+ 13c:	f8 94       	cli
 
-00000144 <_exit>:
- 144:	f8 94       	cli
-
-00000146 <__stop_program>:
- 146:	ff cf       	rjmp	.-2      	; 0x146 <__stop_program>
+0000013e <__stop_program>:
+ 13e:	ff cf       	rjmp	.-2      	; 0x13e <__stop_program>
 
 Disassembly of section .text:
 
-00000264 <__bad_interrupt>:
- 264:	0c 94 00 00 	jmp	0	; 0x0 <__TEXT_REGION_ORIGIN__>
+000001c0 <__bad_interrupt>:
+ 1c0:	0c 94 00 00 	jmp	0	; 0x0 <__TEXT_REGION_ORIGIN__>
 
 Disassembly of section .text.__vector_20:
 
-0000018c <__vector_20>:
+00000140 <__vector_20>:
 
 #include "main_header.h"
 
 
 // Interrupt Timer 1	-	16bits
 ISR(TIMER1_OVF_vect){
- 18c:	1f 92       	push	r1
- 18e:	0f 92       	push	r0
- 190:	0f b6       	in	r0, 0x3f	; 63
- 192:	0f 92       	push	r0
- 194:	11 24       	eor	r1, r1
- 196:	8f 93       	push	r24
- 198:	9f 93       	push	r25
+ 140:	1f 92       	push	r1
+ 142:	0f 92       	push	r0
+ 144:	0f b6       	in	r0, 0x3f	; 63
+ 146:	0f 92       	push	r0
+ 148:	11 24       	eor	r1, r1
+ 14a:	8f 93       	push	r24
+ 14c:	9f 93       	push	r25
 	TCNT1 = 52202;	//600
- 19a:	8a ee       	ldi	r24, 0xEA	; 234
- 19c:	9b ec       	ldi	r25, 0xCB	; 203
- 19e:	90 93 85 00 	sts	0x0085, r25	; 0x800085 <__TEXT_REGION_LENGTH__+0x7c0085>
- 1a2:	80 93 84 00 	sts	0x0084, r24	; 0x800084 <__TEXT_REGION_LENGTH__+0x7c0084>
+ 14e:	8a ee       	ldi	r24, 0xEA	; 234
+ 150:	9b ec       	ldi	r25, 0xCB	; 203
+ 152:	90 93 85 00 	sts	0x0085, r25	; 0x800085 <__TEXT_REGION_LENGTH__+0x7c0085>
+ 156:	80 93 84 00 	sts	0x0084, r24	; 0x800084 <__TEXT_REGION_LENGTH__+0x7c0084>
 	PORTB ^= (1<<PORTB5);
- 1a6:	95 b1       	in	r25, 0x05	; 5
- 1a8:	80 e2       	ldi	r24, 0x20	; 32
- 1aa:	89 27       	eor	r24, r25
- 1ac:	85 b9       	out	0x05, r24	; 5
+ 15a:	95 b1       	in	r25, 0x05	; 5
+ 15c:	80 e2       	ldi	r24, 0x20	; 32
+ 15e:	89 27       	eor	r24, r25
+ 160:	85 b9       	out	0x05, r24	; 5
 	TIFR1 = (1<<0);
- 1ae:	81 e0       	ldi	r24, 0x01	; 1
- 1b0:	86 bb       	out	0x16, r24	; 22
+ 162:	81 e0       	ldi	r24, 0x01	; 1
+ 164:	86 bb       	out	0x16, r24	; 22
 }
- 1b2:	9f 91       	pop	r25
- 1b4:	8f 91       	pop	r24
- 1b6:	0f 90       	pop	r0
- 1b8:	0f be       	out	0x3f, r0	; 63
- 1ba:	0f 90       	pop	r0
- 1bc:	1f 90       	pop	r1
- 1be:	18 95       	reti
+ 166:	9f 91       	pop	r25
+ 168:	8f 91       	pop	r24
+ 16a:	0f 90       	pop	r0
+ 16c:	0f be       	out	0x3f, r0	; 63
+ 16e:	0f 90       	pop	r0
+ 170:	1f 90       	pop	r1
+ 172:	18 95       	reti
 
 Disassembly of section .text.main:
 
-00000148 <main>:
+000001a2 <main>:
 
 int main(void){
     // Inicializar UART
     uart_init();
- 148:	0e 94 04 01 	call	0x208	; 0x208 <uart_init>
+ 1a2:	0e 94 ba 00 	call	0x174	; 0x174 <uart_init>
     
     DDRB = (1<<PORTB5);	// Ativa como saida PB5 (13)
- 14c:	80 e2       	ldi	r24, 0x20	; 32
- 14e:	84 b9       	out	0x04, r24	; 4
+ 1a6:	80 e2       	ldi	r24, 0x20	; 32
+ 1a8:	84 b9       	out	0x04, r24	; 4
     
     sei();		// Ativa interrupt
- 150:	78 94       	sei
+ 1aa:	78 94       	sei
 
     unsigned char received_char;
     
     while (1) {
 	    received_char = uart_receive();
- 152:	0e 94 24 01 	call	0x248	; 0x248 <uart_receive>
- 156:	c8 2f       	mov	r28, r24
-	    uart_send(received_char);
- 158:	0e 94 2b 01 	call	0x256	; 0x256 <uart_send>
-	    switch (received_char) {
- 15c:	c2 33       	cpi	r28, 0x32	; 50
- 15e:	51 f0       	breq	.+20     	; 0x174 <main+0x2c>
- 160:	c3 33       	cpi	r28, 0x33	; 51
- 162:	71 f0       	breq	.+28     	; 0x180 <main+0x38>
- 164:	c1 33       	cpi	r28, 0x31	; 49
- 166:	a9 f7       	brne	.-22     	; 0x152 <main+0xa>
-		    case '1':
-				config_timer_600Hz();
- 168:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <config_timer_600Hz>
-				uart_send('A'); // Envia 'A'
- 16c:	81 e4       	ldi	r24, 0x41	; 65
- 16e:	0e 94 2b 01 	call	0x256	; 0x256 <uart_send>
-		    break;
- 172:	ef cf       	rjmp	.-34     	; 0x152 <main+0xa>
-		    case '2':
-				config_timer_2kHz();
- 174:	0e 94 f2 00 	call	0x1e4	; 0x1e4 <config_timer_2kHz>
-				uart_send('B'); // Envia 'B'
- 178:	82 e4       	ldi	r24, 0x42	; 66
- 17a:	0e 94 2b 01 	call	0x256	; 0x256 <uart_send>
-		    break;
- 17e:	e9 cf       	rjmp	.-46     	; 0x152 <main+0xa>
-		    case '3':
-				timer1_stop();
- 180:	0e 94 1b 01 	call	0x236	; 0x236 <timer1_stop>
-				uart_send('C'); // Envia 'C'
- 184:	83 e4       	ldi	r24, 0x43	; 67
- 186:	0e 94 2b 01 	call	0x256	; 0x256 <uart_send>
-		    break;
- 18a:	e3 cf       	rjmp	.-58     	; 0x152 <main+0xa>
+ 1ac:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <uart_receive>
+ 1b0:	fd cf       	rjmp	.-6      	; 0x1ac <main+0xa>
 
 Disassembly of section .text.uart_init:
 
-00000208 <uart_init>:
+00000174 <uart_init>:
 #include "serial.h"
 
 void uart_init(void) {
 	// Configurar baud rate 4800
 	UBRR0H = 0;
- 208:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7c00c5>
+ 174:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7c00c5>
 	UBRR0L = 207;
- 20c:	8f ec       	ldi	r24, 0xCF	; 207
- 20e:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7c00c4>
+ 178:	8f ec       	ldi	r24, 0xCF	; 207
+ 17a:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7c00c4>
 	// Habilitar recepção e transmissão
 	UCSR0B = (1<<RXEN0) | (1<<TXEN0);
- 212:	88 e1       	ldi	r24, 0x18	; 24
- 214:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7c00c1>
+ 17e:	88 e1       	ldi	r24, 0x18	; 24
+ 180:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7c00c1>
 	// Configurar formato do frame: 8 bits de dados, 1 bit de parada
 	UCSR0C = (1<<UCSZ01) | (1<<UCSZ00);
- 218:	86 e0       	ldi	r24, 0x06	; 6
- 21a:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7c00c2>
- 21e:	08 95       	ret
+ 184:	86 e0       	ldi	r24, 0x06	; 6
+ 186:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7c00c2>
+ 18a:	08 95       	ret
 
 Disassembly of section .text.uart_receive:
 
-00000248 <uart_receive>:
+000001b2 <uart_receive>:
 }
 
 unsigned char uart_receive(void) {
 	// Esperar por dado ser recebido
 	while ((UCSR0A & (1<<RXC0)) == 0);
- 248:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7c00c0>
- 24c:	88 23       	and	r24, r24
- 24e:	e4 f7       	brge	.-8      	; 0x248 <uart_receive>
+ 1b2:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7c00c0>
+ 1b6:	88 23       	and	r24, r24
+ 1b8:	e4 f7       	brge	.-8      	; 0x1b2 <uart_receive>
 	return UDR0;
- 250:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7c00c6>
+ 1ba:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7c00c6>
 }
- 254:	08 95       	ret
-
-Disassembly of section .text.uart_send:
-
-00000256 <uart_send>:
-
-void uart_send(unsigned char data) {
-	// Espera ate que o buffer de transmissão esteja vazio
-	while (!(UCSR0A & (1<<UDRE0)));
- 256:	90 91 c0 00 	lds	r25, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7c00c0>
- 25a:	95 ff       	sbrs	r25, 5
- 25c:	fc cf       	rjmp	.-8      	; 0x256 <uart_send>
-	// Coloca o dado no buffer, enviando o caractere
-	UDR0 = data;
- 25e:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7c00c6>
- 262:	08 95       	ret
-
-Disassembly of section .text.config_timer_600Hz:
-
-000001c0 <config_timer_600Hz>:
-unsigned short MY_VARIABLE_TCNT1 = 52202;
-
-// ####### Timer 1 => 600Hz ####### //
-// Para 600 Hz: TCNT1 = 65535 - (F_CPU / (600 * 2)) = 65535 - 13333 = 52202
-void config_timer_600Hz(){
-	TCCR1A = 0;		// Modo Normal
- 1c0:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7c0080>
-	TCCR1B = 1;	// Sem Prescaler
- 1c4:	81 e0       	ldi	r24, 0x01	; 1
- 1c6:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7c0081>
-	MY_VARIABLE_TCNT1 = 52202;
- 1ca:	2a ee       	ldi	r18, 0xEA	; 234
- 1cc:	3b ec       	ldi	r19, 0xCB	; 203
- 1ce:	30 93 01 02 	sts	0x0201, r19	; 0x800201 <__DATA_REGION_ORIGIN__+0x1>
- 1d2:	20 93 00 02 	sts	0x0200, r18	; 0x800200 <__DATA_REGION_ORIGIN__>
-	TCNT1 = MY_VARIABLE_TCNT1;		// = 65.535 - 13 333
- 1d6:	30 93 85 00 	sts	0x0085, r19	; 0x800085 <__TEXT_REGION_LENGTH__+0x7c0085>
- 1da:	20 93 84 00 	sts	0x0084, r18	; 0x800084 <__TEXT_REGION_LENGTH__+0x7c0084>
-	TIMSK1 = (1<<0); // Ativa interrupção por overflow TIMER 1
- 1de:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <__TEXT_REGION_LENGTH__+0x7c006f>
- 1e2:	08 95       	ret
-
-Disassembly of section .text.config_timer_2kHz:
-
-000001e4 <config_timer_2kHz>:
-}
-
-// ####### Timer 1 => 2000Hz ####### //
-// Para 2000 Hz: TCNT1 = 65535 - (F_CPU / (2000 * 2)) = 65535 - 4000 = 61535
-void config_timer_2kHz(){
-	TCCR1A = 0;		// Modo Normal
- 1e4:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7c0080>
-	TCCR1B = 1;	// Sem Prescaler
- 1e8:	81 e0       	ldi	r24, 0x01	; 1
- 1ea:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7c0081>
-	MY_VARIABLE_TCNT1 = 61535;
- 1ee:	2f e5       	ldi	r18, 0x5F	; 95
- 1f0:	30 ef       	ldi	r19, 0xF0	; 240
- 1f2:	30 93 01 02 	sts	0x0201, r19	; 0x800201 <__DATA_REGION_ORIGIN__+0x1>
- 1f6:	20 93 00 02 	sts	0x0200, r18	; 0x800200 <__DATA_REGION_ORIGIN__>
-	TCNT1 = MY_VARIABLE_TCNT1;		// = 65.535 - 4000
- 1fa:	30 93 85 00 	sts	0x0085, r19	; 0x800085 <__TEXT_REGION_LENGTH__+0x7c0085>
- 1fe:	20 93 84 00 	sts	0x0084, r18	; 0x800084 <__TEXT_REGION_LENGTH__+0x7c0084>
-	TIMSK1 = (1<<0); // Ativa interrupção por overflow TIMER 1
- 202:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <__TEXT_REGION_LENGTH__+0x7c006f>
- 206:	08 95       	ret
-
-Disassembly of section .text.timer1_stop:
-
-00000236 <timer1_stop>:
-
-}
-
-void timer1_stop(void) {
-	// Parar Timer1
-	TCCR1B &= ~((1<<CS12) | (1<<CS11) | (1<<CS10));
- 236:	e1 e8       	ldi	r30, 0x81	; 129
- 238:	f0 e0       	ldi	r31, 0x00	; 0
- 23a:	80 81       	ld	r24, Z
- 23c:	88 7f       	andi	r24, 0xF8	; 248
- 23e:	80 83       	st	Z, r24
-	// Garantir que o pino PB5 esta em nivel baixo
-	PORTB &= ~(1<<PB5);
- 240:	85 b1       	in	r24, 0x05	; 5
- 242:	8f 7d       	andi	r24, 0xDF	; 223
- 244:	85 b9       	out	0x05, r24	; 5
- 246:	08 95       	ret
+ 1be:	08 95       	ret
 
 Disassembly of section .text.__dummy_fini:
 
-0000026c <_fini>:
- 26c:	08 95       	ret
+000001c8 <_fini>:
+ 1c8:	08 95       	ret
 
 Disassembly of section .text.__dummy_funcs_on_exit:
 
-0000026e <__funcs_on_exit>:
- 26e:	08 95       	ret
+000001ca <__funcs_on_exit>:
+ 1ca:	08 95       	ret
 
 Disassembly of section .text.__dummy_simulator_exit:
 
-00000270 <__simulator_exit>:
- 270:	08 95       	ret
+000001cc <__simulator_exit>:
+ 1cc:	08 95       	ret
 
 Disassembly of section .text.exit:
 
-00000220 <exit>:
- 220:	ec 01       	movw	r28, r24
- 222:	0e 94 37 01 	call	0x26e	; 0x26e <__funcs_on_exit>
- 226:	0e 94 36 01 	call	0x26c	; 0x26c <_fini>
- 22a:	ce 01       	movw	r24, r28
- 22c:	0e 94 38 01 	call	0x270	; 0x270 <__simulator_exit>
- 230:	ce 01       	movw	r24, r28
- 232:	0e 94 34 01 	call	0x268	; 0x268 <_Exit>
+0000018c <exit>:
+ 18c:	ec 01       	movw	r28, r24
+ 18e:	0e 94 e5 00 	call	0x1ca	; 0x1ca <__funcs_on_exit>
+ 192:	0e 94 e4 00 	call	0x1c8	; 0x1c8 <_fini>
+ 196:	ce 01       	movw	r24, r28
+ 198:	0e 94 e6 00 	call	0x1cc	; 0x1cc <__simulator_exit>
+ 19c:	ce 01       	movw	r24, r28
+ 19e:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Exit>
 
 Disassembly of section .text._Exit:
 
-00000268 <_Exit>:
- 268:	0e 94 a2 00 	call	0x144	; 0x144 <_exit>
+000001c4 <_Exit>:
+ 1c4:	0e 94 9e 00 	call	0x13c	; 0x13c <_exit>

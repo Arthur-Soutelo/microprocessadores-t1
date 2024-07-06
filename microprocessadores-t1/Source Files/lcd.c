@@ -1,4 +1,5 @@
 #include "lcd.h"
+#include "timer.h"
 
 // Set the data pins to output
 void init_LCD(void) {
@@ -67,5 +68,5 @@ void write_string(char line, char text[]) {
 }
 
 void delay_ms(unsigned int ms) {
-	_delay_ms(ms);
+	timer0_delay_us(ms/1000);
 }

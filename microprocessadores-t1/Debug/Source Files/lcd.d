@@ -13,7 +13,8 @@ Source Files/lcd.d Source Files/lcd.o: ../Source\ Files/lcd.c \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\common.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\fuse.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\lock.h \
- c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\interrupt.h
+ c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\interrupt.h \
+ ../Header\ Files/timer.h
 
 ../Header\ Files/lcd.h:
 
@@ -44,3 +45,5 @@ c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\fuse.h:
 c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\lock.h:
 
 c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\interrupt.h:
+
+../Header\ Files/timer.h:

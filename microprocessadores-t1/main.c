@@ -23,22 +23,6 @@ int main(void){
     
     while (1) {
 	    received_char = uart_receive();
-	    uart_send(received_char);
-	    switch (received_char) {
-		    case '1':
-				config_timer_600Hz();
-				uart_send('A'); // Envia 'A'
-		    break;
-		    case '2':
-				config_timer_2kHz();
-				uart_send('B'); // Envia 'B'
-		    break;
-		    case '3':
-				timer1_stop();
-				uart_send('C'); // Envia 'C'
-		    break;
-		    default:
-		    break;
-	    }
+	    
     }
 }
