@@ -1,7 +1,7 @@
-//Projeto 1- Microprocessadores
+// Projeto 1- Microprocessadores	-	Turma : B	-	2024
+//Authors: Arthur Antonio Soutelo Araujo - 00304292 e Gabriel Rosado dos Santos Mendes - 00301564
 
-// Arthur Antonio Soutelo Araujo - 00304292
-// Gabriel Rosado dos Santos Mendes -
+#include "main_header.h"
 
 #include <xc.h>
 
