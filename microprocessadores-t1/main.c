@@ -3,8 +3,6 @@
 
 #include "main_header.h"
 
-#include <xc.h>
-
 int main(void)
 {
     while(1)
