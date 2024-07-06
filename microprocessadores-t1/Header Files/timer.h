@@ -1,12 +1,12 @@
 #ifndef SYSTEM_LIBRARIES_H_
-#define SYSTEM_LIBRARIES_H_
+	#define SYSTEM_LIBRARIES_H_
 	#include <avr/io.h>
 	#include <avr/interrupt.h>
 #endif // SYSTEM_LIBRARIES_H_
 
 
 #ifndef TIMER_H_
-#define TIMER_H_
+	#define TIMER_H_
 
 	#ifndef F_CPU
 		#define F_CPU 16000000UL	// 16 MHz clock frequency

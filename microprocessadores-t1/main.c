@@ -3,7 +3,6 @@
 
 #include "main_header.h"
 
-
 // Interrupt Timer 1	-	16bits
 ISR(TIMER1_OVF_vect){
 	TCNT1 = 52202;	//600
@@ -12,12 +11,9 @@ ISR(TIMER1_OVF_vect){
 }
 
 int main(void){
-    // Inicializar UART
-    uart_init();
-    
-    DDRB = (1<<PORTB5);	// Ativa como saida PB5 (13)
-    
-    sei();		// Ativa interrupt
+
+    uart_init();	// Inicializar UART
+    sei();			// Ativa interrupt
 
     unsigned char received_char;
     
