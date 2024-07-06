@@ -15,7 +15,7 @@
 //#include <EEPROM.h>
 
 
-//----- DISPLAY -----\\
+//----- DISPLAY -----
 //#define RS_DISPLAY = PORTC6
 //#define E_DISPLAY = PORTC4
 //#define D0_DISPLAY = PORTA7

@@ -6,11 +6,9 @@
 //#include "serial.c"
 //#include "timer.c"
 
-unsigned short MY_VARIABLE_TCNT1 = 52202;
-
 // Interrupt Timer 1	-	16bits
 ISR(TIMER1_OVF_vect){
-	TCNT1 = MY_VARIABLE_TCNT1;
+	TCNT1 = 52202;	//600
 	PORTB ^= (1<<PORTB5);
 	TIFR1 = (1<<0);
 }
