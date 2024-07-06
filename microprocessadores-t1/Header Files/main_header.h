@@ -1,16 +1,19 @@
-#include <avr/io.h>
-#include <avr/interrupt.h>
+#ifndef SYSTEM_LIBRARIES_H_
+#define SYSTEM_LIBRARIES_H_
+	#include <avr/io.h>
+	#include <avr/interrupt.h>
+#endif // SYSTEM_LIBRARIES_H_
 
-#ifndef MAIN_HEADER
-#define MAIN_HEADER
 
-// Your header file content here
-#include "serial.h"
-#include "timer.h"
-//#include "display.h"
-//#include ""
+#ifndef MAIN_HEADER_H_
+#define MAIN_HEADER_H_
 
-#endif // MYHEADER_H
+	#include "serial.h"
+	#include "timer.h"
+	#include "lcd.h"
+	//#include ""
+
+#endif // MAIN_HEADER_H_
 
 //#include <EEPROM.h>
 

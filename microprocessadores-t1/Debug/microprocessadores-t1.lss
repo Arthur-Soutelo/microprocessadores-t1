@@ -17,19 +17,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   6 .debug_abbrev 00000cc3  00000000  00000000  0000197b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000504  00000000  00000000  0000263e  2**0
+  7 .debug_line   00000502  00000000  00000000  0000263e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000d0  00000000  00000000  00002b44  2**2
+  8 .debug_frame  000000d0  00000000  00000000  00002b40  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000438  00000000  00000000  00002c14  2**0
+  9 .debug_str    00000438  00000000  00000000  00002c10  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000067  00000000  00000000  0000304c  2**0
+ 10 .debug_loc    00000067  00000000  00000000  00003048  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000058  00000000  00000000  000030b3  2**0
+ 11 .debug_ranges 00000058  00000000  00000000  000030af  2**0
                   CONTENTS, READONLY, DEBUGGING
  12 .text         00000004  00000264  00000264  000002f8  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 13 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000310c  2**2
+ 13 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00003108  2**2
                   CONTENTS, READONLY, DEBUGGING
  14 .text.__vector_20 00000034  0000018c  0000018c  00000220  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
@@ -190,8 +190,8 @@ Disassembly of section .text.__vector_20:
 
 0000018c <__vector_20>:
 
-//#include "serial.c"
-//#include "timer.c"
+#include "main_header.h"
+
 
 // Interrupt Timer 1	-	16bits
 ISR(TIMER1_OVF_vect){
@@ -256,25 +256,25 @@ int main(void){
  164:	c1 33       	cpi	r28, 0x31	; 49
  166:	a9 f7       	brne	.-22     	; 0x152 <main+0xa>
 		    case '1':
-		    config_timer_600Hz();
+				config_timer_600Hz();
  168:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <config_timer_600Hz>
-		    uart_send('A'); // Envia 'A'
+				uart_send('A'); // Envia 'A'
  16c:	81 e4       	ldi	r24, 0x41	; 65
  16e:	0e 94 2b 01 	call	0x256	; 0x256 <uart_send>
 		    break;
  172:	ef cf       	rjmp	.-34     	; 0x152 <main+0xa>
 		    case '2':
-		    config_timer_2kHz();
+				config_timer_2kHz();
  174:	0e 94 f2 00 	call	0x1e4	; 0x1e4 <config_timer_2kHz>
-		    uart_send('B'); // Envia 'B'
+				uart_send('B'); // Envia 'B'
  178:	82 e4       	ldi	r24, 0x42	; 66
  17a:	0e 94 2b 01 	call	0x256	; 0x256 <uart_send>
 		    break;
  17e:	e9 cf       	rjmp	.-46     	; 0x152 <main+0xa>
 		    case '3':
-		    timer1_stop();
+				timer1_stop();
  180:	0e 94 1b 01 	call	0x236	; 0x236 <timer1_stop>
-		    uart_send('C'); // Envia 'C'
+				uart_send('C'); // Envia 'C'
  184:	83 e4       	ldi	r24, 0x43	; 67
  186:	0e 94 2b 01 	call	0x256	; 0x256 <uart_send>
 		    break;

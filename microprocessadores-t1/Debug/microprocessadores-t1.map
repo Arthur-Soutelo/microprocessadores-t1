@@ -16,12 +16,30 @@ Discarded input sections
  .text          0x0000000000000000        0x0 main.o
  .data          0x0000000000000000        0x0 main.o
  .bss           0x0000000000000000        0x0 main.o
- .text          0x0000000000000000        0x0 Source Files/display.o
- .data          0x0000000000000000        0x0 Source Files/display.o
- .bss           0x0000000000000000        0x0 Source Files/display.o
- .debug_line    0x0000000000000000        0x0 Source Files/display.o
- .debug_str     0x0000000000000000        0x0 Source Files/display.o
- .comment       0x0000000000000000       0x30 Source Files/display.o
+ .text          0x0000000000000000        0x0 Source Files/lcd.o
+ .data          0x0000000000000000        0x0 Source Files/lcd.o
+ .bss           0x0000000000000000        0x0 Source Files/lcd.o
+ .text.atraso   0x0000000000000000        0xa Source Files/lcd.o
+ .text.escreve_dado_LCD
+                0x0000000000000000       0x48 Source Files/lcd.o
+ .text.escreve_string
+                0x0000000000000000       0x26 Source Files/lcd.o
+ .text.escreve_comando_LCD
+                0x0000000000000000       0x48 Source Files/lcd.o
+ .text.limpa_display
+                0x0000000000000000       0x10 Source Files/lcd.o
+ .text.init_LCD
+                0x0000000000000000       0x2c Source Files/lcd.o
+ .debug_info    0x0000000000000000      0x4bb Source Files/lcd.o
+ .debug_abbrev  0x0000000000000000       0xe2 Source Files/lcd.o
+ .debug_loc     0x0000000000000000       0xd3 Source Files/lcd.o
+ .debug_aranges
+                0x0000000000000000       0x48 Source Files/lcd.o
+ .debug_ranges  0x0000000000000000       0x38 Source Files/lcd.o
+ .debug_line    0x0000000000000000      0x1b9 Source Files/lcd.o
+ .debug_str     0x0000000000000000       0x14 Source Files/lcd.o
+ .comment       0x0000000000000000       0x30 Source Files/lcd.o
+ .debug_frame   0x0000000000000000       0x84 Source Files/lcd.o
  .text          0x0000000000000000        0x0 Source Files/serial.o
  .data          0x0000000000000000        0x0 Source Files/serial.o
  .bss           0x0000000000000000        0x0 Source Files/serial.o
@@ -97,7 +115,7 @@ Linker script and memory map
 Address of section .data set to 0x800200
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const/crtatmega2560.o
 LOAD main.o
-LOAD Source Files/display.o
+LOAD Source Files/lcd.o
 LOAD Source Files/serial.o
 LOAD Source Files/teclado.o
 LOAD Source Files/timer.o
@@ -422,12 +440,12 @@ END GROUP
  .debug_abbrev  0x0000000000000bcf       0x87 Source Files/serial.o
  .debug_abbrev  0x0000000000000c56       0x6d Source Files/timer.o
 
-.debug_line     0x0000000000000000      0x504
+.debug_line     0x0000000000000000      0x502
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x0000000000000000      0x1fd C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const/crtatmega2560.o
- .debug_line    0x00000000000001fd      0x12a main.o
- .debug_line    0x0000000000000327       0xea Source Files/serial.o
- .debug_line    0x0000000000000411       0xf3 Source Files/timer.o
+ .debug_line    0x00000000000001fd      0x128 main.o
+ .debug_line    0x0000000000000325       0xea Source Files/serial.o
+ .debug_line    0x000000000000040f       0xf3 Source Files/timer.o
 
 .debug_frame    0x0000000000000000       0xd0
  *(.debug_frame)

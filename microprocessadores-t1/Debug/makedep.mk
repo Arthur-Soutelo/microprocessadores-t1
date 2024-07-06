@@ -4,7 +4,7 @@
 
 main.c
 
-Source Files\display.c
+Source Files\lcd.c
 
 Source Files\serial.c
 

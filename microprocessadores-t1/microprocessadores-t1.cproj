@@ -103,7 +103,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Header Files\display.h">
+    <Compile Include="Header Files\lcd.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Header Files\timer.h">
@@ -118,7 +118,7 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Source Files\display.c">
+    <Compile Include="Source Files\lcd.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Source Files\serial.c">

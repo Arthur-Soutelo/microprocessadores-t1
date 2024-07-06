@@ -1,5 +1,8 @@
-#include <avr/io.h>
-#include <avr/interrupt.h>
+#ifndef SYSTEM_LIBRARIES_H_
+#define SYSTEM_LIBRARIES_H_
+	#include <avr/io.h>
+	#include <avr/interrupt.h>
+#endif // SYSTEM_LIBRARIES_H_
 
 
 #ifndef TIMER_H_
