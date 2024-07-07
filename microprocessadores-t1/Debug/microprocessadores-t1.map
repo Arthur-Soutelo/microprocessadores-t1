@@ -8,6 +8,10 @@ c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/../../../../av
                               C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const/crtatmega2560.o (exit)
 c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6/memx-const\libc.a(_Exit.o)
                               c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6/memx-const\libc.a(exit.o) (_Exit)
+C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+                              Source Files/save_to_eeprom.o (eeprom_read_byte)
+C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+                              Source Files/save_to_eeprom.o (eeprom_update_byte)
 c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/avr6/memx-const\libgcc.a(_exit.o)
                               c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6/memx-const\libc.a(_Exit.o) (_exit)
 
@@ -18,6 +22,44 @@ Discarded input sections
  .text          0x0000000000000000        0x0 main.o
  .data          0x0000000000000000        0x0 main.o
  .bss           0x0000000000000000        0x0 main.o
+ .text          0x0000000000000000        0x0 Source Files/save_to_eeprom.o
+ .data          0x0000000000000000        0x0 Source Files/save_to_eeprom.o
+ .bss           0x0000000000000000        0x0 Source Files/save_to_eeprom.o
+ .text.eeprom_write
+                0x0000000000000000        0x6 Source Files/save_to_eeprom.o
+ .text.eeprom_read
+                0x0000000000000000        0xa Source Files/save_to_eeprom.o
+ .debug_info    0x0000000000000000      0x354 Source Files/save_to_eeprom.o
+ .debug_abbrev  0x0000000000000000       0xa7 Source Files/save_to_eeprom.o
+ .debug_loc     0x0000000000000000       0x7d Source Files/save_to_eeprom.o
+ .debug_aranges
+                0x0000000000000000       0x28 Source Files/save_to_eeprom.o
+ .debug_ranges  0x0000000000000000       0x18 Source Files/save_to_eeprom.o
+ .debug_line    0x0000000000000000       0xf9 Source Files/save_to_eeprom.o
+ .debug_str     0x0000000000000000       0x24 Source Files/save_to_eeprom.o
+ .comment       0x0000000000000000       0x30 Source Files/save_to_eeprom.o
+ .debug_frame   0x0000000000000000       0x34 Source Files/save_to_eeprom.o
+ .text          0x0000000000000000        0x0 Source Files/money.o
+ .data          0x0000000000000000        0x0 Source Files/money.o
+ .bss           0x0000000000000000        0x0 Source Files/money.o
+ .text.debounce
+                0x0000000000000000       0x5a Source Files/money.o
+ .text.buttons_init
+                0x0000000000000000        0xe Source Files/money.o
+ .text.button1_clicked
+                0x0000000000000000        0x8 Source Files/money.o
+ .text.button2_clicked
+                0x0000000000000000        0x8 Source Files/money.o
+ .debug_info    0x0000000000000000      0x3c3 Source Files/money.o
+ .debug_abbrev  0x0000000000000000       0xe4 Source Files/money.o
+ .debug_loc     0x0000000000000000       0xe6 Source Files/money.o
+ .debug_aranges
+                0x0000000000000000       0x38 Source Files/money.o
+ .debug_ranges  0x0000000000000000       0x28 Source Files/money.o
+ .debug_line    0x0000000000000000      0x121 Source Files/money.o
+ .debug_str     0x0000000000000000        0xa Source Files/money.o
+ .comment       0x0000000000000000       0x30 Source Files/money.o
+ .debug_frame   0x0000000000000000       0x64 Source Files/money.o
  .text          0x0000000000000000        0x0 Source Files/lcd.o
  .data          0x0000000000000000        0x0 Source Files/lcd.o
  .bss           0x0000000000000000        0x0 Source Files/lcd.o
@@ -139,6 +181,32 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6/memx-const\libc.a(_Exit.o)
  .stack.descriptors
                 0x0000000000000000       0x13 c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6/memx-const\libc.a(_Exit.o)
+ .text          0x0000000000000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .data          0x0000000000000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .bss           0x0000000000000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .text.avrlibc  0x0000000000000000       0x12 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .stack.descriptors.hdr
+                0x0000000000000000        0xe C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .stack.descriptors
+                0x0000000000000000       0x1e C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .debug_line    0x0000000000000000       0x82 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .debug_info    0x0000000000000000       0xab C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .debug_abbrev  0x0000000000000000       0x14 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .debug_aranges
+                0x0000000000000000       0x20 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eerd_byte.o)
+ .text          0x0000000000000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+ .data          0x0000000000000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+ .bss           0x0000000000000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+ .text.avrlibc  0x0000000000000000       0x24 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+ .stack.descriptors.hdr
+                0x0000000000000000        0xe C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+ .stack.descriptors
+                0x0000000000000000       0x3f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+ .debug_line    0x0000000000000000       0xb9 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+ .debug_info    0x0000000000000000       0xac C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+ .debug_abbrev  0x0000000000000000       0x14 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
+ .debug_aranges
+                0x0000000000000000       0x20 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const\libatmega2560.a(eeupd_byte.o)
  .text          0x0000000000000000        0x0 c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/avr6/memx-const\libgcc.a(_exit.o)
  .data          0x0000000000000000        0x0 c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/avr6/memx-const\libgcc.a(_exit.o)
  .bss           0x0000000000000000        0x0 c:/program files/microchip/xc8/v2.46/avr/bin/../lib/gcc/avr/5.4.0/avr6/memx-const\libgcc.a(_exit.o)
@@ -176,6 +244,8 @@ Linker script and memory map
 Address of section .data set to 0x800200
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const/crtatmega2560.o
 LOAD main.o
+LOAD Source Files/save_to_eeprom.o
+LOAD Source Files/money.o
 LOAD Source Files/lcd.o
 LOAD Source Files/serial.o
 LOAD Source Files/keypad.o
@@ -483,11 +553,11 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x1176
+.debug_info     0x0000000000000000     0x1185
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0xbbc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/xc8/avr/lib/avr6/memx-const/crtatmega2560.o
- .debug_info    0x0000000000000bbc      0x2d4 main.o
- .debug_info    0x0000000000000e90      0x2e6 Source Files/serial.o
+ .debug_info    0x0000000000000bbc      0x2e3 main.o
+ .debug_info    0x0000000000000e9f      0x2e6 Source Files/serial.o
 
 .debug_abbrev   0x0000000000000000      0xc23
  *(.debug_abbrev)

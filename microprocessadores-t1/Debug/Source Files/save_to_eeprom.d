@@ -1,4 +1,5 @@
-main.d main.o: .././main.c ../Header\ Files/main_header.h \
+Source Files/save_to_eeprom.d Source Files/save_to_eeprom.o: \
+ ../Source\ Files/save_to_eeprom.c ../Header\ Files/save_to_eeprom.h \
  ../Header\ Files/system_libraries.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\io.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\sfr_defs.h \
@@ -15,12 +16,9 @@ main.d main.o: .././main.c ../Header\ Files/main_header.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\lock.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\interrupt.h \
  c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\eeprom.h \
- c:\program\ files\microchip\xc8\v2.46\avr\lib\gcc\avr\5.4.0\include\stddef.h \
- ../Header\ Files/serial.h ../Header\ Files/timer.h \
- ../Header\ Files/lcd.h ../Header\ Files/keypad.h \
- ../Header\ Files/money.h
+ c:\program\ files\microchip\xc8\v2.46\avr\lib\gcc\avr\5.4.0\include\stddef.h
 
-../Header\ Files/main_header.h:
+../Header\ Files/save_to_eeprom.h:
 
 ../Header\ Files/system_libraries.h:
 
@@ -55,13 +53,3 @@ c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\interrupt.h:
 c:\program\ files\microchip\xc8\v2.46\avr\avr\include\avr\eeprom.h:
 
 c:\program\ files\microchip\xc8\v2.46\avr\lib\gcc\avr\5.4.0\include\stddef.h:
-
-../Header\ Files/serial.h:
-
-../Header\ Files/timer.h:
-
-../Header\ Files/lcd.h:
-
-../Header\ Files/keypad.h:
-
-../Header\ Files/money.h:

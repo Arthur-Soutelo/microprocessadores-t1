@@ -103,6 +103,15 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Header Files\system_libraries.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Header Files\save_to_eeprom.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Header Files\money.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Header Files\keypad.h">
       <SubType>compile</SubType>
     </Compile>
@@ -119,6 +128,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Source Files\save_to_eeprom.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Source Files\money.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Source Files\lcd.c">

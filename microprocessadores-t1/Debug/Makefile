@@ -40,6 +40,8 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../main.c \
+../Source\ Files/save_to_eeprom.c \
+../Source\ Files/money.c \
 ../Source\ Files/lcd.c \
 ../Source\ Files/serial.c \
 ../Source\ Files/keypad.c \
@@ -54,6 +56,8 @@ ASM_SRCS +=
 
 OBJS +=  \
 main.o \
+Source\ Files/save_to_eeprom.o \
+Source\ Files/money.o \
 Source\ Files/lcd.o \
 Source\ Files/serial.o \
 Source\ Files/keypad.o \
@@ -61,6 +65,8 @@ Source\ Files/timer.o
 
 OBJS_AS_ARGS +=  \
 main.o \
+"Source Files/save_to_eeprom.o" \
+"Source Files/money.o" \
 "Source Files/lcd.o" \
 "Source Files/serial.o" \
 "Source Files/keypad.o" \
@@ -68,6 +74,8 @@ main.o \
 
 C_DEPS +=  \
 main.d \
+Source\ Files/save_to_eeprom.d \
+Source\ Files/money.d \
 Source\ Files/lcd.d \
 Source\ Files/serial.d \
 Source\ Files/keypad.d \
@@ -75,6 +83,8 @@ Source\ Files/timer.d
 
 C_DEPS_AS_ARGS +=  \
 main.d \
+"Source Files/save_to_eeprom.d" \
+"Source Files/money.d" \
 "Source Files/lcd.d" \
 "Source Files/serial.d" \
 "Source Files/keypad.d" \
@@ -95,6 +105,20 @@ LINKER_SCRIPT_DEP+=
 
 # AVR32/GNU C Compiler
 ./main.o: .././main.c
+	@echo Building file: $<
+	@echo Invoking: XC8 C Compiler : 2.46
+	$(QUOTE)C:\Program Files\Microchip\xc8\v2.46\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega2560  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega2560__ -DDEBUG  -I".." -I"../Header Files" -I"../Source Files"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Source\ Files/save_to_eeprom.o: ../Source\ Files/save_to_eeprom.c
+	@echo Building file: $<
+	@echo Invoking: XC8 C Compiler : 2.46
+	$(QUOTE)C:\Program Files\Microchip\xc8\v2.46\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega2560  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega2560__ -DDEBUG  -I".." -I"../Header Files" -I"../Source Files"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Source\ Files/money.o: ../Source\ Files/money.c
 	@echo Building file: $<
 	@echo Invoking: XC8 C Compiler : 2.46
 	$(QUOTE)C:\Program Files\Microchip\xc8\v2.46\bin\xc8-cc.exe$(QUOTE)  -mcpu=ATmega2560  -mdfp="C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\xc8"  -c -x c -funsigned-char -funsigned-bitfields -mext=cci -D__ATmega2560__ -DDEBUG  -I".." -I"../Header Files" -I"../Source Files"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

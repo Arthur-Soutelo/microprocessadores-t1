@@ -1,9 +1,4 @@
-#ifndef SYSTEM_LIBRARIES_H_
-	#define SYSTEM_LIBRARIES_H_
-	#include <avr/io.h>
-	#include <avr/interrupt.h>
-#endif // SYSTEM_LIBRARIES_H_
-
+#include "system_libraries.h"
 
 #ifndef MAIN_HEADER_H_
 	#define MAIN_HEADER_H_

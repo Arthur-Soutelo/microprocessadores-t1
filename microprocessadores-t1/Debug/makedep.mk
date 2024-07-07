@@ -4,6 +4,10 @@
 
 main.c
 
+Source Files\save_to_eeprom.c
+
+Source Files\money.c
+
 Source Files\lcd.c
 
 Source Files\serial.c
