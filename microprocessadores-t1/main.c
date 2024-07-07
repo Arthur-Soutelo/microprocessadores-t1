@@ -1,4 +1,5 @@
 // Tabalho 1- Microprocessadores	-	Turma : B	-	2024
+// ATmega2560 //
 // Author: Arthur Antonio Soutelo Araujo	- 00304292
 // Author: Gabriel Rosado dos Santos Mendes - 00301564
 
@@ -13,9 +14,12 @@ ISR(TIMER1_OVF_vect){
 
 int main(void){
 
-    uart_init();	// Inicializar UART
-    sei();			// Ativa interrupt
+    //uart_init();	// Inicializar UART
+    //sei();			// Ativa interrupt
     
+	init_LCD();
+	write_data_LCD('a');
+	
     while(1){
 	    
     }
