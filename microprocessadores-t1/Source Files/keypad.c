@@ -1,5 +1,26 @@
 #include "keypad.h"
 
+static unsigned char debounce(unsigned char col) {
+	unsigned char count = 0;
+	unsigned char keylast = 0;
+	unsigned char keynow = 1;
+
+	while (count < 7) {
+		_delay_ms(2); // Adjust debounce delay as needed
+		keynow = KEYPAD_COLS_PIN & (1 << (ROW1_PIN + col));
+
+		if (keynow == keylast) {
+			count++;
+			} else {
+			count = 0;
+		}
+
+		keylast = keynow;
+	}
+
+	return keynow;
+}
+
 void keypad_init(void) {
 	// Set columns as outputs (low)
 	KEYPAD_COLS_DIR |= (1 << COL1_PIN) | (1 << COL2_PIN) | (1 << COL3_PIN) | (1 << COL4_PIN);
@@ -35,23 +56,3 @@ char keypad_getkey(void) {
 	return 0; // Return 0 if no key pressed
 }
 
-static unsigned char debounce(unsigned char col) {
-	unsigned char count = 0;
-	unsigned char keylast = 0;
-	unsigned char keynow = 1;
-
-	while (count < 7) {
-		_delay_ms(2); // Adjust debounce delay as needed
-		keynow = KEYPAD_COLS_PIN & (1 << (ROW1_PIN + col));
-
-		if (keynow == keylast) {
-			count++;
-			} else {
-			count = 0;
-		}
-
-		keylast = keynow;
-	}
-
-	return keynow;
-}

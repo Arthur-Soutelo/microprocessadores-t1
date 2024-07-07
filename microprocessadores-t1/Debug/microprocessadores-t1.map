@@ -102,7 +102,7 @@ Discarded input sections
  .rodata        0x0000000000000000       0x10 Source Files/keypad.o
  .text.keypad_getkey
                 0x0000000000000000       0xc4 Source Files/keypad.o
- .debug_info    0x0000000000000000      0x3da Source Files/keypad.o
+ .debug_info    0x0000000000000000      0x3e9 Source Files/keypad.o
  .debug_abbrev  0x0000000000000000      0x10c Source Files/keypad.o
  .debug_loc     0x0000000000000000      0x1d1 Source Files/keypad.o
  .debug_aranges

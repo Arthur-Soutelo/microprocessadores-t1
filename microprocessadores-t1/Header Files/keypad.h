@@ -19,6 +19,5 @@
 
 	void keypad_init(void);
 	char keypad_getkey(void);
-	static unsigned char debounce(unsigned char col);
 
 #endif // KEYPAD_H
