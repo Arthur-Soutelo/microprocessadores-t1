@@ -11,7 +11,8 @@
 	#include "serial.h"
 	#include "timer.h"
 	#include "lcd.h"
-	//#include ""
+	#include "keypad.h"
+	#include "money.h"
 
 #endif // MAIN_HEADER_H_
 
