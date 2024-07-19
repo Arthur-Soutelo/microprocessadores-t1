@@ -18,9 +18,20 @@ int main(void){
     //sei();			// Ativa interrupt
     
 	init_LCD();
-	write_data_LCD('a');
+	//write_data_LCD('a');
+	//clear_display();
+	//write_command_LCD(0x80); // Set cursor to start of line 1
+	//write_data_LCD('a');
+	
+	char message[] = "LCD Test";
+	write_string(1,message);
+	delay_ms(1000);
+	write_string(2,message);
+	delay_ms(1000);
+	
+	clear_display();
 	
     while(1){
-	    
+	
     }
 }
