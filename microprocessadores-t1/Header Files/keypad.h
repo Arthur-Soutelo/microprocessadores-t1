@@ -19,5 +19,6 @@
 
 	void keypad_init(void);
 	char keypad_getkey(void);
+	ProductNumber get_product_number(char key);
 
 #endif // KEYPAD_H

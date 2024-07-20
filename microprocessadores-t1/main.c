@@ -43,10 +43,9 @@ void get_selected_product_menu(void){
 		clear_display();
 		write_string_line(1,"Selecione o Produto:");
 		write_string_line(2,"Numero: ");
-		ProductNumber product = send_product_number(key);
+		ProductNumber product = get_product_number(key);
 		// Use the product number (first_key and second_key)
-		uart_send(product.first_key);
-		uart_send(product.second_key);
+		send_product_selection(ProductNumber);
 		
 		write_data_LCD(product.first_key);
 		write_data_LCD(product.second_key);
@@ -94,8 +93,6 @@ int main(void){
 		while(read_door_state()){
 			// Sound the alarm
 			sound_alarm();
-			// Wait for 5 seconds before sounding the alarm again
-			_delay_ms(5000);
 			// Door is open
 			clear_display();
 			write_string_line(1,"Porta Aberta");

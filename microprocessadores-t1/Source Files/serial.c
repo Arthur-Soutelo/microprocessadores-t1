@@ -33,71 +33,65 @@ void uart_send_string(const char *data) {
 
 // --------------------------------------------------------------
 
-// Function to get the product number based on the first key
-ProductNumber send_product_number(char key) {
-	ProductNumber result;
-	
-	// Wait for the second digit with a timeout
-	unsigned int timeout = 2500; // Timeout in milliseconds
-	unsigned int elapsed_time = 0;
-	
-	if (key != '1' && key != '0') {
-		result.first_key = '0'; 
-		result.second_key = key;
-	}
-	else {
-		while (result.second_key == 0 && elapsed_time < timeout) {
-			result.second_key = keypad_getkey(); // Get the second digit
-			_delay_ms(50); // Small delay to debounce and prevent busy-waiting
-			elapsed_time += 50;
-		}
-
-		if (elapsed_time >= timeout && result.second_key == 0) {
-			result.second_key = key;
-			result.first_key = '0';
-		}
-		else if (elapsed_time <= timeout && result.second_key != 0)  {
-			result.first_key = key;
-		}
-	}
-
-	return result;
-}
-//
-//void send_product_number(char key) {
-	//uart_send('V');
-	//uart_send('P');
-//
-	//if (key == '1') {
-		//// Wait for the second digit with a timeout
-		//char second_key = 0;
-		//unsigned int timeout = 2500; // Timeout in milliseconds
-		//unsigned int elapsed_time = 0;
-//
-		//while (second_key == 0 && elapsed_time < timeout) {
-			//second_key = keypad_getkey(); // Get the second digit
+//// Function to get the product number based on the first key
+//ProductNumber send_product_number(char key) {
+	//ProductNumber result;
+	//
+	//// Wait for the second digit with a timeout
+	//unsigned int timeout = 2500; // Timeout in milliseconds
+	//unsigned int elapsed_time = 0;
+	//
+	//if (key != '1' && key != '0') {
+		//result.first_key = '0'; 
+		//result.second_key = key;
+	//}
+	//else {
+		//while (result.second_key == 0 && elapsed_time < timeout) {
+			//result.second_key = keypad_getkey(); // Get the second digit
 			//_delay_ms(50); // Small delay to debounce and prevent busy-waiting
 			//elapsed_time += 50;
 		//}
 //
-		//if (second_key == '1' || second_key == '2' || second_key == '3') {
-			//uart_send(key);
-			//uart_send(second_key);
-			//} else {
-			//// If no valid second key was pressed within the timeout period, send '01'
-			//uart_send('0');
-			//uart_send('1');
+		//if (elapsed_time >= timeout && result.second_key == 0) {
+			//result.second_key = key;
+			//result.first_key = '0';
 		//}
-		//} else if (key == '2' || key == '3' || key == '7' || key == '8' || key == '9') {
-		//uart_send('0');
-		//uart_send(key);
-		//} else {
-		//uart_send('E'); // 'E' for error
-	//
+		//else if (elapsed_time <= timeout && result.second_key != 0)  {
+			//result.first_key = key;
+		//}
+	//}
+//
+	//return result;
 //}
 
+void send_product_selection(ProductNumber *product){
+	// Send Code
+	uart_send('V');
+	uart_send('P');
+	// Use the product number (first_key and second_key)
+	uart_send(product.first_key);
+	uart_send(product.second_key);
+	
+}
 
-
+void receive_answer(char *buffer) {
+	buffer[0] = uart_receive(); // 'A'
+	buffer[1] = uart_receive(); // 'P'
+	
+	switch (command) {
+		case 'P':
+		// Handle button press
+		PORTB ^= (1 << PORTB5); // Toggle LED on PB5
+		break;
+		case 'R':
+		// Handle button release (do nothing in this case)
+		break;
+		default:
+		// Handle unexpected input
+		break;
+	}
+}
+	
 
 
 void receive_product_data(char *buffer) {
