@@ -1,6 +1,8 @@
 #include "money.h"
 
 static unsigned char debounce(unsigned char pin);
+Card EEMEM eeprom_cards[10]; // Armazena os cartões na EEPROM
+
 
 // Function to handle button clicks and update the total sum
 void update_total_sum(float *total_sum) {
@@ -58,3 +60,77 @@ unsigned char read_door_state(void) {
 	return (PINH & (1 << DOOR_PIN)) >> DOOR_PIN;  // Return 1 if switch is closed (pressed), 0 if open
 }
 
+void init_cards() {
+	// Cartões pré-cadastrados
+	Card default_cards[] = {
+		{300123, 30.00},
+		{300121, 30.00},
+		{250025, 25.00}
+	};
+
+	// Escreve os cartões pré-cadastrados na EEPROM
+	for (short i = 0; i < 3; i++) {
+		eeprom_update_block((const void*)&default_cards[i], (void*)&eeprom_cards[i], sizeof(Card));
+	}
+}
+
+//short find_card(uint32_t code) {
+	//Card temp;
+	//for (short i = 0; i < 10; i++) {
+		//eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[i], sizeof(Card));
+		//if (temp.code == code) {
+			//return i;
+		//}
+	//}
+	//return -1; // Cartão não encontrado
+//}
+//
+//float get_card_credit(uint32_t code) {
+	//short index = find_card(code);
+	//if (index != -1) {
+		//Card temp;
+		//eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[index], sizeof(Card));
+		//return temp.credit;
+	//}
+	//return -1; // Cartão não encontrado
+//}
+//
+//void update_card_credit(uint32_t code, float new_credit) {
+	//short index = find_card(code);
+	//if (index != -1) {
+		//Card temp;
+		//eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[index], sizeof(Card));
+		//temp.credit = new_credit;
+		//eeprom_update_block((const void*)&temp, (void*)&eeprom_cards[index], sizeof(Card));
+	//}
+//}
+//
+//void add_new_card(uint32_t code, float credit) {
+	//// Adiciona um novo cartão se houver espaço
+	//for (short i = 0; i < 10; i++) {
+		//Card temp;
+		//eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[i], sizeof(Card));
+		//if (temp.code == 0xFFFFFFFF) { // Verifica se o slot está vazio
+			//Card new_card = {code, credit};
+			//eeprom_update_block((const void*)&new_card, (void*)&eeprom_cards[i], sizeof(Card));
+			//break;
+		//}
+	//}
+//}
+
+void display_card_info(short card_index) {
+	if (card_index >= 0 && card_index < 10) {
+		Card temp;
+		eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[card_index], sizeof(Card));
+		
+		char buffer2[17];
+		
+		// Exibe o código do cartão
+		snprintf(buffer2, sizeof(buffer2), "Card: %06lu", temp.code);
+		write_string_line(1, buffer2);
+
+		// Exibe o saldo do cartão
+		snprintf(buffer2, sizeof(buffer2), "Balance: %.2f", temp.credit);
+		write_string_line(2, buffer2);
+	}
+}
