@@ -73,6 +73,8 @@ int main(void){
 	// Initialize door sensor reading
 	door_init();
 	
+	init_buzzer();
+	
     //sei();			// Ativa interrupt
 
 	clear_display();	
@@ -80,18 +82,24 @@ int main(void){
 	write_string_line(2,"Digite o Produto");
 	
     while(1){
-		while(read_door_state()){	// While the door is closed
+		stop_alarm();
+		while(!read_door_state()){	// While the door is closed
 			
 			get_selected_product_menu();
 			
 			// Get coins
 			//get_coins_menu(&total_sum);
 		
-		}	
-		// Door is open
-		clear_display();
-		write_string_line(1,"Porta Aberta");
-		_delay_ms(1000);
+		}
+		while(read_door_state()){
+			// Sound the alarm
+			sound_alarm();
+			// Wait for 5 seconds before sounding the alarm again
+			_delay_ms(5000);
+			// Door is open
+			clear_display();
+			write_string_line(1,"Porta Aberta");
+		}
 		
 	}
 }

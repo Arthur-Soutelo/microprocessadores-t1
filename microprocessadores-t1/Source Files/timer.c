@@ -1,6 +1,7 @@
 #include "timer.h"
 
 unsigned short MY_VARIABLE_TCNT1 = 52202;
+#define BUZZER_PIN	PE4
 
 // ####### Timer 1 => 600Hz ####### //
 // Para 600 Hz: TCNT1 = 65535 - (F_CPU / (600 * 2)) = 65535 - 13333 = 52202
@@ -49,4 +50,41 @@ void timer0_delay_us(unsigned int microseconds) {
 
 	TIFR0 = (1 << TOV0);     // CClears the overflow flag
 	TCCR0B = 0;              // Stops Timer 0 after the delay
+}
+
+
+
+void init_buzzer(void) {
+	// Set the buzzer pin as output
+	DDRE |= (1 << BUZZER_PIN);
+
+	// Configure Timer3 for Fast PWM mode, 8-bit
+	TCCR3A |= (1 << WGM30) | (1 << COM3B1);  // Fast PWM, clear OC3B on Compare Match
+	TCCR3B |= (1 << WGM32) | (1 << CS31);    // Fast PWM, prescaler 8
+	OCR3B = 128;                             // Set duty cycle to 50%
+	
+	stop_alarm();
+}
+
+void sound_alarm(void) {
+	// Turn on the buzzer
+	TCCR3A |= (1 << COM3B1);
+
+	for (int i = 0; i < 10; i++) { // Beep pattern for alarm
+		_delay_ms(250);  // Beep for 500 ms
+		// Turn off the buzzer immediately
+		TCCR3A &= ~(1 << COM3B1);
+		PORTE &= ~(1 << BUZZER_PIN);
+		_delay_ms(250);  // Silence for 500 ms
+		// Turn on the buzzer
+		TCCR3A |= (1 << COM3B1);
+	}
+
+	stop_alarm();
+}
+
+void stop_alarm(void){
+	// Turn off the buzzer immediately
+	TCCR3A &= ~(1 << COM3B1);
+	PORTE &= ~(1 << BUZZER_PIN);
 }
