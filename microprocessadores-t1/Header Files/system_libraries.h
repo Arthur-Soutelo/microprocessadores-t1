@@ -17,6 +17,7 @@
 		uint32_t code;    // Código do cartão (6 dígitos, armazenado como inteiro de 32 bits)
 		float credit;     // Saldo do cartão
 	} Card;
+	
 	#define F_CPU 16000000UL  // Define the clock frequency as 16 MHz
 	#include <util/delay.h>
 	

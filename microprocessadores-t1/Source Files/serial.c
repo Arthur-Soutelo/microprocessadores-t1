@@ -33,7 +33,7 @@ unsigned char uart_receive(void) {
 }
 
 void uart_send(unsigned char data) {
-	unsigned int elapsed_time = 0;
+	unsigned char elapsed_time = 0;
 
 	// Wait for the empty transmit buffer
 	while (!(UCSR0A & (1 << UDRE0))) {

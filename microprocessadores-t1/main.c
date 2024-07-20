@@ -76,6 +76,10 @@ int main(void){
 	write_string_line(1,"VenDELET");
 	write_string_line(2,"Digite o Produto");
 	
+	while(1){
+		get_selected_product_menu();	
+	}
+	
 	//while(1){
 		////unsigned char rec; 
 		////rec = uart_receive();
@@ -84,6 +88,7 @@ int main(void){
 			////clear_display();
 			////write_string_line(1,buffer);
 		////}
+		//
 		//receive_data_from_uart(buffer);
 		//clear_display();
 		//write_string_line(1,buffer);
@@ -91,38 +96,29 @@ int main(void){
 		//
 	//}
 	
-    while(1){
-		stop_alarm();
-		while(!read_door_state()){	// While the door is closed
-			
+    //while(1){
+		//stop_alarm();
+		//while(!read_door_state()){	// While the door is closed
+			//
 			//if(get_selected_product_menu()){
-				//_delay_ms(100);
-				//receive_answer(buffer);
-				
-<<<<<<< HEAD
-				//uart_send_string(buffer);
-				
-				// Extract the name from the buffer
-				receive_data_from_uart(buffer);
-				write_string_line(1,buffer);
-			}
-=======
-				uart_send_string(buffer);
-				write_string_line(1,product_name);
+				////_delay_ms(100);
+				////receive_answer(buffer);
+				//
+				////uart_send_string(buffer);
+				//
+				//// Extract the name from the buffer
+				////receive_data_from_uart(buffer);
+				////write_string_line(1,buffer);
 			//}
->>>>>>> 3755ddacbeaa960ac87d5270e91669c50a4b1610
-			
-			// Get coins
-			// get_coins_menu(&total_sum);
-		
-		}
-		while(read_door_state()){
-			// Sound the alarm
-			sound_alarm();
-			// Door is open
-			clear_display();
-			write_string_line(1,"Porta Aberta");
-		}
-		
-	}
+		//}
+		//
+		//while(read_door_state()){ // While the door is open
+			//// Sound the alarm
+			//sound_alarm();
+			//// Door is open
+			//clear_display();
+			//write_string_line(1,"Porta Aberta");
+		//}
+		//
+	//}
 }
