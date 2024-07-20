@@ -25,6 +25,49 @@ void uart_send(unsigned char data) {
 	UDR0 = data;
 }
 
+// --------------------------------------------------------------
+
+
+void send_product_number(const char *product_number) {
+	uart_send('V');
+	uart_send('P');
+	uart_send(product_number[0]);
+	uart_send(product_number[1]);
+}
+
+void receive_product_data(char *buffer) {
+	buffer[0] = uart_receive(); // 'A'
+	buffer[1] = uart_receive(); // 'P'
+	buffer[2] = uart_receive(); // Size of data (22 or 16)
+	for (int i = 0; i < buffer[2]; i++) {
+		buffer[3 + i] = uart_receive();
+	}
+	buffer[3 + buffer[2]] = '\0';
+}
+
+void confirm_cash_purchase(void) {
+	uart_send('V');
+	uart_send('E');
+}
+
+void handle_purchase_response(char *response) {
+	response[0] = uart_receive(); // 'A'
+	response[1] = uart_receive(); // 'E'
+	response[2] = uart_receive(); // Result code ('0', '1', '2', '3')
+	response[3] = '\0';
+}
+
+void confirm_card_purchase(const char *card_number) {
+	uart_send('V');
+	uart_send('C');
+	uart_send(card_number[0]);
+	uart_send(card_number[1]);
+	uart_send(card_number[2]);
+	uart_send(card_number[3]);
+	uart_send(card_number[4]);
+	uart_send(card_number[5]);
+}
+
 
 //void uart_init(void) {
 	//// Configurar baud rate 4800
