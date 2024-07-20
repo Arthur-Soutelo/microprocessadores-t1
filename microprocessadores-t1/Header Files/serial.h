@@ -7,7 +7,7 @@
 	unsigned char uart_receive(void);
 	void uart_send(unsigned char data);
 	void uart_send_string(const char *data);
-	void send_product_number(const char *product_number);
+	void send_product_number(char key); //product_number
 	void receive_product_data(char *buffer);
 	void confirm_cash_purchase(void);
 	void handle_purchase_response(char *response);

@@ -38,7 +38,8 @@ int main(void){
 			write_string_line(1,"Boa ");
 			//write_string_line(2,key);
 			write_data_LCD(key);
-			uart_send(key);
+			//uart_send(key);
+			send_product_number(key);
 			
 			_delay_ms(300);
 			//write_string_LCD(key);

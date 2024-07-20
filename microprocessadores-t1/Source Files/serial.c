@@ -1,5 +1,5 @@
 #include "serial.h"
-
+#include "keypad.h"
 
 void uart_init(unsigned long baudrate) {
 	unsigned int ubrr = F_CPU/16/baudrate - 1;
@@ -34,11 +34,25 @@ void uart_send_string(const char *data) {
 // --------------------------------------------------------------
 
 
-void send_product_number(const char *product_number) {
+void send_product_number(char key) {
 	uart_send('V');
 	uart_send('P');
-	uart_send(product_number[0]);
-	uart_send(product_number[1]);
+
+	if (key == '1') {
+		// Wait for second digit
+		char second_key = keypad_getkey();
+		if (second_key == '1' || second_key == '2' || second_key == '3') {
+			uart_send(key);
+			uart_send(second_key);
+			} else {
+			uart_send('E'); // 'E' for error
+		}
+		} else if (key == '2' || key == '3' || key == '7' || key == '8' || key == '9') {
+		uart_send('0');
+		uart_send(key);
+		} else {
+		uart_send('E'); // 'E' for error
+	}
 }
 
 void receive_product_data(char *buffer) {
