@@ -80,7 +80,7 @@ int main(void){
 		stop_alarm();
 		while(!read_door_state()){	// While the door is closed
 			
-			if(get_selected_product_menu()){
+			//if(get_selected_product_menu()){
 				//_delay_ms(100);
 				receive_answer(buffer);
 				// Extract the name from the buffer
@@ -88,7 +88,7 @@ int main(void){
 				
 				uart_send_string(buffer);
 				write_string_line(1,product_name);
-			}
+			//}
 			
 			// Get coins
 			// get_coins_menu(&total_sum);
