@@ -23,8 +23,9 @@ int main(void){
 	// Inicializa o Teclado
 	keypad_init();
 
-	// Inicializa Serial
-    uart_init();
+	// Initialize the UART with desired baud rate
+	uart_init(9600);
+	
     //sei();			// Ativa interrupt
 	
 	char key;
