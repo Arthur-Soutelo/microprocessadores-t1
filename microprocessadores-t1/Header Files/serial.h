@@ -13,7 +13,7 @@
 	void handle_purchase_response(char *response);
 	void confirm_card_purchase(const char *card_number);
 	
-	void send_product_selection(ProductNumber *product);
+	void send_product_selection(ProductNumber product);
 
 	
 	//void uart_init(void);

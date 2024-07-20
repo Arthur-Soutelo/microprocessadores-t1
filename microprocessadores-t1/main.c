@@ -45,7 +45,7 @@ void get_selected_product_menu(void){
 		write_string_line(2,"Numero: ");
 		ProductNumber product = get_product_number(key);
 		// Use the product number (first_key and second_key)
-		send_product_selection(ProductNumber);
+		send_product_selection(product);
 		
 		write_data_LCD(product.first_key);
 		write_data_LCD(product.second_key);

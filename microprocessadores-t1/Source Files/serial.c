@@ -64,7 +64,7 @@ void uart_send_string(const char *data) {
 	//return result;
 //}
 
-void send_product_selection(ProductNumber *product){
+void send_product_selection(ProductNumber product){
 	// Send Code
 	uart_send('V');
 	uart_send('P');
@@ -73,24 +73,24 @@ void send_product_selection(ProductNumber *product){
 	uart_send(product.second_key);
 	
 }
-
-void receive_answer(char *buffer) {
-	buffer[0] = uart_receive(); // 'A'
-	buffer[1] = uart_receive(); // 'P'
-	
-	switch (command) {
-		case 'P':
-		// Handle button press
-		PORTB ^= (1 << PORTB5); // Toggle LED on PB5
-		break;
-		case 'R':
-		// Handle button release (do nothing in this case)
-		break;
-		default:
-		// Handle unexpected input
-		break;
-	}
-}
+//
+//void receive_answer(char *buffer) {
+	//buffer[0] = uart_receive(); // 'A'
+	//buffer[1] = uart_receive(); // 'P'
+	//
+	//switch (command) {
+		//case 'P':
+		//// Handle button press
+		//PORTB ^= (1 << PORTB5); // Toggle LED on PB5
+		//break;
+		//case 'R':
+		//// Handle button release (do nothing in this case)
+		//break;
+		//default:
+		//// Handle unexpected input
+		//break;
+	//}
+//}
 	
 
 
