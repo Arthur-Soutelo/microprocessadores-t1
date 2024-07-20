@@ -39,13 +39,24 @@ void send_product_number(char key) {
 	uart_send('P');
 
 	if (key == '1') {
-		// Wait for second digit
-		char second_key = keypad_getkey();
+		// Wait for the second digit with a timeout
+		char second_key = 0;
+		unsigned int timeout = 2500; // Timeout in milliseconds
+		unsigned int elapsed_time = 0;
+
+		while (second_key == 0 && elapsed_time < timeout) {
+			second_key = keypad_getkey(); // Get the second digit
+			_delay_ms(50); // Small delay to debounce and prevent busy-waiting
+			elapsed_time += 50;
+		}
+
 		if (second_key == '1' || second_key == '2' || second_key == '3') {
 			uart_send(key);
 			uart_send(second_key);
 			} else {
-			uart_send('E'); // 'E' for error
+			// If no valid second key was pressed within the timeout period, send '01'
+			uart_send('0');
+			uart_send('1');
 		}
 		} else if (key == '2' || key == '3' || key == '7' || key == '8' || key == '9') {
 		uart_send('0');
@@ -54,6 +65,10 @@ void send_product_number(char key) {
 		uart_send('E'); // 'E' for error
 	}
 }
+
+
+
+
 
 void receive_product_data(char *buffer) {
 	buffer[0] = uart_receive(); // 'A'
