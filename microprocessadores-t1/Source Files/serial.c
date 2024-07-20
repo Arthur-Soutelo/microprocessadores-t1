@@ -25,6 +25,12 @@ void uart_send(unsigned char data) {
 	UDR0 = data;
 }
 
+void uart_send_string(const char *data) {
+	while (*data) {
+		uart_send(*data++);
+	}
+}
+
 // --------------------------------------------------------------
 
 
