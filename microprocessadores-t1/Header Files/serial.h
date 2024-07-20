@@ -6,7 +6,7 @@
 	#define BUFFER_SIZE 35
 	#define PRICE_SIZE 10
 	#define NAME_SIZE 20 // Adjust based on the expected max name length
-	#define UART_TIMEOUT 500 // Timeout in milliseconds
+	#define UART_TIMEOUT 5000 // Timeout in milliseconds
 	
 	void uart_init(unsigned long baudrate);
 	unsigned char uart_receive(void);
@@ -22,6 +22,7 @@
 	void receive_answer(char *buffer);
 	
 	void get_name_from_buffer(char *buffer, char *name);
+	void receive_data_from_uart(char *buffer);
 
 	
 	//void uart_init(void);

@@ -76,18 +76,34 @@ int main(void){
 	write_string_line(1,"VenDELET");
 	write_string_line(2,"Digite o Produto");
 	
+	//while(1){
+		////unsigned char rec; 
+		////rec = uart_receive();
+		////if(rec != 0xFF){
+			////uart_send(rec);
+			////clear_display();
+			////write_string_line(1,buffer);
+		////}
+		//receive_data_from_uart(buffer);
+		//clear_display();
+		//write_string_line(1,buffer);
+		//uart_send_string(buffer);
+		//
+	//}
+	
     while(1){
 		stop_alarm();
 		while(!read_door_state()){	// While the door is closed
 			
 			if(get_selected_product_menu()){
 				//_delay_ms(100);
-				receive_answer(buffer);
-				// Extract the name from the buffer
-				get_name_from_buffer(buffer, product_name);
+				//receive_answer(buffer);
 				
-				uart_send_string(buffer);
-				write_string_line(1,product_name);
+				//uart_send_string(buffer);
+				
+				// Extract the name from the buffer
+				receive_data_from_uart(buffer);
+				write_string_line(1,buffer);
 			}
 			
 			// Get coins

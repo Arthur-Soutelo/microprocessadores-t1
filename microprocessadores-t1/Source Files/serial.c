@@ -2,14 +2,15 @@
 #include "keypad.h"
 
 void uart_init(unsigned long baudrate) {
-	unsigned int ubrr = F_CPU/16/baudrate - 1;
-	// Set baud rate
-	UBRR0H = (unsigned char)(ubrr >> 8);
-	UBRR0L = (unsigned char)ubrr;
 	// Enable receiver and transmitter
 	UCSR0B = (1 << RXEN0) | (1 << TXEN0);
 	// Set frame format: 8 data bits, 1 stop bit
 	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
+	
+	unsigned int ubrr = F_CPU/16/baudrate - 1;
+	// Set baud rate
+	UBRR0H = (unsigned char)(ubrr >> 8);
+	UBRR0L = (unsigned char)ubrr;
 }
 
 //unsigned char uart_receive_no_timeout(void) {
@@ -20,19 +21,30 @@ void uart_init(unsigned long baudrate) {
 
 unsigned char uart_receive(void) {
 	unsigned int elapsed_time = 0;
-	while (!(UCSR0A & (1 << RXC0))) { // Wait for data to be received
+	while (!(UCSR0A	& (1 << RXC0))) { // Wait for data to be received
 		_delay_ms(1); // Wait 1 ms
 		elapsed_time++;
 		if (elapsed_time >= UART_TIMEOUT) {
-			return -1; // Return -1 if timeout occurs
+			//return -1; // Return -1 if timeout occurs
+			return 0xFF;
 		}
-	}
+	}	
 	return UDR0; // Get and return received data from buffer
 }
 
 void uart_send(unsigned char data) {
-	// Wait for empty transmit buffer
-	while (!(UCSR0A & (1 << UDRE0)));
+	unsigned int elapsed_time = 0;
+
+	// Wait for the empty transmit buffer
+	while (!(UCSR0A & (1 << UDRE0))) {
+		_delay_ms(1); // Wait 1 ms
+		elapsed_time++;
+		if (elapsed_time >= UART_TIMEOUT) {
+			// Timeout occurred, handle it here if needed
+			return;
+		}
+	}
+	
 	// Put data into buffer, sends the data
 	UDR0 = data;
 }
@@ -78,7 +90,7 @@ void receive_answer(char *buffer) {
 	// Receive the first two characters with timeout
 	buffer[0] = uart_receive();					// 'A' - Aplicativo
 	buffer[1] = uart_receive();
-	if (buffer[0] == -1 || buffer[1] == -1) {
+	if (buffer[0] == 0xFF || buffer[1] == 0xFF) {
 		return;	// Handle timeout error
 	}
 
@@ -217,4 +229,27 @@ void get_price_from_buffer(char *buffer, char *price) {
 		}
 	}
 	price[i] = '\0';
+}
+
+void receive_data_from_uart(char *buffer) {
+	// Clear the buffer (optional)
+	for (int i = 0; i < BUFFER_SIZE; i++) {
+		//uart_send(buffer[i]);
+		buffer[i] = 0;
+	}
+	
+	unsigned int i = 0;
+	char received_char;
+	
+	while (i < BUFFER_SIZE - 1) { // Leave space for null terminator
+		received_char = uart_receive(); // Function to receive a character
+		if (received_char != 0xFF) { // Check for timeout or valid data
+			if (received_char == '\n') { // End of line or message
+				break;
+			}
+			buffer[i++] = received_char;
+		}
+	}
+	
+	buffer[i] = '\0'; // Null-terminate the string
 }
