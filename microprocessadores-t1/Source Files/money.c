@@ -74,65 +74,63 @@ void init_cards() {
 	}
 }
 
-short find_card(uint32_t code) {
-	Card temp;
-	for (short i = 0; i < 10; i++) {
-		eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[i], sizeof(Card));
-		if (temp.code == code) {
-			return i;
-		}
-	}
-	return -1; // Cartão não encontrado
-}
-
-float get_card_credit(uint32_t code) {
-	short index = find_card(code);
-	if (index != -1) {
-		Card temp;
-		eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[index], sizeof(Card));
-		return temp.credit;
-	}
-	return -1; // Cartão não encontrado
-}
-
-void update_card_credit(uint32_t code, float new_credit) {
-	short index = find_card(code);
-	if (index != -1) {
-		Card temp;
-		eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[index], sizeof(Card));
-		temp.credit = new_credit;
-		eeprom_update_block((const void*)&temp, (void*)&eeprom_cards[index], sizeof(Card));
-	}
-}
-
-void add_new_card(uint32_t code, float credit) {
-	// Adiciona um novo cartão se houver espaço
-	for (short i = 0; i < 10; i++) {
-		Card temp;
-		eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[i], sizeof(Card));
-		if (temp.code == 0xFFFFFFFF) { // Verifica se o slot está vazio
-			Card new_card = {code, credit};
-			eeprom_update_block((const void*)&new_card, (void*)&eeprom_cards[i], sizeof(Card));
-			break;
-		}
-	}
-}
+//short find_card(uint32_t code) {
+	//Card temp;
+	//for (short i = 0; i < 10; i++) {
+		//eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[i], sizeof(Card));
+		//if (temp.code == code) {
+			//return i;
+		//}
+	//}
+	//return -1; // Cartão não encontrado
+//}
+//
+//float get_card_credit(uint32_t code) {
+	//short index = find_card(code);
+	//if (index != -1) {
+		//Card temp;
+		//eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[index], sizeof(Card));
+		//return temp.credit;
+	//}
+	//return -1; // Cartão não encontrado
+//}
+//
+//void update_card_credit(uint32_t code, float new_credit) {
+	//short index = find_card(code);
+	//if (index != -1) {
+		//Card temp;
+		//eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[index], sizeof(Card));
+		//temp.credit = new_credit;
+		//eeprom_update_block((const void*)&temp, (void*)&eeprom_cards[index], sizeof(Card));
+	//}
+//}
+//
+//void add_new_card(uint32_t code, float credit) {
+	//// Adiciona um novo cartão se houver espaço
+	//for (short i = 0; i < 10; i++) {
+		//Card temp;
+		//eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[i], sizeof(Card));
+		//if (temp.code == 0xFFFFFFFF) { // Verifica se o slot está vazio
+			//Card new_card = {code, credit};
+			//eeprom_update_block((const void*)&new_card, (void*)&eeprom_cards[i], sizeof(Card));
+			//break;
+		//}
+	//}
+//}
 
 void display_card_info(short card_index) {
 	if (card_index >= 0 && card_index < 10) {
 		Card temp;
 		eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[card_index], sizeof(Card));
 		
-		char buffer[17];
+		char buffer2[17];
 		
 		// Exibe o código do cartão
-		snprintf(buffer, sizeof(buffer), "Card: %06lu", temp.code);
-		lcd.setCursor(0, 0);
-		lcd.print(buffer);
+		snprintf(buffer2, sizeof(buffer2), "Card: %06lu", temp.code);
+		write_string_line(1, buffer2);
 
 		// Exibe o saldo do cartão
-		snprintf(buffer, sizeof(buffer), "Balance: %.2f", temp.credit);
-		lcd.setCursor(0, 1);
-		lcd.print(buffer);
+		snprintf(buffer2, sizeof(buffer2), "Balance: %.2f", temp.credit);
+		write_string_line(2, buffer2);
 	}
 }
