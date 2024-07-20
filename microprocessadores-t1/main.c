@@ -95,16 +95,22 @@ int main(void){
 		stop_alarm();
 		while(!read_door_state()){	// While the door is closed
 			
-			if(get_selected_product_menu()){
+			//if(get_selected_product_menu()){
 				//_delay_ms(100);
 				//receive_answer(buffer);
 				
+<<<<<<< HEAD
 				//uart_send_string(buffer);
 				
 				// Extract the name from the buffer
 				receive_data_from_uart(buffer);
 				write_string_line(1,buffer);
 			}
+=======
+				uart_send_string(buffer);
+				write_string_line(1,product_name);
+			//}
+>>>>>>> 3755ddacbeaa960ac87d5270e91669c50a4b1610
 			
 			// Get coins
 			// get_coins_menu(&total_sum);

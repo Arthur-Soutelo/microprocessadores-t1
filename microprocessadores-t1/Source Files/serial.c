@@ -82,10 +82,10 @@ void send_choice_card(char *num){
 
 void receive_answer(char *buffer) {
 	// Clear the buffer (optional)
-	for (int i = 0; i < BUFFER_SIZE; i++) {
-		//uart_send(buffer[i]);
-		buffer[i] = 0;
-	}
+	//for (int i = 0; i < BUFFER_SIZE; i++) {
+		////uart_send(buffer[i]);
+		//buffer[i] = 0;
+	//}
 	
 	// Receive the first two characters with timeout
 	buffer[0] = uart_receive();					// 'A' - Aplicativo
