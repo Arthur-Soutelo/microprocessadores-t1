@@ -12,10 +12,22 @@ void uart_init(unsigned long baudrate) {
 	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
 }
 
+//unsigned char uart_receive_no_timeout(void) {
+	//// Wait for data to be received
+	//while (!(UCSR0A & (1 << RXC0)));
+	//return UDR0;
+//}
+
 unsigned char uart_receive(void) {
-	// Wait for data to be received
-	while (!(UCSR0A & (1 << RXC0)));
-	return UDR0;
+	unsigned int elapsed_time = 0;
+	while (!(UCSR0A & (1 << RXC0))) { // Wait for data to be received
+		_delay_ms(1); // Wait 1 ms
+		elapsed_time++;
+		if (elapsed_time >= UART_TIMEOUT) {
+			return -1; // Return -1 if timeout occurs
+		}
+	}
+	return UDR0; // Get and return received data from buffer
 }
 
 void uart_send(unsigned char data) {
@@ -88,46 +100,74 @@ void send_choice_card(char *num){
 	}
 }
 
-
 void receive_answer(char *buffer) {
-	buffer[0] = uart_receive(); // 'A' -  Aplicativo
-	buffer[1] = uart_receive(); 
+	// Clear the buffer (optional)
+	for (int i = 0; i < BUFFER_SIZE; i++) {
+		buffer[i] = 0;
+	}
 	
+	// Receive the first two characters with timeout
+	buffer[0] = uart_receive(); // 'A' - Aplicativo
+	if (buffer[0] == -1) {
+		// Handle timeout error
+		return;
+	}
+	buffer[1] = uart_receive();
+	if (buffer[1] == -1) {
+		// Handle timeout error
+		return;
+	}
+	//// Receive the first two characters
+	//buffer[0] = uart_receive(); // 'A' - Aplicativo
+	//buffer[1] = uart_receive();
+
 	switch (buffer[0]) {
 		case 'A':
-			switch (buffer[1]) {
-				case 'P':	//Product Information
-					buffer[2] = uart_receive(); // Size of data (22 or 16)
-					for (int i = 0; i < buffer[2]; i++) {
+		switch (buffer[1]) {
+			case 'P': { // Product Information
+				buffer[2] = uart_receive(); // Size of data (22 or 16)
+				int data_size = buffer[2];
+				
+				if (data_size <= BUFFER_SIZE - 3) { // Prevent buffer overrun
+					for (int i = 0; i < data_size; i++) {
 						buffer[3 + i] = uart_receive();
 					}
-
-				break;
-				case 'E':	//Purchase Result - Cash
-				
-				break;
-				case 'C':	//Purchase Result - Card
-				
-				break;
-				case 'Q':	//Quantity - Result
-				
-				break;
-				case 'A':	//Update Card - Result
-				
-				break;
-				case 'I':	//Add Card - Result
-				
-				break;
-				default:
-					// Handle unexpected input
-				break;
+				}
 			}
-		break;
-		default:
+			break;
+
+			case 'E': // Purchase Result - Cash
+			// Add your handling code here
+			break;
+
+			case 'C': // Purchase Result - Card
+			// Add your handling code here
+			break;
+
+			case 'Q': // Quantity - Result
+			// Add your handling code here
+			break;
+
+			case 'A': // Update Card - Result
+			// Add your handling code here
+			break;
+
+			case 'I': // Add Card - Result
+			// Add your handling code here
+			break;
+
+			default:
 			// Handle unexpected input
+			break;
+		}
+		break;
+
+		default:
+		
 		break;
 	}
 }
+
 	
 
 

@@ -3,6 +3,9 @@
 #ifndef SERIAL_H_
 	#define SERIAL_H_
 	
+	#define BUFFER_SIZE 25
+	#define UART_TIMEOUT 500 // Timeout in milliseconds
+	
 	void uart_init(unsigned long baudrate);
 	unsigned char uart_receive(void);
 	void uart_send(unsigned char data);

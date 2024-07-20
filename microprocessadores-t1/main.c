@@ -35,7 +35,7 @@ void get_coins_menu(float *total_sum){
 	}
 }
 
-void get_selected_product_menu(void){
+char get_selected_product_menu(void){
 	// Get the pressed key
 	char key;
 	key = keypad_getkey();
@@ -53,28 +53,23 @@ void get_selected_product_menu(void){
 		//write_data_LCD(key);
 		//send_product_number(key);
 		_delay_ms(1000);
+		
+		return 1;
 	}
+	return 0;
 }
 
 int main(void){
 	// Define total sum variable
 	static float total_sum = 0.0;
-	unsigned char uart_buffer[25];  // Buffer to hold the serial response
+	char buffer[BUFFER_SIZE];  // Buffer to hold the serial response
 	
-	// Inicializa o LCD
-	init_LCD();
-
-	// Inicializa o Teclado
-	keypad_init();
-	// Initialize the UART with desired baud rate
-	uart_init(9600);
-	// Initialize coins reading
-	buttons_init();
-	// Initialize door sensor reading
-	door_init();
-	
+	init_LCD();			// Inicializa o 
+	keypad_init();		// Inicializa o Teclado
+	uart_init(9600);	// Initialize the UART with desired baud rate
+	buttons_init();		// Initialize coins reading
+	door_init();		// Initialize door sensor reading
 	init_buzzer();
-	
     //sei();			// Ativa interrupt
 
 	clear_display();	
@@ -85,12 +80,14 @@ int main(void){
 		stop_alarm();
 		while(!read_door_state()){	// While the door is closed
 			
-			get_selected_product_menu();
-			receive_answer(uart_buffer);
-			write_string_line(1,uart_buffer);
+			if(get_selected_product_menu()){
+				buffer[0] = uart_receive();
+				//receive_answer(buffer);
+				//write_string_line(1,buffer);	
+			}
 			
 			// Get coins
-			//get_coins_menu(&total_sum);
+			// get_coins_menu(&total_sum);
 		
 		}
 		while(read_door_state()){
