@@ -27,6 +27,7 @@ int main(void){
 	uart_init(9600);
 	
 	buttons_init();
+	door_init();
 	
     //sei();			// Ativa interrupt
 	
@@ -58,5 +59,13 @@ int main(void){
 			// Add a small delay to avoid multiple detections of the same click
 			_delay_ms(300);
 		}
+		
+		if(!read_door_state()){
+			clear_display();
+			write_string_line(1,"DOOR");
+			// Add a small delay to avoid multiple detections of the same click
+			_delay_ms(300);
+		}
+		
 	}
 }

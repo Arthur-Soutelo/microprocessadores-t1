@@ -8,6 +8,12 @@ void buttons_init(void) {
 	PORTH &= ~((1 << BUTTON1_PIN) | (1 << BUTTON2_PIN));
 }
 
+
+void door_init(void) {
+	DDRH &= ~((1 << DOOR_PIN));
+	PORTH &= ~((1 << DOOR_PIN));
+}
+
 unsigned char button1_clicked(void) {
 	return debounce(BUTTON1_PIN);
 }
@@ -35,4 +41,9 @@ static unsigned char debounce(unsigned char pin) {
 	}
 
 	return keynow;
+}
+
+unsigned char read_door_state(void) {
+	// Directly read the state of the switch
+	return (PINH & (1 << DOOR_PIN)) >> DOOR_PIN;  // Return 1 if switch is closed (pressed), 0 if open
 }
