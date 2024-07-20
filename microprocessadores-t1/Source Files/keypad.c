@@ -6,8 +6,8 @@ static unsigned char debounce(unsigned char col) {
 	unsigned char keynow = 1;
 
 	while (count < 7) {
-		_delay_ms(2); // Adjust debounce delay as needed
-		keynow = KEYPAD_COLS_PIN & (1 << (ROW1_PIN + col));
+		_delay_ms(10); // Adjust debounce delay as needed
+		keynow = PINA & (1 << (ROW1_PIN + col));
 
 		if (keynow == keylast) {
 			count++;
@@ -23,12 +23,12 @@ static unsigned char debounce(unsigned char col) {
 
 void keypad_init(void) {
 	// Set columns as outputs (low)
-	KEYPAD_COLS_DIR |= (1 << COL1_PIN) | (1 << COL2_PIN) | (1 << COL3_PIN) | (1 << COL4_PIN);
-	KEYPAD_COLS_PORT &= ~((1 << COL1_PIN) | (1 << COL2_PIN) | (1 << COL3_PIN) | (1 << COL4_PIN));
+	DDRA |= (1 << COL1_PIN) | (1 << COL2_PIN) | (1 << COL3_PIN) | (1 << COL4_PIN);
+	PORTA &= ~((1 << COL1_PIN) | (1 << COL2_PIN) | (1 << COL3_PIN) | (1 << COL4_PIN));
 
 	// Set rows as inputs with pull-up resistors
-	KEYPAD_COLS_DIR &= ~((1 << ROW1_PIN) | (1 << ROW2_PIN) | (1 << ROW3_PIN) | (1 << ROW4_PIN));
-	KEYPAD_COLS_PORT |= (1 << ROW1_PIN) | (1 << ROW2_PIN) | (1 << ROW3_PIN) | (1 << ROW4_PIN);
+	DDRA &= ~((1 << ROW1_PIN) | (1 << ROW2_PIN) | (1 << ROW3_PIN) | (1 << ROW4_PIN));
+	PORTA |= (1 << ROW1_PIN) | (1 << ROW2_PIN) | (1 << ROW3_PIN) | (1 << ROW4_PIN);
 }
 
 char keypad_getkey(void) {
@@ -41,16 +41,16 @@ char keypad_getkey(void) {
 	};
 
 	for (col = 0; col < 4; col++) {
-		KEYPAD_COLS_PORT |= (1 << (COL1_PIN + col)); // Set column high
+		PORTA |= (1 << (COL1_PIN + col)); // Set column high
 
 		for (row = 0; row < 4; row++) {
 			if (debounce(col)) { // Check if key is pressed and debounced
-				KEYPAD_COLS_PORT &= ~(1 << (COL1_PIN + col)); // Reset column
+				PORTA &= ~(1 << (COL1_PIN + col)); // Reset column
 				return keys[row][col]; // Return pressed key
 			}
 		}
 
-		KEYPAD_COLS_PORT &= ~(1 << (COL1_PIN + col)); // Reset column
+		PORTA &= ~(1 << (COL1_PIN + col)); // Reset column
 	}
 
 	return 0; // Return 0 if no key pressed

@@ -14,31 +14,27 @@
 
 
 int main(void){
+	// Inicializa o LCD
+	init_LCD();
+//
+	//// Escreve uma mensagem no LCD
+	//write_string_LCD("Hello, MENDES");
+	write_string_line(1,"VenDELET");
+	write_string_line(2,"Fais ton choix");
+
+	keypad_init();
 
     //uart_init();	// Inicializar UART
     //sei();			// Ativa interrupt
 	
-	init_LCD();
-	//write_data_LCD('a');
-	//clear_display();
-	//write_command_LCD(0x80); // Set cursor to start of line 1
-	//write_data_LCD('a');
-	
-	
-	//write_command_LCD(0x01); 
-	
-	//char message[] = "LCD Test";
-	//write_data_LCD('o');
-	//
-	//write_string(1,message);
-	//delay_ms(100);
-	//write_string(2,message);
-	//delay_ms(100);
-	//
-	//clear_display();
 	
     while(1){
-		//write_data_LCD('o');
-		//write_command_LCD(0x06);
+		char key;
+		key = keypad_getkey();
+		if(key!=0){
+			clear_display();
+			write_string_line(1,"Boa");
+			write_string_line(2,"XXXXX");
+		}
 	}
 }
