@@ -12,61 +12,66 @@
 	//TIFR1 = (1<<0);
 //}
 
+void get_coins_menu(void){
+	// Get coins
+	if(button1_clicked()){
+		clear_display();
+		write_string_line(1,"Button 1");
+		// Add a small delay to avoid multiple detections of the same click
+		_delay_ms(300);
+	}
+	if(button2_clicked()){
+		clear_display();
+		write_string_line(1,"Button 2");
+		// Add a small delay to avoid multiple detections of the same click
+		_delay_ms(300);
+	}
+}
+
+void get_selected_product_menu(void){
+	// Get the pressed key
+	char key;
+	key = keypad_getkey();
+	if(key!=0){
+		clear_display();
+		write_string_line(1,"Selecione o Produto:");
+		write_string_line(2,"Numero: ");
+		write_data_LCD(key);
+		send_product_number(key);
+		_delay_ms(300);
+	}
+}
 
 int main(void){
 	// Inicializa o LCD
 	init_LCD();
-	// Escreve uma mensagem no LCD
-	write_string_line(1,"VenDELET");
-	write_string_line(2,"Fais ton choix");
 
 	// Inicializa o Teclado
 	keypad_init();
-
 	// Initialize the UART with desired baud rate
 	uart_init(9600);
-	
+	// Initialize coins reading
 	buttons_init();
+	// Initialize door sensor reading
 	door_init();
 	
     //sei();			// Ativa interrupt
 	
-	char key;
     while(1){
-		// Get the pressed key
-		key = keypad_getkey();
-		
-		if(key!=0){
+		while(read_door_state()){	// While the door is closed
 			clear_display();
-			write_string_line(1,"Boa ");
-			//write_string_line(2,key);
-			write_data_LCD(key);
-			//uart_send(key);
-			send_product_number(key);
+			write_string_line(1,"VenDELET");
+			write_string_line(2,"Digite o Produto");
 			
-			_delay_ms(300);
-			//write_string_LCD(key);
-		}
-		
-		if(button1_clicked()){
-			clear_display();
-			write_string_line(1,"Button 1");
-			// Add a small delay to avoid multiple detections of the same click
-			_delay_ms(300);
-		}
-		if(button2_clicked()){
-			clear_display();
-			write_string_line(1,"Button 2");
-			// Add a small delay to avoid multiple detections of the same click
-			_delay_ms(300);
-		}
-		
-		if(!read_door_state()){
-			clear_display();
-			write_string_line(1,"DOOR");
-			// Add a small delay to avoid multiple detections of the same click
-			_delay_ms(300);
-		}
+			get_selected_product_menu();
+			
+			// Get coins
+			get_coins_menu();
+		}	
+		// Door is open
+		clear_display();
+		write_string_line(1,"Porta Aberta");
+		_delay_ms(300);
 		
 	}
 }

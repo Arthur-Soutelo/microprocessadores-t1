@@ -47,3 +47,4 @@ unsigned char read_door_state(void) {
 	// Directly read the state of the switch
 	return (PINH & (1 << DOOR_PIN)) >> DOOR_PIN;  // Return 1 if switch is closed (pressed), 0 if open
 }
+
