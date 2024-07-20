@@ -4,6 +4,7 @@
 	#define SERIAL_H_
 	
 	#define BUFFER_SIZE 25
+	#define NAME_SIZE 20 // Adjust based on the expected max name length
 	#define UART_TIMEOUT 500 // Timeout in milliseconds
 	
 	void uart_init(unsigned long baudrate);
@@ -18,6 +19,8 @@
 	
 	void send_product_selection(ProductNumber product);
 	void receive_answer(char *buffer);
+	
+	void get_name_from_buffer(char *buffer, char *name);
 
 	
 	//void uart_init(void);

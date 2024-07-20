@@ -58,6 +58,7 @@ int main(void){
 	// Define total sum variable
 	static float total_sum = 0.0;
 	char buffer[BUFFER_SIZE];  // Buffer to hold the serial response
+	char product_name[NAME_SIZE];
 	
 	init_LCD();			// Inicializa o 
 	keypad_init();		// Inicializa o Teclado
@@ -76,10 +77,12 @@ int main(void){
 		while(!read_door_state()){	// While the door is closed
 			
 			if(get_selected_product_menu()){
-				_delay_ms(100);
+				//_delay_ms(100);
 				receive_answer(buffer);
+				// Extract the name from the buffer
+				get_name_from_buffer(buffer, product_name);
 				
-				write_string_line(1,&buffer[3]);
+				write_string_line(1,product_name);
 			}
 			
 			// Get coins
