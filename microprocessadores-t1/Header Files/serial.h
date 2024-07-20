@@ -14,6 +14,7 @@
 	void confirm_card_purchase(const char *card_number);
 	
 	void send_product_selection(ProductNumber product);
+	void receive_answer(char *buffer);
 
 	
 	//void uart_init(void);

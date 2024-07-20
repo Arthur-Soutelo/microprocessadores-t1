@@ -73,24 +73,61 @@ void send_product_selection(ProductNumber product){
 	uart_send(product.second_key);
 	
 }
-//
-//void receive_answer(char *buffer) {
-	//buffer[0] = uart_receive(); // 'A'
-	//buffer[1] = uart_receive(); // 'P'
-	//
-	//switch (command) {
-		//case 'P':
-		//// Handle button press
-		//PORTB ^= (1 << PORTB5); // Toggle LED on PB5
-		//break;
-		//case 'R':
-		//// Handle button release (do nothing in this case)
-		//break;
-		//default:
-		//// Handle unexpected input
-		//break;
-	//}
-//}
+
+void send_choice_cash(void){
+	// Send Code
+	uart_send('V');
+	uart_send('P');	
+}
+void send_choice_card(char *num){
+	// Send Code
+	uart_send('V');
+	uart_send('c');	
+	for (int i = 0; i < 6; i++) {
+		uart_send(num[i]);
+	}
+}
+
+
+void receive_answer(char *buffer) {
+	buffer[0] = uart_receive(); // 'A' -  Aplicativo
+	buffer[1] = uart_receive(); 
+	
+	switch (buffer[0]) {
+		case 'A':
+			switch (buffer[1]) {
+				case 'P':	//Product Information
+					buffer[2] = uart_receive(); // Size of data (22 or 16)
+					for (int i = 0; i < buffer[2]; i++) {
+						buffer[3 + i] = uart_receive();
+					}
+
+				break;
+				case 'E':	//Purchase Result - Cash
+				
+				break;
+				case 'C':	//Purchase Result - Card
+				
+				break;
+				case 'Q':	//Quantity - Result
+				
+				break;
+				case 'A':	//Update Card - Result
+				
+				break;
+				case 'I':	//Add Card - Result
+				
+				break;
+				default:
+					// Handle unexpected input
+				break;
+			}
+		break;
+		default:
+			// Handle unexpected input
+		break;
+	}
+}
 	
 
 

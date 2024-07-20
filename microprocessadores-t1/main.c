@@ -59,6 +59,7 @@ void get_selected_product_menu(void){
 int main(void){
 	// Define total sum variable
 	static float total_sum = 0.0;
+	unsigned char uart_buffer[25];  // Buffer to hold the serial response
 	
 	// Inicializa o LCD
 	init_LCD();
@@ -85,6 +86,8 @@ int main(void){
 		while(!read_door_state()){	// While the door is closed
 			
 			get_selected_product_menu();
+			receive_answer(uart_buffer);
+			write_string_line(1,uart_buffer);
 			
 			// Get coins
 			//get_coins_menu(&total_sum);
