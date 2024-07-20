@@ -16,6 +16,7 @@ Source Files/lcd.d Source Files/lcd.o: ../Source\ Files/lcd.c \
  c:\program\ files\microchip\xc8\v2.36\avr\avr\include\avr\interrupt.h \
  c:\program\ files\microchip\xc8\v2.36\avr\avr\include\avr\eeprom.h \
  c:\program\ files\microchip\xc8\v2.36\avr\lib\gcc\avr\5.4.0\include\stddef.h \
+ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\stdio.h \
  c:\program\ files\microchip\xc8\v2.36\avr\avr\include\util\delay.h \
  c:\program\ files\microchip\xc8\v2.36\avr\avr\include\util\delay_basic.h \
  c:\program\ files\microchip\xc8\v2.36\avr\avr\include\math.h
@@ -55,6 +56,8 @@ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\avr\interrupt.h:
 c:\program\ files\microchip\xc8\v2.36\avr\avr\include\avr\eeprom.h:
 
 c:\program\ files\microchip\xc8\v2.36\avr\lib\gcc\avr\5.4.0\include\stddef.h:
+
+c:\program\ files\microchip\xc8\v2.36\avr\avr\include\stdio.h:
 
 c:\program\ files\microchip\xc8\v2.36\avr\avr\include\util\delay.h:
 
