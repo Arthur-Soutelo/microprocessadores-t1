@@ -1,13 +1,14 @@
 #include "keypad.h"
 
-static unsigned char debounce(unsigned char col) {
+// Debounce function to check the key press stability
+static unsigned char debounce(unsigned char row, unsigned char col) {
 	unsigned char count = 0;
 	unsigned char keylast = 0;
 	unsigned char keynow = 1;
 
 	while (count < 7) {
 		_delay_ms(10); // Adjust debounce delay as needed
-		keynow = PINA & (1 << (ROW1_PIN + col));
+		keynow = PINA & (1 << row);
 
 		if (keynow == keylast) {
 			count++;
@@ -41,18 +42,22 @@ char keypad_getkey(void) {
 	};
 
 	for (col = 0; col < 4; col++) {
-		PORTA |= (1 << (COL1_PIN + col)); // Set column high
+		// Set the current column to low
+		PORTA &= ~(1 << (COL1_PIN + col));
 
 		for (row = 0; row < 4; row++) {
-			if (debounce(col)) { // Check if key is pressed and debounced
-				PORTA &= ~(1 << (COL1_PIN + col)); // Reset column
-				return keys[row][col]; // Return pressed key
+			if (!(PINA & (1 << (ROW1_PIN + row)))) { // Check if the key is pressed
+				if (debounce(ROW1_PIN + row, COL1_PIN + col)) { // Check if key is pressed and debounced
+					// Reset the column to high
+					PORTA |= (1 << (COL1_PIN + col));
+					return keys[row][col]; // Return the pressed key
+				}
 			}
 		}
 
-		PORTA &= ~(1 << (COL1_PIN + col)); // Reset column
+		// Reset the column to high
+		PORTA |= (1 << (COL1_PIN + col));
 	}
 
-	return 0; // Return 0 if no key pressed
+	return 0; // Return 0 if no key is pressed
 }
-

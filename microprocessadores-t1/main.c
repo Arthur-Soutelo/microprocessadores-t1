@@ -16,25 +16,28 @@
 int main(void){
 	// Inicializa o LCD
 	init_LCD();
-//
-	//// Escreve uma mensagem no LCD
-	//write_string_LCD("Hello, MENDES");
+	// Escreve uma mensagem no LCD
 	write_string_line(1,"VenDELET");
 	write_string_line(2,"Fais ton choix");
 
+	// Inicializa o Teclado
 	keypad_init();
 
     //uart_init();	// Inicializar UART
     //sei();			// Ativa interrupt
 	
-	
+	char key;
     while(1){
-		char key;
+		// Get the pressed key
 		key = keypad_getkey();
+		
 		if(key!=0){
 			clear_display();
-			write_string_line(1,"Boa");
-			write_string_line(2,"XXXXX");
+			write_string_line(1,"Boa ");
+			//write_string_line(2,key);
+			write_data_LCD(key);
+			_delay_ms(300);
+			//write_string_LCD(key);
 		}
 	}
 }
