@@ -4,8 +4,8 @@ static unsigned char debounce(unsigned char pin);
 
 void buttons_init(void) {
 	// Set button pins as inputs with pull-down resistors
-	MONEY_DIR &= ~((1 << BUTTON1_PIN) | (1 << BUTTON2_PIN));
-	MONEY_PORT &= ~((1 << BUTTON1_PIN) | (1 << BUTTON2_PIN));
+	DDRH &= ~((1 << BUTTON1_PIN) | (1 << BUTTON2_PIN));
+	PORTH &= ~((1 << BUTTON1_PIN) | (1 << BUTTON2_PIN));
 }
 
 unsigned char button1_clicked(void) {
@@ -22,8 +22,8 @@ static unsigned char debounce(unsigned char pin) {
 	unsigned char keynow = 1;
 
 	while (count < 7) {
-		_delay_ms(2);								// Adjust debounce delay as needed
-		keynow = (MONEY_PIN & (1 << pin)) >> pin;	// Read pin state and adjust to 0 or 1
+		_delay_ms(10);								// Adjust debounce delay as needed
+		keynow = (PINH & (1 << pin)) >> pin;	// Read pin state and adjust to 0 or 1
 
 		if (keynow == keylast) {
 			count++;
