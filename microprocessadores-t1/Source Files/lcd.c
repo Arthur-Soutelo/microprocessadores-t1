@@ -78,12 +78,17 @@ void write_string(char line, char *text) {
 	unsigned char c;
 	for (c = 0; text[c] != '\0'; c++) {
 		write_data_LCD(text[c]);
-		//write_command_LCD(0x06);	// Entry mode set
+		write_command_LCD(0x06);	// Entry mode set
 	}
 }
 
 void delay_ms(unsigned int ms) {
-	unsigned char c;
-	for (c=0; c<40*ms; c++);
+	//unsigned char c;
+	//for (c=0; c<40*ms; c++);
+	int i;
+	for (i = 0; i < ms; i++) {
+		_delay_us(1);
+	}
+	
 	//timer0_delay_us(ms*1000);
 }

@@ -16,6 +16,9 @@ main.d main.o: .././main.c ../Header\ Files/main_header.h \
  c:\program\ files\microchip\xc8\v2.36\avr\avr\include\avr\interrupt.h \
  c:\program\ files\microchip\xc8\v2.36\avr\avr\include\avr\eeprom.h \
  c:\program\ files\microchip\xc8\v2.36\avr\lib\gcc\avr\5.4.0\include\stddef.h \
+ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\util\delay.h \
+ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\util\delay_basic.h \
+ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\math.h \
  ../Header\ Files/serial.h ../Header\ Files/timer.h \
  ../Header\ Files/lcd.h ../Header\ Files/keypad.h \
  ../Header\ Files/money.h
@@ -55,6 +58,12 @@ c:\program\ files\microchip\xc8\v2.36\avr\avr\include\avr\interrupt.h:
 c:\program\ files\microchip\xc8\v2.36\avr\avr\include\avr\eeprom.h:
 
 c:\program\ files\microchip\xc8\v2.36\avr\lib\gcc\avr\5.4.0\include\stddef.h:
+
+c:\program\ files\microchip\xc8\v2.36\avr\avr\include\util\delay.h:
+
+c:\program\ files\microchip\xc8\v2.36\avr\avr\include\util\delay_basic.h:
+
+c:\program\ files\microchip\xc8\v2.36\avr\avr\include\math.h:
 
 ../Header\ Files/serial.h:
 
