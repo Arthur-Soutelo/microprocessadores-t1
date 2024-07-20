@@ -71,18 +71,18 @@ void send_choice_card(char *num){
 void receive_answer(char *buffer) {
 	// Clear the buffer (optional)
 	for (int i = 0; i < BUFFER_SIZE; i++) {
+		//uart_send(buffer[i]);
 		buffer[i] = 0;
 	}
 	
 	// Receive the first two characters with timeout
-	buffer[0] = uart_receive(); // 'A' - Aplicativo
-	if (buffer[0] == -1) {
+	buffer[0] = uart_receive();					// 'A' - Aplicativo
+	buffer[1] = uart_receive();
+	if (buffer[0] == -1 || buffer[1] == -1) {
 		return;	// Handle timeout error
 	}
-	buffer[1] = uart_receive();
-	if (buffer[1] == -1) {
-		return; // Handle timeout error
-	}
+
+
 	//// Receive the first two characters
 	//buffer[0] = uart_receive(); // 'A' - Aplicativo
 	//buffer[1] = uart_receive();

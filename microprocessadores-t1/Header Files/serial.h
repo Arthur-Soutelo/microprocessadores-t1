@@ -3,7 +3,7 @@
 #ifndef SERIAL_H_
 	#define SERIAL_H_
 	
-	#define BUFFER_SIZE 25
+	#define BUFFER_SIZE 35
 	#define PRICE_SIZE 10
 	#define NAME_SIZE 20 // Adjust based on the expected max name length
 	#define UART_TIMEOUT 500 // Timeout in milliseconds

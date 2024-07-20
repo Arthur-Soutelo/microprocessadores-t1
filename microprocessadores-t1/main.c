@@ -12,6 +12,15 @@
 	//TIFR1 = (1<<0);
 //}
 
+void init_components(void){
+	init_LCD();			// Inicializa o LCD
+	keypad_init();		// Inicializa o Teclado
+	uart_init(9600);	// Initialize the UART with desired baud rate
+	buttons_init();		// Initialize coins reading
+	door_init();		// Initialize door sensor reading
+	init_buzzer();
+}
+
 void get_coins_menu(float *total_sum){
 	//char sum
 	//sum = update_total_sum()
@@ -55,17 +64,12 @@ char get_selected_product_menu(void){
 }
 
 int main(void){
-	// Define total sum variable
-	static float total_sum = 0.0;
-	char buffer[BUFFER_SIZE];  // Buffer to hold the serial response
+	static float total_sum = 0.0;	// Define total sum variable
+	char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
 	char product_name[NAME_SIZE];
 	
-	init_LCD();			// Inicializa o 
-	keypad_init();		// Inicializa o Teclado
-	uart_init(9600);	// Initialize the UART with desired baud rate
-	buttons_init();		// Initialize coins reading
-	door_init();		// Initialize door sensor reading
-	init_buzzer();
+	init_components();
+	
     //sei();			// Ativa interrupt
 
 	clear_display();	
@@ -82,7 +86,7 @@ int main(void){
 				// Extract the name from the buffer
 				get_name_from_buffer(buffer, product_name);
 				
-				uart_send_string(buffer)
+				uart_send_string(buffer);
 				write_string_line(1,product_name);
 			}
 			
