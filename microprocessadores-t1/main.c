@@ -41,18 +41,13 @@ char get_selected_product_menu(void){
 	key = keypad_getkey();
 	if(key!=0){
 		clear_display();
-		write_string_line(1,"Selecione o Produto:");
-		write_string_line(2,"Numero: ");
+		write_string_line(1,"VenDELET");
+		write_string_line(2,"Produto : ");
 		ProductNumber product = get_product_number(key);
-		// Use the product number (first_key and second_key)
 		send_product_selection(product);
 		
 		write_data_LCD(product.first_key);
 		write_data_LCD(product.second_key);
-		
-		//write_data_LCD(key);
-		//send_product_number(key);
-		_delay_ms(1000);
 		
 		return 1;
 	}
@@ -81,9 +76,10 @@ int main(void){
 		while(!read_door_state()){	// While the door is closed
 			
 			if(get_selected_product_menu()){
-				buffer[0] = uart_receive();
-				//receive_answer(buffer);
-				//write_string_line(1,buffer);	
+				_delay_ms(100);
+				receive_answer(buffer);
+				
+				write_string_line(1,&buffer[3]);
 			}
 			
 			// Get coins

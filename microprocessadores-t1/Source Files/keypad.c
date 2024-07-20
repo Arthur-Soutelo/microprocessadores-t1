@@ -5,20 +5,16 @@ static unsigned char debounce(unsigned char row, unsigned char col) {
 	unsigned char count = 0;
 	unsigned char keylast = 0;
 	unsigned char keynow = 1;
-
 	while (count < 7) {
 		_delay_ms(10); // Adjust debounce delay as needed
 		keynow = PINA & (1 << row);
-
 		if (keynow == keylast) {
 			count++;
 			} else {
 			count = 0;
 		}
-
 		keylast = keynow;
 	}
-
 	return keynow;
 }
 
@@ -61,7 +57,6 @@ char keypad_getkey(void) {
 
 	return 0; // Return 0 if no key is pressed
 }
-
 
 // Function to get the product number based on the first key
 ProductNumber get_product_number(char key) {
