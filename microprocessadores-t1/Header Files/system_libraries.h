@@ -3,6 +3,7 @@
 	#include <avr/io.h>
 	#include <avr/interrupt.h>
 	#include <avr/eeprom.h>
+	#include <stdio.h>
 	
 	#define F_CPU 16000000UL  // Define the clock frequency as 16 MHz
 	#include <util/delay.h>

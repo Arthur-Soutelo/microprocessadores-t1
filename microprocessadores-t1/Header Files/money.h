@@ -7,15 +7,16 @@
 	#define MONEY_DIR  DDRH
 	#define MONEY_PIN  PINH
 
-	#define BUTTON1_PIN     PH5 // Assuming Button 1 is connected to PA0
-	#define BUTTON2_PIN     PH6 // Assuming Button 2 is connected to PA1
+	#define BUTTON1_PIN     PH5 //50 centavos
+	#define BUTTON2_PIN     PH6 //1 real
 
 	#define DOOR_PIN	PH4
 
 	void buttons_init(void);
-	unsigned char button1_clicked(void);
-	unsigned char button2_clicked(void);
+	unsigned char button50c_clicked(void);
+	unsigned char button1r_clicked(void);
 	void door_init(void) ;
 	unsigned char read_door_state(void) ;
+	void update_total_sum(float *total_sum) ;
 
 #endif // MONEY_H

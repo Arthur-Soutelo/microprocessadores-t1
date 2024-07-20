@@ -2,6 +2,16 @@
 
 static unsigned char debounce(unsigned char pin);
 
+// Function to handle button clicks and update the total sum
+void update_total_sum(float *total_sum) {
+	if (button50c_clicked()) {
+		*total_sum += 0.50;  // Add 50 cents
+	}
+	if (button1r_clicked()) {
+		*total_sum += 1.00;  // Add 1 dollar
+	}
+}
+
 void buttons_init(void) {
 	// Set button pins as inputs with pull-down resistors
 	DDRH &= ~((1 << BUTTON1_PIN) | (1 << BUTTON2_PIN));
@@ -14,11 +24,11 @@ void door_init(void) {
 	PORTH &= ~((1 << DOOR_PIN));
 }
 
-unsigned char button1_clicked(void) {
+unsigned char button50c_clicked(void) {
 	return debounce(BUTTON1_PIN);
 }
 
-unsigned char button2_clicked(void) {
+unsigned char button1r_clicked(void) {
 	return debounce(BUTTON2_PIN);
 }
 
@@ -28,7 +38,7 @@ static unsigned char debounce(unsigned char pin) {
 	unsigned char keynow = 1;
 
 	while (count < 7) {
-		_delay_ms(10);								// Adjust debounce delay as needed
+		_delay_ms(5);								// Adjust debounce delay as needed
 		keynow = (PINH & (1 << pin)) >> pin;	// Read pin state and adjust to 0 or 1
 
 		if (keynow == keylast) {

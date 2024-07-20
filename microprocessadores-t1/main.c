@@ -12,19 +12,26 @@
 	//TIFR1 = (1<<0);
 //}
 
-void get_coins_menu(void){
+void get_coins_menu(float *total_sum){
+	//char sum
+	//sum = update_total_sum()
+	//
+	//char buffer[16];  // Buffer to hold the formatted string
+	//// Format the total sum as a string
+	//snprintf(buffer, sizeof(buffer), "Total: $%.2f", total_sum);
+	
 	// Get coins
-	if(button1_clicked()){
+	if(button50c_clicked()){
 		clear_display();
-		write_string_line(1,"Button 1");
+		write_string_line(1,"Button 50c");
 		// Add a small delay to avoid multiple detections of the same click
-		_delay_ms(300);
+		//_delay_ms(5);
 	}
-	if(button2_clicked()){
+	if(button1r_clicked()){
 		clear_display();
-		write_string_line(1,"Button 2");
+		write_string_line(1,"Button 1R");
 		// Add a small delay to avoid multiple detections of the same click
-		_delay_ms(300);
+		//_delay_ms(5);
 	}
 }
 
@@ -36,13 +43,24 @@ void get_selected_product_menu(void){
 		clear_display();
 		write_string_line(1,"Selecione o Produto:");
 		write_string_line(2,"Numero: ");
-		write_data_LCD(key);
-		send_product_number(key);
-		_delay_ms(300);
+		ProductNumber product = send_product_number(key);
+		// Use the product number (first_key and second_key)
+		uart_send(product.first_key);
+		uart_send(product.second_key);
+		
+		write_data_LCD(product.first_key);
+		write_data_LCD(product.second_key);
+		
+		//write_data_LCD(key);
+		//send_product_number(key);
+		_delay_ms(1000);
 	}
 }
 
 int main(void){
+	// Define total sum variable
+	static float total_sum = 0.0;
+	
 	// Inicializa o LCD
 	init_LCD();
 
@@ -56,22 +74,24 @@ int main(void){
 	door_init();
 	
     //sei();			// Ativa interrupt
+
+	clear_display();	
+	write_string_line(1,"VenDELET");
+	write_string_line(2,"Digite o Produto");
 	
     while(1){
 		while(read_door_state()){	// While the door is closed
-			clear_display();
-			write_string_line(1,"VenDELET");
-			write_string_line(2,"Digite o Produto");
 			
 			get_selected_product_menu();
 			
 			// Get coins
-			get_coins_menu();
+			//get_coins_menu(&total_sum);
+		
 		}	
 		// Door is open
 		clear_display();
 		write_string_line(1,"Porta Aberta");
-		_delay_ms(300);
+		_delay_ms(1000);
 		
 	}
 }
