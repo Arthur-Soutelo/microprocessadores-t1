@@ -4,6 +4,7 @@
 	#define SERIAL_H_
 	
 	#define BUFFER_SIZE 25
+	#define PRICE_SIZE 10
 	#define NAME_SIZE 20 // Adjust based on the expected max name length
 	#define UART_TIMEOUT 500 // Timeout in milliseconds
 	
@@ -11,7 +12,7 @@
 	unsigned char uart_receive(void);
 	void uart_send(unsigned char data);
 	void uart_send_string(const char *data);
-	//ProductNumber send_product_number(char key); //product_number
+	
 	void receive_product_data(char *buffer);
 	void confirm_cash_purchase(void);
 	void handle_purchase_response(char *response);

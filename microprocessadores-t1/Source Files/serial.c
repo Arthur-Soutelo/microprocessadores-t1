@@ -148,27 +148,27 @@ void receive_answer(char *buffer) {
 	
 
 
-void receive_product_data(char *buffer) {
-	buffer[0] = uart_receive(); // 'A'
-	buffer[1] = uart_receive(); // 'P'
-	buffer[2] = uart_receive(); // Size of data (22 or 16)
-	for (int i = 0; i < buffer[2]; i++) {
-		buffer[3 + i] = uart_receive();
-	}
-	buffer[3 + buffer[2]] = '\0';
-}
+//void receive_product_data(char *buffer) {
+	//buffer[0] = uart_receive(); // 'A'
+	//buffer[1] = uart_receive(); // 'P'
+	//buffer[2] = uart_receive(); // Size of data (22 or 16)
+	//for (int i = 0; i < buffer[2]; i++) {
+		//buffer[3 + i] = uart_receive();
+	//}
+	//buffer[3 + buffer[2]] = '\0';
+//}
 
 void confirm_cash_purchase(void) {
 	uart_send('V');
 	uart_send('E');
 }
 
-void handle_purchase_response(char *response) {
-	response[0] = uart_receive(); // 'A'
-	response[1] = uart_receive(); // 'E'
-	response[2] = uart_receive(); // Result code ('0', '1', '2', '3')
-	response[3] = '\0';
-}
+//void handle_purchase_response(char *response) {
+	//response[0] = uart_receive(); // 'A'
+	//response[1] = uart_receive(); // 'E'
+	//response[2] = uart_receive(); // Result code ('0', '1', '2', '3')
+	//response[3] = '\0';
+//}
 
 void confirm_card_purchase(const char *card_number) {
 	uart_send('V');
@@ -181,30 +181,6 @@ void confirm_card_purchase(const char *card_number) {
 	uart_send(card_number[5]);
 }
 
-
-//void uart_init(void) {
-	//// Configurar baud rate 4800
-	//UBRR0H = 0;
-	//UBRR0L = 207;
-	//// Habilitar recepção e transmissão
-	//UCSR0B = (1<<RXEN0) | (1<<TXEN0);
-	//// Configurar formato do frame: 8 bits de dados, 1 bit de parada
-	//UCSR0C = (1<<UCSZ01) | (1<<UCSZ00);
-//}
-//
-//unsigned char uart_receive(void) {
-	//// Esperar por dado ser recebido
-	//while ((UCSR0A & (1<<RXC0)) == 0);
-	//return UDR0;
-//}
-//
-//void uart_send(unsigned char data) {
-	//// Espera ate que o buffer de transmissão esteja vazio
-	//while (!(UCSR0A & (1<<UDRE0)));
-	//// Coloca o dado no buffer, enviando o caractere
-	//UDR0 = data;
-//}
-
 void get_name_from_buffer(char *buffer, char *name) {
 	int data_size = buffer[2]; // Size of data
 	int name_start_index = 3; // Assuming name starts at the 4th byte
@@ -216,4 +192,29 @@ void get_name_from_buffer(char *buffer, char *name) {
 		}
 	}
 	name[data_size - 3 < NAME_SIZE - 1 ? data_size - 3 : NAME_SIZE - 1] = '\0'; // Null terminate the string
+}
+
+
+void get_price_from_buffer(char *buffer, char *price) {
+	int data_size = buffer[2];
+	int name_start_index = 3;
+	int name_end_index = name_start_index;
+	int i;
+
+	// Find the end of the name (null terminator)
+	for (i = 0; i < data_size - 3 && buffer[name_end_index] != '\0'; i++) {
+		name_end_index++;
+	}
+
+	// Skip the null terminator
+	int price_start_index = name_end_index + 1;
+
+	// Copy the price to the price buffer
+	for (i = 0; i < data_size - price_start_index && i < PRICE_SIZE - 1; i++) {
+		price[i] = buffer[price_start_index + i];
+		if (buffer[price_start_index + i] == '\0') {
+			break;
+		}
+	}
+	price[i] = '\0';
 }

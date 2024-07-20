@@ -82,6 +82,7 @@ int main(void){
 				// Extract the name from the buffer
 				get_name_from_buffer(buffer, product_name);
 				
+				uart_send_string(buffer)
 				write_string_line(1,product_name);
 			}
 			
