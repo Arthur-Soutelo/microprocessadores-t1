@@ -1,5 +1,5 @@
 #include "serial.h"
-
+#include "keypad.h"
 
 void uart_init(unsigned long baudrate) {
 	unsigned int ubrr = F_CPU/16/baudrate - 1;
@@ -34,12 +34,41 @@ void uart_send_string(const char *data) {
 // --------------------------------------------------------------
 
 
-void send_product_number(const char *product_number) {
+void send_product_number(char key) {
 	uart_send('V');
 	uart_send('P');
-	uart_send(product_number[0]);
-	uart_send(product_number[1]);
+
+	if (key == '1') {
+		// Wait for the second digit with a timeout
+		char second_key = 0;
+		unsigned int timeout = 2500; // Timeout in milliseconds
+		unsigned int elapsed_time = 0;
+
+		while (second_key == 0 && elapsed_time < timeout) {
+			second_key = keypad_getkey(); // Get the second digit
+			_delay_ms(50); // Small delay to debounce and prevent busy-waiting
+			elapsed_time += 50;
+		}
+
+		if (second_key == '1' || second_key == '2' || second_key == '3') {
+			uart_send(key);
+			uart_send(second_key);
+			} else {
+			// If no valid second key was pressed within the timeout period, send '01'
+			uart_send('0');
+			uart_send('1');
+		}
+		} else if (key == '2' || key == '3' || key == '7' || key == '8' || key == '9') {
+		uart_send('0');
+		uart_send(key);
+		} else {
+		uart_send('E'); // 'E' for error
+	}
 }
+
+
+
+
 
 void receive_product_data(char *buffer) {
 	buffer[0] = uart_receive(); // 'A'
