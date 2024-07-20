@@ -1,1 +1,8 @@
 .vs/microprocessadores-t1*
+*.o
+*.d
+*.xml
+*.elf
+*.hex
+*.lss
+*.map
