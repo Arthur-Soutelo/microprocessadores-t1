@@ -22,6 +22,7 @@
 	void receive_answer(char *buffer);
 	
 	void get_name_from_buffer(char *buffer, char *name);
+	void get_price_from_buffer(char *buffer, char *price);
 	void receive_data_from_uart(char *buffer);
 
 	

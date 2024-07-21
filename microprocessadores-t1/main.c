@@ -21,7 +21,7 @@ void init_components(void){
 	init_buzzer();
 }
 
-void get_coins_menu(float *total_sum){
+void get_coins_menu(float *total_sum, char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
 	
 	update_total_sum(total_sum);
@@ -29,7 +29,9 @@ void get_coins_menu(float *total_sum){
 	snprintf(buffer_price, sizeof(buffer_price), "Total: R$%.2f", *total_sum);
 	
 	clear_display();
-	write_string_line(1,buffer_price);
+	write_string_line(1, "Preco: R$");
+	write_string_LCD(product_price);
+	write_string_line(2, buffer_price);
 
 	//
 	//// Get coins
@@ -71,6 +73,7 @@ int main(void){
 	char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
 	char product_name[NAME_SIZE];
 	char product_price[NAME_SIZE];
+	char payment_method;
 	
 	init_components();
 	
@@ -100,26 +103,48 @@ int main(void){
 		stop_alarm();
 		while(!read_door_state()){	// While the door is closed
 			
+			// Seleção do produto pelo codigo
 			if(get_selected_product_menu()){
-				//_delay_ms(100);
-				//receive_answer(buffer);
 				
-				//uart_send_string(buffer);
-				
-				// Extract the name from the buffer
+				// Recebe resposta do produto
 				receive_data_from_uart(buffer);
 				get_name_from_buffer(buffer,product_name);
 				get_price_from_buffer(buffer,product_price);
-				clear_display();
-				write_string_line(1,product_name);
-				write_string_line(2, product_price);
 				
-				while(total_sum< atof(product_price)){
-					
-				get_coins_menu(&total_sum);
+				// Se resposta valida
+				if(buffer[0] == 'A' && buffer[1] == 'P' ){
+					// Escreve o produto e preço no LCD
+					clear_display();
+					write_string_line(1,product_name);
+					write_string_line(2, "Valor: R$");
+					write_string_LCD(product_price);
+					_delay_ms(3000);
+				
+					// Seleciona método de pagamento :
+					clear_display();
+					write_string_line(1,"1 - Dinheiro");
+					write_string_line(2, "2 - Cartao");
+					payment_method = keypad_getkey();
+					while(payment_method==0){
+						payment_method = keypad_getkey();
+						//_delay_ms(50);
+						// Dinheiro
+						if(payment_method == '1'){
+							// Wait for payment
+							while(total_sum <= atof(product_price)){
+								get_coins_menu(&total_sum, product_price);
+							}
+						}
+						// Cartão
+						else if (payment_method == '2'){
+							//get_card_menu();
+						}
+					}
 				}
 			}
+				
 		}
+				
 		
 		while(read_door_state()){ // While the door is open
 			// Sound the alarm
@@ -130,4 +155,5 @@ int main(void){
 		}
 		
 	}
+	return 0;
 }
