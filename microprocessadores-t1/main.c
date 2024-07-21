@@ -22,26 +22,29 @@ void init_components(void){
 }
 
 void get_coins_menu(float *total_sum){
-	//char sum
-	//sum = update_total_sum()
-	//
-	//char buffer[16];  // Buffer to hold the formatted string
-	//// Format the total sum as a string
-	//snprintf(buffer, sizeof(buffer), "Total: $%.2f", total_sum);
+	char buffer_price[16];  // Buffer to hold the formatted string
 	
-	// Get coins
-	if(button50c_clicked()){
-		clear_display();
-		write_string_line(1,"Button 50c");
-		// Add a small delay to avoid multiple detections of the same click
-		//_delay_ms(5);
-	}
-	if(button1r_clicked()){
-		clear_display();
-		write_string_line(1,"Button 1R");
-		// Add a small delay to avoid multiple detections of the same click
-		//_delay_ms(5);
-	}
+	update_total_sum(total_sum);
+	// Format the total sum as a string
+	snprintf(buffer_price, sizeof(buffer_price), "Total: R$%.2f", *total_sum);
+	
+	clear_display();
+	write_string_line(1,buffer_price);
+
+	//
+	//// Get coins
+	//if(button50c_clicked()){
+		//clear_display();
+		//write_string_line(1,"Button 50c");
+		//// Add a small delay to avoid multiple detections of the same click
+		////_delay_ms(5);
+	//}
+	//if(button1r_clicked()){
+		//clear_display();
+		//write_string_line(1,"Button 1R");
+		//// Add a small delay to avoid multiple detections of the same click
+		////_delay_ms(5);
+	//}
 }
 
 char get_selected_product_menu(void){
@@ -110,6 +113,11 @@ int main(void){
 				clear_display();
 				write_string_line(1,product_name);
 				write_string_line(2, product_price);
+				
+				while(total_sum< atof(product_price)){
+					
+				get_coins_menu(&total_sum);
+				}
 			}
 		}
 		
