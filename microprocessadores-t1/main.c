@@ -106,11 +106,12 @@ int main(void){
 				
 				// Recebe resposta do produto
 				receive_data_from_uart(buffer);
-				get_name_from_buffer(buffer,product_name);
-				get_price_from_buffer(buffer,product_price);
 				
 				// Se resposta valida
 				if(buffer[0] == 'A' && buffer[1] == 'P' ){
+					get_name_from_buffer(buffer,product_name);
+					get_price_from_buffer(buffer,product_price);
+					
 					// Escreve o produto e preço no LCD
 					clear_display();
 					write_string_line(1,product_name);
