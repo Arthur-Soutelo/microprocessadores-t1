@@ -195,7 +195,7 @@ void confirm_card_purchase(const char *card_number) {
 
 void get_name_from_buffer(char *buffer, char *name) {
 	int data_size = buffer[2]; // Size of data
-	int name_start_index = 3; // Assuming name starts at the 4th byte
+	int name_start_index = 4; // Assuming name starts at the 4th byte
 
 	for (int i = 0; i < data_size - 3 && i < NAME_SIZE - 1; i++) {
 		name[i] = buffer[name_start_index + i];

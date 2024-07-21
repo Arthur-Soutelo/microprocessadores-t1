@@ -67,6 +67,7 @@ int main(void){
 	static float total_sum = 0.0;	// Define total sum variable
 	char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
 	char product_name[NAME_SIZE];
+	char product_price[NAME_SIZE];
 	
 	init_components();
 	
@@ -75,10 +76,6 @@ int main(void){
 	clear_display();	
 	write_string_line(1,"VenDELET");
 	write_string_line(2,"Digite o Produto");
-	
-	while(1){
-		get_selected_product_menu();	
-	}
 	
 	//while(1){
 		////unsigned char rec; 
@@ -96,29 +93,33 @@ int main(void){
 		//
 	//}
 	
-    //while(1){
-		//stop_alarm();
-		//while(!read_door_state()){	// While the door is closed
-			//
-			//if(get_selected_product_menu()){
-				////_delay_ms(100);
-				////receive_answer(buffer);
-				//
-				////uart_send_string(buffer);
-				//
-				//// Extract the name from the buffer
-				////receive_data_from_uart(buffer);
-				////write_string_line(1,buffer);
-			//}
-		//}
-		//
-		//while(read_door_state()){ // While the door is open
-			//// Sound the alarm
-			//sound_alarm();
-			//// Door is open
-			//clear_display();
-			//write_string_line(1,"Porta Aberta");
-		//}
-		//
-	//}
+    while(1){
+		stop_alarm();
+		while(!read_door_state()){	// While the door is closed
+			
+			if(get_selected_product_menu()){
+				//_delay_ms(100);
+				//receive_answer(buffer);
+				
+				//uart_send_string(buffer);
+				
+				// Extract the name from the buffer
+				receive_data_from_uart(buffer);
+				get_name_from_buffer(buffer,product_name);
+				get_price_from_buffer(buffer,product_price);
+				clear_display();
+				write_string_line(1,product_name);
+				write_string_line(2, product_price);
+			}
+		}
+		
+		while(read_door_state()){ // While the door is open
+			// Sound the alarm
+			sound_alarm();
+			// Door is open
+			clear_display();
+			write_string_line(1,"Porta Aberta");
+		}
+		
+	}
 }
