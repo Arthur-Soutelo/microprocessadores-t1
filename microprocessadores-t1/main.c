@@ -23,12 +23,12 @@ void init_components(void){
 
 void get_coins_menu(float *total_sum, char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
-	unsigned int elapsed_time = 0;
+	init_timer1();
+	//unsigned int elapsed_time = 0;
 	
 	while(*total_sum <= atof(product_price)){
-		_delay_ms(1); // Wait 1 ms
-		elapsed_time++;
-		if (elapsed_time >= 30000) {
+		//_delay_ms(1); // Wait 1 ms
+		if (timeout_flag) {
 			while(1){
 				clear_display();
 				write_string_line(1, "PERDEU");

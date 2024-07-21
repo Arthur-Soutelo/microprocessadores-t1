@@ -1,6 +1,8 @@
 #include "timer.h"
 
 unsigned short MY_VARIABLE_TCNT1 = 52202;
+volatile uint8_t timeout_flag;
+volatile uint8_t seconds_count = 0;
 #define BUZZER_PIN	PE4
 
 // ####### Timer 1 => 600Hz ####### //
@@ -23,6 +25,22 @@ void config_timer1_2kHz(){
 	TCNT1 = MY_VARIABLE_TCNT1;		// = 65.535 - 4000
 	TIMSK1 = (1<<0); // Ativa interrupção por overflow TIMER 1
 
+}
+
+void init_timer1(void) {
+	// Configure Timer1
+	TCCR1A = 0; // Normal mode
+	TCCR1B = (1 << WGM12) | (1 << CS12); // CTC mode, prescaler 256
+	OCR1A = 62499; // 1 second (16MHz / 256 / 1Hz)
+	TIMSK1 = (1 << OCIE1A); // Enable Timer1 compare interrupt
+	sei(); // Enable global interrupts
+}
+
+ISR(TIMER1_COMPA_vect) {
+	seconds_count++;
+	if (seconds_count >= 30) {
+		timeout_flag = 1;
+	}
 }
 
 void timer1_stop(void) {
