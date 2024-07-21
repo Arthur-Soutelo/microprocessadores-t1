@@ -47,23 +47,19 @@ void get_coins_menu(float *total_sum, char *product_price){
 	}
 }
 
-char get_selected_product_menu(void){
+void get_selected_product_menu(char key, char *buffer){
 	// Get the pressed key
-	char key;
-	key = keypad_getkey();
-	if(key!=0){
-		clear_display();
-		write_string_line(1,"VenDELET");
-		write_string_line(2,"Produto : ");
-		ProductNumber product = get_product_number(key);		
-		write_data_LCD(product.first_key);
-		write_data_LCD(product.second_key);
-		
-		send_product_selection(product);
-		
-		return 1;
-	}
-	return 0;
+	clear_display();
+	write_string_line(1,"VenDELET");
+	write_string_line(2,"Produto : ");
+	ProductNumber product = get_product_number(key);
+	write_data_LCD(product.first_key);
+	write_data_LCD(product.second_key);
+	
+	// Envia produto
+	send_product_selection(product);
+	// Recebe resposta do produto
+	receive_data_from_uart(buffer);
 }
 
 int main(void){
@@ -71,15 +67,11 @@ int main(void){
 	char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
 	char product_name[NAME_SIZE];
 	char product_price[NAME_SIZE];
-	char payment_method;
-	
+	char key;
+	char go_back_flag;
 	init_components();
 	
     //sei();			// Ativa interrupt
-
-	clear_display();	
-	write_string_line(1,"VenDELET");
-	write_string_line(2,"Digite o Produto");
 	
 	//while(1){
 		////unsigned char rec; 
@@ -98,14 +90,21 @@ int main(void){
 	//}
 	
     while(1){
+		go_back_flag = 0;
 		stop_alarm();
+		clear_display();
+		write_string_line(1,"VenDELET");
+		write_string_line(2,"Digite o Produto");
+		
 		while(!read_door_state()){	// While the door is closed
+			if (go_back_flag == 1) {
+				break; // Exit the product selection loop and the outer loop
+			}
 			
+			key = keypad_getkey();
 			// Seleção do produto pelo codigo
-			if(get_selected_product_menu()){
-				
-				// Recebe resposta do produto
-				receive_data_from_uart(buffer);
+			if(key!=0){
+				get_selected_product_menu(key, buffer);
 				
 				// Se resposta valida
 				if(buffer[0] == 'A' && buffer[1] == 'P' ){
@@ -123,18 +122,22 @@ int main(void){
 					clear_display();
 					write_string_line(1,"1 - Dinheiro");
 					write_string_line(2, "2 - Cartao");
-					payment_method = keypad_getkey();
-					while(payment_method==0){
-						payment_method = keypad_getkey();
+					key = keypad_getkey();
+					while(key==0){
+						if (go_back_flag == 1) {
+							break; // Exit the product selection loop and the outer loop
+						}
+						key = keypad_getkey();
 						//_delay_ms(50);
 						// Dinheiro
-						if(payment_method == '1'){
+						if(key == '1'){
 							// Wait for payment
 							get_coins_menu(&total_sum, product_price);
 
 						}
 						// Cartão
-						else if (payment_method == '2'){
+						else if (key == '2'){
+							go_back_flag = 1;
 							//get_card_menu();
 						}
 					}
