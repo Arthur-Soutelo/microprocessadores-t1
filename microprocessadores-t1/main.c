@@ -15,7 +15,7 @@
 void init_components(void){
 	init_LCD();			// Inicializa o LCD
 	keypad_init();		// Inicializa o Teclado
-	uart_init(9600);	// Initialize the UART with desired baud rate
+	uart_init(19200);	// Initialize the UART with desired baud rate
 	buttons_init();		// Initialize coins reading
 	door_init();		// Initialize door sensor reading
 	init_buzzer();
@@ -23,30 +23,28 @@ void init_components(void){
 
 void get_coins_menu(float *total_sum, char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
+	unsigned int elapsed_time = 0;
 	
-	update_total_sum(total_sum);
-	// Format the total sum as a string
-	snprintf(buffer_price, sizeof(buffer_price), "Total: R$%.2f", *total_sum);
+	while(*total_sum <= atof(product_price)){
+		_delay_ms(1); // Wait 1 ms
+		elapsed_time++;
+		if (elapsed_time >= 30000) {
+			while(1){
+				clear_display();
+				write_string_line(1, "PERDEU");
+			}
+			return;
+		}
+		
+		update_total_sum(total_sum);
+		// Format the total sum as a string
+		snprintf(buffer_price, sizeof(buffer_price), "Total: R$ %.2f", *total_sum);
 	
-	clear_display();
-	write_string_line(1, "Preco: R$");
-	write_string_LCD(product_price);
-	write_string_line(2, buffer_price);
-
-	//
-	//// Get coins
-	//if(button50c_clicked()){
-		//clear_display();
-		//write_string_line(1,"Button 50c");
-		//// Add a small delay to avoid multiple detections of the same click
-		////_delay_ms(5);
-	//}
-	//if(button1r_clicked()){
-		//clear_display();
-		//write_string_line(1,"Button 1R");
-		//// Add a small delay to avoid multiple detections of the same click
-		////_delay_ms(5);
-	//}
+		clear_display();
+		write_string_line(1, "Preco: R$ ");
+		write_string_LCD(product_price);
+		write_string_line(2, buffer_price);
+	}
 }
 
 char get_selected_product_menu(void){
@@ -57,11 +55,11 @@ char get_selected_product_menu(void){
 		clear_display();
 		write_string_line(1,"VenDELET");
 		write_string_line(2,"Produto : ");
-		ProductNumber product = get_product_number(key);
-		send_product_selection(product);
-		
+		ProductNumber product = get_product_number(key);		
 		write_data_LCD(product.first_key);
 		write_data_LCD(product.second_key);
+		
+		send_product_selection(product);
 		
 		return 1;
 	}
@@ -116,7 +114,7 @@ int main(void){
 					// Escreve o produto e preço no LCD
 					clear_display();
 					write_string_line(1,product_name);
-					write_string_line(2, "Valor: R$");
+					write_string_line(2, "Valor: R$ ");
 					write_string_LCD(product_price);
 					_delay_ms(3000);
 				
@@ -131,9 +129,8 @@ int main(void){
 						// Dinheiro
 						if(payment_method == '1'){
 							// Wait for payment
-							while(total_sum <= atof(product_price)){
-								get_coins_menu(&total_sum, product_price);
-							}
+							get_coins_menu(&total_sum, product_price);
+
 						}
 						// Cartão
 						else if (payment_method == '2'){
