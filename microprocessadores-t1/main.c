@@ -45,6 +45,14 @@ void get_coins_menu(float *total_sum, char *product_price){
 		write_string_LCD(product_price);
 		write_string_line(2, buffer_price);
 	}
+	clear_display();
+	write_string_line(1, "COMPRA REALIZADA");
+	turn_on_led();
+	
+	_delay_ms(2000);
+	
+	turn_off_led();
+	
 }
 
 void get_selected_product_menu(char key, char *buffer){

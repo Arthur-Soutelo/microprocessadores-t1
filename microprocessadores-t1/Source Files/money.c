@@ -60,6 +60,21 @@ unsigned char read_door_state(void) {
 	return (PINH & (1 << DOOR_PIN)) >> DOOR_PIN;  // Return 1 if switch is closed (pressed), 0 if open
 }
 
+void init_led(void){
+	// Configura o pino do LED como saída
+	DDRL |= (1 << PL7);
+}
+
+void turn_on_led(void){
+	// Acende o LED
+	PORTL |= (1 << PL7);
+}
+
+void turn_off_led(void){
+	// Apaga o LED
+	PORTL &= ~(1 << PL7);
+}
+
 void init_cards() {
 	// Cartões pré-cadastrados
 	Card default_cards[] = {

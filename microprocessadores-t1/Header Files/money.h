@@ -18,6 +18,9 @@
 	void door_init(void) ;
 	unsigned char read_door_state(void) ;
 	void update_total_sum(float *total_sum);
+	void init_led(void);
+	void turn_on_led(void);
+	void turn_off_led(void);
 	void init_cards();
 	short find_card(uint32_t code);
 	float get_card_credit(uint32_t code);
