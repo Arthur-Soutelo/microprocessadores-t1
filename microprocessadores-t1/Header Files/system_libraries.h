@@ -15,8 +15,8 @@
 	} ProductNumber;
 	
 	typedef struct {
-		uint32_t code;    // Código do cartão (6 dígitos, armazenado como inteiro de 32 bits)
-		float credit;     // Saldo do cartão
+		char card_number[7];  // Card number as a string (6 characters + null terminator)
+		float balance;        // Balance as a float
 	} Card;
 	
 	#define F_CPU 16000000UL  // Define the clock frequency as 16 MHz

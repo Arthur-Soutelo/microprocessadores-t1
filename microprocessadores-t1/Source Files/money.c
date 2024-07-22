@@ -88,6 +88,19 @@ void init_cards() {
 		eeprom_update_block((const void*)&default_cards[i], (void*)&eeprom_cards[i], sizeof(Card));
 	}
 }
+//void init_cards() {
+	//// Cartões pré-cadastrados
+	//Card default_cards[] = {
+		//{300123, 30.00},
+		//{300121, 30.00},
+		//{250025, 25.00}
+	//};
+//
+	//// Escreve os cartões pré-cadastrados na EEPROM
+	//for (short i = 0; i < 3; i++) {
+		//eeprom_update_block((const void*)&default_cards[i], (void*)&eeprom_cards[i], sizeof(Card));
+	//}
+//}
 
 //short find_card(uint32_t code) {
 	//Card temp;
@@ -133,19 +146,19 @@ void init_cards() {
 	//}
 //}
 
-void display_card_info(short card_index) {
-	if (card_index >= 0 && card_index < 10) {
-		Card temp;
-		eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[card_index], sizeof(Card));
-		
-		char buffer2[17];
-		
-		// Exibe o código do cartão
-		snprintf(buffer2, sizeof(buffer2), "Card: %06lu", temp.code);
-		write_string_line(1, buffer2);
-
-		// Exibe o saldo do cartão
-		snprintf(buffer2, sizeof(buffer2), "Balance: %.2f", temp.credit);
-		write_string_line(2, buffer2);
-	}
-}
+//void display_card_info(short card_index) {
+	//if (card_index >= 0 && card_index < 10) {
+		//Card temp;
+		//eeprom_read_block((void*)&temp, (const void*)&eeprom_cards[card_index], sizeof(Card));
+		//
+		//char buffer2[17];
+		//
+		//// Exibe o código do cartão
+		//snprintf(buffer2, sizeof(buffer2), "Card: %06lu", temp.code);
+		//write_string_line(1, buffer2);
+//
+		//// Exibe o saldo do cartão
+		//snprintf(buffer2, sizeof(buffer2), "Balance: %.2f", temp.credit);
+		//write_string_line(2, buffer2);
+	//}
+//}
