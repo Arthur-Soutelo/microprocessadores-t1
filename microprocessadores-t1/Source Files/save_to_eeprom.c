@@ -86,3 +86,18 @@ int remove_card(const char* card_number) {
 	eeprom_update_block((const void*)&empty_card, (void*)&eeprom_cards[index], sizeof(Card));
 	return index; // Return the index where the card was removed
 }
+
+// Function to update the balance of a card
+void update_card_balance(const char *card_number, float new_balance) {
+	int index = find_card_index(card_number);
+	if (index != -1) {
+		// Card found, update balance
+		Card card;
+		eeprom_read_block(&card, &eeprom_cards[index], sizeof(Card));
+		card.balance = new_balance;
+		eeprom_update_block(&card, &eeprom_cards[index], sizeof(Card));
+		} else {
+		// Handle card not found
+		// Optionally, add new card if needed
+	}
+}

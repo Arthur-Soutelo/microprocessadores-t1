@@ -87,14 +87,25 @@ void get_card_menu(void){
 		if(card_index != -1){
 			Card card1 = read_card_data(card_index);
 			
-			
 			char balance_str[10];
 			snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
 			clear_display();
-			write_string_line(1,"Saldo:");
+			write_string_line(1,"Cartao Valido");
+			write_string_line(2,"Saldo:");
 			write_string_LCD(balance_str);
+			_delay_ms(3000);
+			char key;
 			while(!buy_confirmation){
-				
+				key = keypad_getkey();
+				write_string_line(1,"Confirmar Compra?");
+				write_string_line(2,"[*]Nao    [#]Sim");
+				if(key=='*'){
+					buy_confirmation = 1;
+				}
+				else if (key=='#'){
+					buy_confirmation = 1;
+					
+				}
 			}
 		}
 		else{
