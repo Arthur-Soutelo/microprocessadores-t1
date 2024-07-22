@@ -60,6 +60,34 @@ unsigned char read_door_state(void) {
 	return (PINH & (1 << DOOR_PIN)) >> DOOR_PIN;  // Return 1 if switch is closed (pressed), 0 if open
 }
 
+void init_led(void){
+	// Configura o pino do LED como saída
+	DDRL |= (1 << PL7);
+}
+
+void turn_on_led(void){
+	// Acende o LED
+	PORTL |= (1 << PL7);
+}
+
+void turn_off_led(void){
+	// Apaga o LED
+	PORTL &= ~(1 << PL7);
+}
+
+void init_cards() {
+	// Cartões pré-cadastrados
+	Card default_cards[] = {
+		{300123, 30.00},
+		{300121, 30.00},
+		{250025, 25.00}
+	};
+
+	// Escreve os cartões pré-cadastrados na EEPROM
+	for (short i = 0; i < 3; i++) {
+		eeprom_update_block((const void*)&default_cards[i], (void*)&eeprom_cards[i], sizeof(Card));
+	}
+}
 //void init_cards() {
 	//// Cartões pré-cadastrados
 	//Card default_cards[] = {
