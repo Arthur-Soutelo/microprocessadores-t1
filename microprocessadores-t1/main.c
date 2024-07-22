@@ -18,7 +18,7 @@ void init_components(void){
 	uart_init(19200);	// Initialize the UART with desired baud rate
 	buttons_init();		// Initialize coins reading
 	door_init();		// Initialize door sensor reading
-	init_buzzer();
+	init_timer3_buzzer();
 }
 
 void get_coins_menu(float *total_sum, char *product_price){
@@ -273,7 +273,7 @@ int main(void){
 			if (go_back_flag == 1) {
 				break; // Exit the product selection loop and the outer loop
 			}
-			
+			total_sum = 0.0;
 			key = keypad_getkey();
 			// Seleção do produto pelo codigo
 			if(key!=0){
