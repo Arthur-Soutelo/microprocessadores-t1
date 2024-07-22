@@ -21,18 +21,12 @@ void init_components(void){
 	init_timer3_buzzer();
 }
 
-int get_coins_menu(float *total_sum, char *product_price){
+int get_coins_menu(float *total_sum, const char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
 	init_timer1();
-	//unsigned int elapsed_time = 0;
 	
 	while(*total_sum <= atof(product_price)){
-		//_delay_ms(1); // Wait 1 ms
 		if (TIMEOUT_FLAG) {
-			while(1){
-				clear_display();
-				write_string_line(1, "PERDEU");
-			}
 			return 0;
 		}
 		
@@ -50,7 +44,7 @@ int get_coins_menu(float *total_sum, char *product_price){
 	
 }
 
-void get_selected_product_menu(char key, char *buffer){
+void get_selected_product_menu(char key){
 	// Get the pressed key
 	clear_display();
 	write_string_line(1,"VenDELET");
@@ -61,13 +55,9 @@ void get_selected_product_menu(char key, char *buffer){
 	
 	// Envia produto
 	send_product_selection(product);
-	// Recebe resposta do produto
-	//receive_data_from_uart(buffer);
 }
 
 void get_card_number(char *card_number){
-	char card_index;
-	
 	clear_display();
 	write_string_line(1,"Digite o Cartao:");
 	read_card_number(card_number);
@@ -117,67 +107,67 @@ int card_payment_menu(char *card_number, char *product_price){
 		}
 	}
 }
-
-int get_card_menu(char *product_price){
-	char buy_confirmation = 0;
-	char card_index;
-	char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
-	
-	while(!buy_confirmation){
-		clear_display();
-		write_string_line(1,"Digite o Cartao:");
-		read_card_number(card_number);
-		
-		send_choice_card(card_number);
-		
-		card_index = find_card_index(card_number);
-		// Card Found :
-		if(card_index != -1){
-			Card card1 = read_card_data(card_index);
-			
-			char balance_str[10];
-			snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
-			clear_display();
-			write_string_line(1,"Cartao Valido");
-			write_string_line(2,"Saldo:");
-			write_string_LCD(balance_str);
-			_delay_ms(3000);
-			char key;
-			clear_display();
-			write_string_line(1,"Confirmar Compra?");
-			write_string_line(2,"[*]Nao    [#]Sim");
-			while(!buy_confirmation){
-				key = keypad_getkey();
-				if(key=='*'){
-					buy_confirmation = 1;
-					return 0;	// Compra NEGADA
-				}
-				else if (key=='#'){
-					subtract_from_card_balance(card_number, atof(product_price));
-					Card card1;
-					card1 = read_card_data(card_index);
-					snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
-					clear_display();
-					write_string_line(1,"Compra Realizada");
-					write_string_line(2,"Saldo:");
-					write_string_LCD(balance_str);
-					turn_on_led();
-					_delay_ms(2000);
-					turn_off_led();
-					
-					buy_confirmation = 1;
-					return 1;	// Compra CONFIRMADA
-					
-				}
-			}
-		}
-		else{
-			clear_display();
-			write_string_line(1,"Numero de Cartao");
-			write_string_line(2,"Nao Encontrado");
-		}
-	}
-}
+//
+//int get_card_menu(char *product_price){
+	//char buy_confirmation = 0;
+	//char card_index;
+	//char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
+	//
+	//while(!buy_confirmation){
+		//clear_display();
+		//write_string_line(1,"Digite o Cartao:");
+		//read_card_number(card_number);
+		//
+		//send_choice_card(card_number);
+		//
+		//card_index = find_card_index(card_number);
+		//// Card Found :
+		//if(card_index != -1){
+			//Card card1 = read_card_data(card_index);
+			//
+			//char balance_str[10];
+			//snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
+			//clear_display();
+			//write_string_line(1,"Cartao Valido");
+			//write_string_line(2,"Saldo:");
+			//write_string_LCD(balance_str);
+			//_delay_ms(3000);
+			//char key;
+			//clear_display();
+			//write_string_line(1,"Confirmar Compra?");
+			//write_string_line(2,"[*]Nao    [#]Sim");
+			//while(!buy_confirmation){
+				//key = keypad_getkey();
+				//if(key=='*'){
+					//buy_confirmation = 1;
+					//return 0;	// Compra NEGADA
+				//}
+				//else if (key=='#'){
+					//subtract_from_card_balance(card_number, atof(product_price));
+					//Card card1;
+					//card1 = read_card_data(card_index);
+					//snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
+					//clear_display();
+					//write_string_line(1,"Compra Realizada");
+					//write_string_line(2,"Saldo:");
+					//write_string_LCD(balance_str);
+					//turn_on_led();
+					//_delay_ms(2000);
+					//turn_off_led();
+					//
+					//buy_confirmation = 1;
+					//return 1;	// Compra CONFIRMADA
+					//
+				//}
+			//}
+		//}
+		//else{
+			//clear_display();
+			//write_string_line(1,"Numero de Cartao");
+			//write_string_line(2,"Nao Encontrado");
+		//}
+	//}
+//}
 
 
 void receive_serial_command(char *buffer, char *product_name, char *product_price, float total_sum, char *card_number) {
@@ -187,7 +177,7 @@ void receive_serial_command(char *buffer, char *product_name, char *product_pric
 			case 'P': { // Product Information
 				get_name_from_buffer(buffer,product_name);
 				
-				if(product_name!= "Nao localizado."){
+				//if(product_name!= "Nao localizado."){
 					get_price_from_buffer(buffer,product_price);	
 					// Escreve o produto e preço no LCD
 					clear_display();
@@ -234,7 +224,7 @@ void receive_serial_command(char *buffer, char *product_name, char *product_pric
 							}
 						}
 					}
-				}
+				//}
 	
 			} break;
 
@@ -365,10 +355,6 @@ void receive_serial_command(char *buffer, char *product_name, char *product_pric
 			} break;
 		}
 		break;
-
-		default:
-		// Handle unexpected input
-		break;
 	}
 }
 
@@ -395,24 +381,29 @@ int main(void){
 				break; // Exit the product selection loop and the outer loop
 			}
 			
-			//if (uart_ready()){
-				//receive_data_from_uart(buffer);
-				//receive_serial_command(buffer, product_name, product_price, total_sum,card_number);
-			//}
-
+			
 			total_sum = 0.0;
 			key = keypad_getkey();
 			// Seleção do produto pelo codigo
 			if(key!=0){
-				get_selected_product_menu(key, buffer);
+				get_selected_product_menu(key);
 				// Se resposta valida
-				
+				//
 				while(!go_back_flag){
 					receive_data_from_uart(buffer);
 					receive_serial_command(buffer, product_name, product_price, total_sum,card_number);
 					
 				}
 				
+			}
+			else if (uart_ready()){
+					//clear_display();
+					//write_string_line(1,buffer);
+					receive_data_from_uart(buffer);
+					
+					uart_send_string(buffer);
+					
+					receive_serial_command(buffer, product_name, product_price, total_sum,card_number);
 			}
 			
 			

@@ -13,30 +13,17 @@ void uart_init(unsigned long baudrate) {
 	UBRR0L = (unsigned char)ubrr;
 }
 
-//unsigned char uart_receive_no_timeout(void) {
-	//// Wait for data to be received
-	//while (!(UCSR0A & (1 << RXC0)));
-	//return UDR0;
-//}
-
 int uart_ready(void){
-	return ((UCSR0A & (1 << RXC0)));
+	return ((UCSR0A & (1 << RXC0)) && UDR0 != 0xFF);
 }
 
 unsigned char uart_receive(void) {
-	unsigned int elapsed_time = 0;
-	while (!(UCSR0A	& (1 << RXC0))) { // Wait for data to be received
-		_delay_ms(1); // Wait 1 ms
-		elapsed_time++;
-		if (elapsed_time >= UART_TIMEOUT) {
-			//return -1; // Return -1 if timeout occurs
-			return 0xFF;
-		}
-	}	
+	while (!(UCSR0A	& (1 << RXC0)));
 	return UDR0; // Get and return received data from buffer
 }
 
-void uart_send(unsigned char data) {
+
+void uart_send(const unsigned char data) {
 	unsigned char elapsed_time = 0;
 
 	// Wait for the empty transmit buffer
@@ -194,22 +181,15 @@ void get_price_from_buffer(char *buffer, char *price) {
 void receive_data_from_uart(char *buffer) {
 	// Clear the buffer (optional)
 	for (int i = 0; i < BUFFER_SIZE; i++) {
-		//uart_send(buffer[i]);
-		buffer[i] = 0;
+		buffer[i] = 0xFF;
 	}
 	
-	buffer[0] = uart_receive();					// 'A' - Aplicativo
-	buffer[1] = uart_receive();
-	
-	unsigned int i = 2;
+	unsigned int i = 0;
 	
 	char received_char;
 	while (i < BUFFER_SIZE - 1) { // Leave space for null terminator
 		received_char = uart_receive(); // Function to receive a character
-		if (received_char != 0xFF) { // Check for timeout or valid data
-			//if (received_char == '\n') { // End of line or message
-				//break;
-			//}
+		if (received_char != 0xFF) {
 			buffer[i++] = received_char;
 		}
 	}
