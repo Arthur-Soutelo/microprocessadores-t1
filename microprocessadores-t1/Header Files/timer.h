@@ -15,12 +15,16 @@
 	
 	void timer0_delay_us(unsigned int microseconds);
 
-	void init_buzzer(void);
+	void init_timer3_buzzer(void);
 	void sound_alarm(void);
 	void stop_alarm(void);
 		
 	extern volatile uint8_t timeout_flag;
 	void init_timer1(void);
+	void init_timer4(void);
+	void init_led_porta(void);
+	void blink_led(void);	
+	extern volatile uint8_t door_open;
 	
 
 

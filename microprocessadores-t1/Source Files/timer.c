@@ -3,6 +3,7 @@
 unsigned short MY_VARIABLE_TCNT1 = 52202;
 volatile uint8_t timeout_flag;
 volatile uint8_t seconds_count = 0;
+volatile uint8_t door_open = 0;
 #define BUZZER_PIN	PE4
 
 // ####### Timer 1 => 600Hz ####### //
@@ -72,7 +73,7 @@ void timer0_delay_us(unsigned int microseconds) {
 
 
 
-void init_buzzer(void) {
+void init_timer3_buzzer(void) {
 	// Set the buzzer pin as output
 	DDRE |= (1 << BUZZER_PIN);
 
@@ -101,4 +102,28 @@ void stop_alarm(void){
 	// Turn off the buzzer immediately
 	TCCR3A &= ~(1 << COM3B1);
 	PORTE &= ~(1 << BUZZER_PIN);
+}
+
+void init_timer4(void) {
+	// Configure Timer4 for CTC mode
+	TCCR4A = 0;
+	TCCR4B = (1 << WGM42) | (1 << CS42) | (1 << CS40); // CTC mode, prescaler 1024
+	OCR4A = 7812; // Set compare value for 2Hz (0.5 second period)
+	TIMSK4 = (1 << OCIE4A); // Enable Timer4 compare interrupt
+}
+
+void init_led_porta(void) {
+	// Set the LED pin as output
+	DDRH |= (1 << PH3);
+}
+
+void blink_led(void) {
+	// Toggle the LED pin
+	PORTH ^= (1 << PH3);
+}
+
+ISR(TIMER4_COMPA_vect) {
+	if (door_open) {
+		blink_led();
+	}
 }
