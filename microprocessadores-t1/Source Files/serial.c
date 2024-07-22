@@ -152,7 +152,7 @@ void get_price_from_buffer(char *buffer, char *price) {
 	int price_start_index = name_end_index + 1;
 
 	// Copy the price to the price buffer
-	for (i = 0; i < data_size - price_start_index && i < PRICE_SIZE - 1; i++) {
+	for (i = 0; i < data_size - (price_start_index-3) && i < PRICE_SIZE - 1; i++) {
 		price[i] = buffer[price_start_index + i];
 		if (buffer[price_start_index + i] == '\0') {
 			break;
