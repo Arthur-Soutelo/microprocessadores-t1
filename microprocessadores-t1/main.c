@@ -5,12 +5,34 @@
 
 #include "main_header.h"
 
-// Interrupt Timer 1	-	16bits
-//ISR(TIMER1_OVF_vect){
-	//TCNT1 = 52202;	//600
-	//PORTB ^= (1<<PORTB5);
-	//TIFR1 = (1<<0);
-//}
+static float total_sum = 0.0;	// Define total sum variable
+unsigned char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
+char product_name[NAME_SIZE];
+char product_price[NAME_SIZE];
+char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
+char key;
+char go_back_flag;
+
+unsigned char buffer_index = 0;
+ISR(USART0_RX_vect) {
+	char receivedChar = UDR0; // Leia o caractere recebido
+	buffer[buffer_index] = receivedChar;
+	
+	if(buffer_index >= 3){
+		if(buffer[0]=='A' && buffer[1]=='P'){
+			unsigned char message_size = buffer[2]-'0';
+			if(message_size == buffer_index-3){
+				buffer_index = 0;
+				analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
+			}
+		}
+		else{
+			buffer_index = 0;
+			analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
+		}
+	}
+	buffer_index++;
+}
 
 void init_components(void){
 	init_LCD();			// Inicializa o LCD
@@ -19,7 +41,10 @@ void init_components(void){
 	buttons_init();		// Initialize coins reading
 	door_init();		// Initialize door sensor reading
 	init_timer3_buzzer();
-}
+	//init_base_cards();
+	UCSR0B |= (1 << RXCIE0); // Ativa a interrupção de recepção
+	sei(); // Habilita as interrupções globais
+ }
 
 int get_coins_menu(float *total_sum, const char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
@@ -170,7 +195,7 @@ int card_payment_menu(char *card_number, char *product_price){
 //}
 
 
-void receive_serial_command(char *buffer, char *product_name, char *product_price, float total_sum, char *card_number) {
+void analyze_serial_command(char *buffer, char *product_name, char *product_price, float total_sum, char *card_number) {
 	switch (buffer[0]) {
 		case 'A':
 		switch (buffer[1]) {
@@ -359,16 +384,7 @@ void receive_serial_command(char *buffer, char *product_name, char *product_pric
 }
 
 int main(void){
-	static float total_sum = 0.0;	// Define total sum variable
-	char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
-	char product_name[NAME_SIZE];
-	char product_price[NAME_SIZE];
-	char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
-	char key;
-	char go_back_flag;
 	init_components();
-	//init_base_cards();
-	//sei();			// Ativa interrupt
 		
 	while(1){
 		go_back_flag = 0;
@@ -389,22 +405,22 @@ int main(void){
 				get_selected_product_menu(key);
 				// Se resposta valida
 				//
-				while(!go_back_flag){
-					receive_data_from_uart(buffer);
-					receive_serial_command(buffer, product_name, product_price, total_sum,card_number);
-					
-				}
+				//while(!go_back_flag){
+					//receive_data_from_uart(buffer);
+					//analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
+					//
+				//}
 				
 			}
-			else if (uart_ready()){
-					receive_data_from_uart(buffer);
-					
-					clear_display();
-					write_string_line(1,buffer);
-					uart_send_string(buffer);
-					
-					receive_serial_command(buffer, product_name, product_price, total_sum,card_number);
-			}
+			//else if (uart_ready()){
+					//receive_data_from_uart(buffer);
+					//
+					//clear_display();
+					//write_string_line(1,buffer);
+					//uart_send_string(buffer);
+					//
+					//analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
+			//}
 			
 			
 		}
