@@ -62,6 +62,37 @@ void get_selected_product_menu(char key, char *buffer){
 	receive_data_from_uart(buffer);
 }
 
+void get_card_menu(void){
+	char buy_confirmation = 0;
+	char card_index;
+	
+	const char* search_card_number = "300123";	// Example card number to search for
+	
+	while(!buy_confirmation){
+		clear_display();
+		write_string_line(1,"Digite o Cartao:");
+		
+		card_index = find_card_index(search_card_number);
+		// Card Found :
+		if(card_index != -1){
+			Card card1 = read_card_data(card_index);
+			
+			char balance_str[10];
+			snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
+			clear_display();
+			write_string_line(1,"Saldo:");
+			write_string_LCD(balance_str);
+			while(!buy_confirmation){			
+			}
+		}
+		else{
+			clear_display();
+			write_string_line(1,"Numero de Cartao");
+			write_string_line(2,"Nao Encontrado");
+		}
+	}
+}
+
 int main(void){
 	static float total_sum = 0.0;	// Define total sum variable
 	char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
@@ -71,16 +102,8 @@ int main(void){
 	char go_back_flag;
 	init_components();
 	
-	// Example card data
-	char card_number1[] = "300123";
-	float balance1 = 100.00;
 
-	char card_number2[] = "300124";
-	float balance2 = 50.00;
-
-	// Save card data to EEPROM
-	//save_card_data(0, card_number1, balance1);
-	//save_card_data(1, card_number2, balance2);
+	init_base_cards();
 
 	// Read card data from EEPROM
 	Card card1 = read_card_data(0);
@@ -112,9 +135,6 @@ int main(void){
 		clear_display();
 		write_string_line(1,"VenDELET");
 		write_string_line(2,"Digite o Produto");
-		
-		clear_display();
-		write_string_line(1,balance_str);
 		
 		while(!read_door_state()){	// While the door is closed
 			if (go_back_flag == 1) {
@@ -158,7 +178,7 @@ int main(void){
 						// Cartão
 						else if (key == '2'){
 							go_back_flag = 1;
-							//get_card_menu();
+							get_card_menu();
 						}
 					}
 				}

@@ -10,5 +10,9 @@
 	
 	void save_card_data(uint8_t index, const char* card_number, float balance);
 	Card read_card_data(uint8_t index) ;
+	int find_card_index(const char* card_number);
+	int add_new_card(const char* card_number, float balance);
+
+	void init_base_cards(void);
 
 #endif // SAVE_TO_EEPROM_H
