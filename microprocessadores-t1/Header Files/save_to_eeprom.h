@@ -12,6 +12,7 @@
 	Card read_card_data(uint8_t index) ;
 	int find_card_index(const char* card_number);
 	int add_new_card(const char* card_number, float balance);
+	int remove_card(const char* card_number) ;
 
 	void init_base_cards(void);
 

@@ -65,24 +65,28 @@ void get_selected_product_menu(char key, char *buffer){
 void get_card_menu(void){
 	char buy_confirmation = 0;
 	char card_index;
+	char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
+
 	
 	const char* search_card_number = "300123";	// Example card number to search for
 	
 	while(!buy_confirmation){
 		clear_display();
 		write_string_line(1,"Digite o Cartao:");
-		
-		card_index = find_card_index(search_card_number);
+		read_card_number(card_number);
+		card_index = find_card_index(card_number);
 		// Card Found :
 		if(card_index != -1){
 			Card card1 = read_card_data(card_index);
+			
 			
 			char balance_str[10];
 			snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
 			clear_display();
 			write_string_line(1,"Saldo:");
 			write_string_LCD(balance_str);
-			while(!buy_confirmation){			
+			while(!buy_confirmation){
+				
 			}
 		}
 		else{
@@ -105,12 +109,6 @@ int main(void){
 
 	init_base_cards();
 
-	// Read card data from EEPROM
-	Card card1 = read_card_data(0);
-	Card card2 = read_card_data(1);
-	char balance_str[10];
-	snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
-	
     //sei();			// Ativa interrupt
 	
 	//while(1){
