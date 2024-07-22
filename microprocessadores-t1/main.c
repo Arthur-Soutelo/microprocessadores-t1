@@ -22,13 +22,14 @@ void init_components(void){
 }
 
 void get_coins_menu(float *total_sum, char *product_price){
+	send_choice_cash();
 	char buffer_price[16];  // Buffer to hold the formatted string
 	init_timer1();
 	//unsigned int elapsed_time = 0;
 	
 	while(*total_sum <= atof(product_price)){
 		//_delay_ms(1); // Wait 1 ms
-		if (timeout_flag) {
+		if (TIMEOUT_FLAG) {
 			while(1){
 				clear_display();
 				write_string_line(1, "PERDEU");
@@ -46,11 +47,9 @@ void get_coins_menu(float *total_sum, char *product_price){
 		write_string_line(2, buffer_price);
 	}
 	clear_display();
-	write_string_line(1, "COMPRA REALIZADA");
+	write_string_line(1,"Compra Realizada");
 	turn_on_led();
-	
 	_delay_ms(2000);
-	
 	turn_off_led();
 	
 }
@@ -82,6 +81,9 @@ int get_card_menu(char *product_price){
 		clear_display();
 		write_string_line(1,"Digite o Cartao:");
 		read_card_number(card_number);
+		
+		send_choice_card(card_number);
+		
 		card_index = find_card_index(card_number);
 		// Card Found :
 		if(card_index != -1){
@@ -177,7 +179,6 @@ int main(void){
 			// Seleção do produto pelo codigo
 			if(key!=0){
 				get_selected_product_menu(key, buffer);
-				
 				// Se resposta valida
 				if(buffer[0] == 'A' && buffer[1] == 'P' ){
 					get_name_from_buffer(buffer,product_name);
@@ -200,19 +201,17 @@ int main(void){
 							break; // Exit the product selection loop and the outer loop
 						}
 						key = keypad_getkey();
-						//_delay_ms(50);
 						// Dinheiro
 						if(key == '1'){
 							// Wait for payment
 							get_coins_menu(&total_sum, product_price);
-
 						}
 						// Cartão
 						else if (key == '2'){
 							char valid_buy;
 							valid_buy = get_card_menu(product_price);
 							if(valid_buy == 1){
-								
+								go_back_flag = 1;
 							}
 						}
 					}

@@ -1,7 +1,7 @@
 #include "timer.h"
 
 unsigned short MY_VARIABLE_TCNT1 = 52202;
-volatile uint8_t timeout_flag;
+volatile uint8_t TIMEOUT_FLAG;
 volatile uint8_t seconds_count = 0;
 #define BUZZER_PIN	PE4
 
@@ -39,7 +39,7 @@ void init_timer1(void) {
 ISR(TIMER1_COMPA_vect) {
 	seconds_count++;
 	if (seconds_count >= 30) {
-		timeout_flag = 1;
+		TIMEOUT_FLAG = 1;
 	}
 }
 
