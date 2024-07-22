@@ -1,4 +1,5 @@
 #include "keypad.h"
+#include "lcd.h"
 
 // Debounce function to check the key press stability
 static unsigned char debounce(unsigned char row, unsigned char col) {
@@ -87,4 +88,38 @@ ProductNumber get_product_number(char key) {
 	}
 
 	return result;
+}
+
+
+// Function to read a card number from the keypad
+void read_card_number(char *card_number) {
+	char key;
+	uint8_t index = 0;
+
+	// Initialize card_number buffer
+	memset(card_number, 0, CARD_NUMBER_LENGTH + 1);
+
+	while (index < CARD_NUMBER_LENGTH) {
+		key = keypad_getkey();
+		if (key != 0) { // Check if a key is pressed
+			if (key >= '0' && key <= '9') { // Check if the key is a digit
+				card_number[index++] = key; // Store the digit in the card_number buffer
+				//write_data_LCD(key);
+				clear_display();
+				write_string_line(1,"Digite o Cartao:");
+				write_string_line(2,card_number);
+				} else if (key == '#') { // Use '#' as an enter key
+				break; // Exit loop when '#' is pressed
+				} else if (key == '*') { // Use '*' to cancel input
+				// Optionally, clear the card_number buffer
+				memset(card_number, 0, CARD_NUMBER_LENGTH + 1);
+				index = 0; // Reset index
+
+			}
+			// Add a small delay to debounce
+			_delay_ms(100); // Adjust delay as needed
+		}
+	}
+
+	card_number[index] = '\0'; // Null-terminate the card number
 }

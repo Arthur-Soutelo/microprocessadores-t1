@@ -20,5 +20,6 @@
 	void keypad_init(void);
 	char keypad_getkey(void);
 	ProductNumber get_product_number(char key);
+	void read_card_number(char *card_number) ;
 
 #endif // KEYPAD_H

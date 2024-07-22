@@ -22,4 +22,6 @@
 	#define F_CPU 16000000UL  // Define the clock frequency as 16 MHz
 	#include <util/delay.h>
 	
+	#define CARD_NUMBER_LENGTH 6  // Length of the card number (6 digits + null terminator)
+	
 #endif // SYSTEM_LIBRARIES_H_
