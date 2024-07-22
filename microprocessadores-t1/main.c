@@ -71,6 +71,23 @@ int main(void){
 	char go_back_flag;
 	init_components();
 	
+	// Example card data
+	char card_number1[] = "300123";
+	float balance1 = 100.00;
+
+	char card_number2[] = "300124";
+	float balance2 = 50.00;
+
+	// Save card data to EEPROM
+	//save_card_data(0, card_number1, balance1);
+	//save_card_data(1, card_number2, balance2);
+
+	// Read card data from EEPROM
+	Card card1 = read_card_data(0);
+	Card card2 = read_card_data(1);
+	char balance_str[10];
+	snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
+	
     //sei();			// Ativa interrupt
 	
 	//while(1){
@@ -95,6 +112,9 @@ int main(void){
 		clear_display();
 		write_string_line(1,"VenDELET");
 		write_string_line(2,"Digite o Produto");
+		
+		clear_display();
+		write_string_line(1,balance_str);
 		
 		while(!read_door_state()){	// While the door is closed
 			if (go_back_flag == 1) {

@@ -11,6 +11,7 @@
 	#include "lcd.h"
 	#include "keypad.h"
 	#include "money.h"
+	#include "save_to_eeprom.h"
 
 #endif // MAIN_HEADER_H_
 
