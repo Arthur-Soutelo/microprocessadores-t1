@@ -133,6 +133,84 @@ int get_card_menu(char *product_price){
 	}
 }
 
+
+void receive_serial_command(char *buffer) {
+	// Clear the buffer (optional)
+	for (int i = 0; i < BUFFER_SIZE; i++) {
+		//uart_send(buffer[i]);
+		buffer[i] = 0;
+	}
+	
+	// Receive the first two characters with timeout
+	buffer[0] = uart_receive();					// 'A' - Aplicativo
+	buffer[1] = uart_receive();
+	if (buffer[0] == 0xFF || buffer[1] == 0xFF) {
+		return;	// Handle timeout error
+	}
+
+
+	//// Receive the first two characters
+	//buffer[0] = uart_receive(); // 'A' - Aplicativo
+	//buffer[1] = uart_receive();
+
+	switch (buffer[0]) {
+		case 'A':
+		switch (buffer[1]) {
+			case 'P': { // Product Information
+				buffer[2] = uart_receive(); // Size of data (22 or 16)
+				unsigned char data_size = buffer[2];
+				if (data_size <= BUFFER_SIZE - 3) { // Prevent buffer overrun
+					for (unsigned char i = 0; i < data_size; i++) {
+						buffer[3 + i] = uart_receive();
+					}
+				}
+			} break;
+
+			case 'E': { // Purchase Result - Cash
+				buffer[2] = uart_receive(); // Response
+				// '0' - Compra efetivada com sucesso				// '1' - Compra com falha (produto inválido)
+				// '2' - Compra com falha (quantidade insuficiente)
+				// '3' - Compra com falha (validade vencida)
+			} break;
+
+			case 'C': { // Purchase Result - Card
+				buffer[2] = uart_receive(); // Response
+				// '0' - Compra efetivada com sucesso				// '1' - Compra com falha (produto inválido)
+				// '2' - Compra com falha (quantidade insuficiente)
+				// '3' - Compra com falha (validade vencida
+				// '4' - Compra com falha (cartão inválido)
+			} break;
+
+			case 'Q': { // Quantity - Result
+				buffer[2] = uart_receive(); // Response
+				// '0' - Compra efetivada com sucesso				// '1' - Compra com falha (produto inválido)
+				// '2' - Compra com falha (quantidade inválida)
+			} break;
+			
+			case 'R': { // Cash Removal - Result
+			} break;
+			
+			case 'A': { // Update Card - Result
+				buffer[2] = uart_receive(); // Response
+				// '0' - Atualização efetivada com sucesso				// '1' - Atualização com falha (valor inválido)
+				// '4' - Atualização com falha (cartão inválido)
+			} break;
+
+			case 'I': { // Add Card - Result
+			} break;
+
+			default:
+			// Handle unexpected input
+			break;
+		}
+		break;
+
+		default:
+		// Handle unexpected input
+		break;
+	}
+}
+
 int main(void){
 	static float total_sum = 0.0;	// Define total sum variable
 	char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
