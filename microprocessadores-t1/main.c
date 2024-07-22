@@ -397,10 +397,10 @@ int main(void){
 				
 			}
 			else if (uart_ready()){
-					//clear_display();
-					//write_string_line(1,buffer);
 					receive_data_from_uart(buffer);
 					
+					clear_display();
+					write_string_line(1,buffer);
 					uart_send_string(buffer);
 					
 					receive_serial_command(buffer, product_name, product_price, total_sum,card_number);

@@ -184,15 +184,23 @@ void receive_data_from_uart(char *buffer) {
 		buffer[i] = 0xFF;
 	}
 	
-	unsigned int i = 0;
+	buffer[0] = uart_receive();
+	buffer[1] = uart_receive();
+	buffer[2] = uart_receive();
 	
-	char received_char;
-	while (i < BUFFER_SIZE - 1) { // Leave space for null terminator
-		received_char = uart_receive(); // Function to receive a character
-		if (received_char != 0xFF) {
-			buffer[i++] = received_char;
+	if(buffer[0]=='A' && buffer[0]=='P'){
+		unsigned char i = 3;
+		char received_char;
+		while (i < buffer[2]) { // Leave space for null terminator
+			received_char = uart_receive(); // Function to receive a character
+			if (received_char != 0xFF) {
+				buffer[i++] = received_char;
+			}
 		}
+		buffer[i] = '\0'; // Null-terminate the string
 	}
-	
-	buffer[i] = '\0'; // Null-terminate the string
+	else{
+		buffer[3] = uart_receive();
+		buffer[4] = '\0'; // Null-terminate the string
+	}
 }
