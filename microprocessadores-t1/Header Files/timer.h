@@ -19,12 +19,13 @@
 	void sound_alarm(void);
 	void stop_alarm(void);
 		
-	extern volatile uint8_t timeout_flag;
+	extern volatile uint8_t TIMEOUT_FLAG;
 	void init_timer1(void);
 	void init_timer4(void);
 	void init_led_porta(void);
 	void blink_led(void);	
 	extern volatile uint8_t door_open;
+	
 	
 
 
