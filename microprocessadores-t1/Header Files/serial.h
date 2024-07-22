@@ -3,6 +3,8 @@
 #ifndef SERIAL_H_
 	#define SERIAL_H_
 	
+	#define N_SEND 3
+	
 	#define BUFFER_SIZE 25
 	#define PRICE_SIZE 10
 	#define NAME_SIZE 20 // Adjust based on the expected max name length
@@ -14,17 +16,21 @@
 	void uart_send_string(const char *data);
 	
 	void receive_product_data(char *buffer);
-	void confirm_cash_purchase(void);
 	void handle_purchase_response(char *response);
-	void confirm_card_purchase(const char *card_number);
+	void send_confirm_card_purchase(const char *card_number);
+	void send_confirm_cash_purchase(void);
 	
 	void send_product_selection(ProductNumber product);
-	void send_choice_cash(void);
-	void send_choice_card(char *num);
+	void send_add_new_card(const char *card_number);
+	void send_update_card_balance(const char *card_number, ProductNumber value);
+	void send_confirm_restock(ProductNumber product, ProductNumber quantity);
+	void send_confirm_cash_withdraw(void);
 	
 	void get_name_from_buffer(char *buffer, char *name);
 	void get_price_from_buffer(char *buffer, char *price);
 	void receive_data_from_uart(char *buffer);
+	
+	int uart_ready(void);
 
 	
 	//void uart_init(void);

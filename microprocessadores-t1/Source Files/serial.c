@@ -19,6 +19,10 @@ void uart_init(unsigned long baudrate) {
 	//return UDR0;
 //}
 
+int uart_ready(void){
+	return ((UCSR0A & (1 << RXC0)));
+}
+
 unsigned char uart_receive(void) {
 	unsigned int elapsed_time = 0;
 	while (!(UCSR0A	& (1 << RXC0))) { // Wait for data to be received
@@ -56,7 +60,7 @@ void uart_send_string(const char *data) {
 }
 
 void send_product_selection(ProductNumber product){
-	for(char i=0; i<3; i++){
+	for(char i=0; i<N_SEND; i++){
 		// Send Code
 		uart_send('V');
 		uart_send('P');
@@ -66,18 +70,22 @@ void send_product_selection(ProductNumber product){
 	}
 }
 
-void send_choice_cash(void){
-	// Send Code
-	uart_send('V');
-	uart_send('P');	
+void send_confirm_cash_purchase(void){
+	for(char i=0; i<N_SEND; i++){
+		// Send Code
+		uart_send('V');
+		uart_send('E');
+	}
 }
 
-void send_choice_card(char *num){
-	// Send Code
-	uart_send('V');
-	uart_send('c');	
-	for (int i = 0; i < 6; i++) {
-		uart_send(num[i]);
+void send_confirm_card_purchase(char *num){
+	for(char i=0; i<N_SEND; i++){
+		// Send Code
+		uart_send('V');
+		uart_send('C');	
+		for (int i = 0; i < 6; i++) {
+			uart_send(num[i]);
+		}
 	}
 }
 
@@ -93,11 +101,6 @@ void send_choice_card(char *num){
 	//buffer[3 + buffer[2]] = '\0';
 //}
 
-void confirm_cash_purchase(void) {
-	uart_send('V');
-	uart_send('E');
-}
-
 //void handle_purchase_response(char *response) {
 	//response[0] = uart_receive(); // 'A'
 	//response[1] = uart_receive(); // 'E'
@@ -105,16 +108,53 @@ void confirm_cash_purchase(void) {
 	//response[3] = '\0';
 //}
 
-void confirm_card_purchase(const char *card_number) {
-	uart_send('V');
-	uart_send('C');
-	uart_send(card_number[0]);
-	uart_send(card_number[1]);
-	uart_send(card_number[2]);
-	uart_send(card_number[3]);
-	uart_send(card_number[4]);
-	uart_send(card_number[5]);
+void send_add_new_card(const char *card_number) {
+	for(char i=0; i<N_SEND; i++){
+		uart_send('V');
+		uart_send('I');
+		uart_send(card_number[0]);
+		uart_send(card_number[1]);
+		uart_send(card_number[2]);
+		uart_send(card_number[3]);
+		uart_send(card_number[4]);
+		uart_send(card_number[5]);
+	}
 }
+
+void send_update_card_balance(const char *card_number, ProductNumber value) {
+	for(char i=0; i<N_SEND; i++){
+		uart_send('V');
+		uart_send('A');
+		uart_send(card_number[0]);
+		uart_send(card_number[1]);
+		uart_send(card_number[2]);
+		uart_send(card_number[3]);
+		uart_send(card_number[4]);
+		uart_send(card_number[5]);
+		uart_send(value.first_key);
+		uart_send(value.second_key);
+	}
+}
+
+void send_confirm_restock(ProductNumber product, ProductNumber quantity){
+	for(char i=0; i<N_SEND; i++){
+		uart_send('V');
+		uart_send('Q');
+		uart_send(product.first_key);
+		uart_send(product.second_key);
+		uart_send(quantity.first_key);
+		uart_send(quantity.second_key);
+	}
+}
+
+void send_confirm_cash_withdraw(void) {
+	for(char i=0; i<N_SEND; i++){
+		uart_send('V');
+		uart_send('R');
+	}
+}
+
+// ---------------------------------------------------------- //
 
 void get_name_from_buffer(char *buffer, char *name) {
 	int data_size = buffer[2]; // Size of data
