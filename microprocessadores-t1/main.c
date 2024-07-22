@@ -73,9 +73,6 @@ int get_card_menu(char *product_price){
 	char buy_confirmation = 0;
 	char card_index;
 	char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
-
-	
-	const char* search_card_number = "300123";	// Example card number to search for
 	
 	while(!buy_confirmation){
 		clear_display();
@@ -135,9 +132,8 @@ int get_card_menu(char *product_price){
 
 
 void receive_serial_command(char *buffer) {
-	// Clear the buffer (optional)
+	// Clear the buffer
 	for (int i = 0; i < BUFFER_SIZE; i++) {
-		//uart_send(buffer[i]);
 		buffer[i] = 0;
 	}
 	
@@ -148,11 +144,6 @@ void receive_serial_command(char *buffer) {
 		return;	// Handle timeout error
 	}
 
-
-	//// Receive the first two characters
-	//buffer[0] = uart_receive(); // 'A' - Aplicativo
-	//buffer[1] = uart_receive();
-
 	switch (buffer[0]) {
 		case 'A':
 		switch (buffer[1]) {
@@ -162,6 +153,36 @@ void receive_serial_command(char *buffer) {
 				if (data_size <= BUFFER_SIZE - 3) { // Prevent buffer overrun
 					for (unsigned char i = 0; i < data_size; i++) {
 						buffer[3 + i] = uart_receive();
+					}
+				}
+				get_name_from_buffer(buffer,product_name);
+				get_price_from_buffer(buffer,product_price);
+				
+				// Escreve o produto e preço no LCD
+				clear_display();
+				write_string_line(1,product_name);
+				write_string_line(2, "Valor: R$ ");
+				write_string_LCD(product_price);
+				_delay_ms(3000);
+				
+				// Seleciona método de pagamento :
+				clear_display();
+				write_string_line(1,"1 - Dinheiro");
+				write_string_line(2, "2 - Cartao");
+				char key = keypad_getkey();
+				while(key!='1' && key!='2'){
+					key = keypad_getkey();
+					// Dinheiro
+					if(key == '1'){
+						get_coins_menu(&total_sum, product_price);
+					}
+					// Cartão
+					else if (key == '2'){
+						char valid_buy;
+						valid_buy = get_card_menu(product_price);
+						if(valid_buy == 1){
+							go_back_flag = 1;
+						}
 					}
 				}
 			} break;
