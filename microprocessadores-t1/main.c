@@ -18,7 +18,8 @@ ISR(USART0_RX_vect) {
 	char receivedChar = UDR0; // Leia o caractere recebido
 	buffer[buffer_index] = receivedChar;
 	
-	if(buffer_index >= 3){
+	buffer_index++;
+	if(buffer_index >= 4){
 		if(buffer[0]=='A' && buffer[1]=='P'){
 			unsigned char message_size = buffer[2];
 			if(message_size == buffer_index-3){
@@ -31,7 +32,6 @@ ISR(USART0_RX_vect) {
 			analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
 		}
 	}
-	buffer_index++;
 }
 
 void init_components(void){
