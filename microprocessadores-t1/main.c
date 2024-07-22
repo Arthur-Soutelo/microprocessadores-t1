@@ -203,7 +203,7 @@ void receive_serial_command(char *buffer, char *product_name, char *product_pric
 					char key = keypad_getkey();
 					while(key!='1' && key!='2'){
 						key = keypad_getkey();
-						// Dinheiro
+						// Compra por Dinheiro
 						if(key == '1'){
 							char result;
 							result = get_coins_menu(&total_sum, product_price);
@@ -218,7 +218,7 @@ void receive_serial_command(char *buffer, char *product_name, char *product_pric
 							}
 							
 						}
-						// Cartão
+						// Compra por Cartão
 						else if (key == '2'){
 							get_card_number(card_number);
 							char result;
@@ -250,19 +250,19 @@ void receive_serial_command(char *buffer, char *product_name, char *product_pric
 					break;				// '1' - Compra com falha (produto inválido)
 					case '1':
 						clear_display();
-						write_string_line(1,"Compra com falha");
+						write_string_line(1,"----- ERRO -----");
 						write_string_line(2, "PRODUTO INVALIDO");
 					break;
 				// '2' - Compra com falha (quantidade insuficiente)
 					case '2':
 						clear_display();
-						write_string_line(1,"Compra com falha");
+						write_string_line(1,"----- ERRO -----");
 						write_string_line(2, "QTD INSUFICIENTE");
 					break;
 				// '3' - Compra com falha (validade vencida)
 					case '3':
 						clear_display();
-						write_string_line(1,"Compra com falha");
+						write_string_line(1,"----- ERRO -----");
 						write_string_line(2, "VALIDADE VENCIDA");
 					break;
 				}
@@ -289,52 +289,80 @@ void receive_serial_command(char *buffer, char *product_name, char *product_pric
 						turn_off_led();
 					}break;					// '1' - Compra com falha (produto inválido)
 					case '1':
-					clear_display();
-					write_string_line(1,"Compra com falha");
-					write_string_line(2, "PRODUTO INVALIDO");
+						clear_display();
+						write_string_line(1,"----- ERRO -----");
+						write_string_line(2, "PRODUTO INVALIDO");
 					break;
 					// '2' - Compra com falha (quantidade insuficiente)
 					case '2':
-					clear_display();
-					write_string_line(1,"Compra com falha");
-					write_string_line(2, "QTD INSUFICIENTE");
+						clear_display();
+						write_string_line(1,"----- ERRO -----");
+						write_string_line(2, "QTD INSUFICIENTE");
 					break;
 					// '3' - Compra com falha (validade vencida)
 					case '3':
-					clear_display();
-					write_string_line(1,"Compra com falha");
-					write_string_line(2, "VALIDADE VENCIDA");
+						clear_display();
+						write_string_line(1,"----- ERRO -----");
+						write_string_line(2, "VALIDADE VENCIDA");
 					break;
 					// '4' - Compra com falha (cartão inválido)
 					case '4':
-					clear_display();
-					write_string_line(1,"Compra com falha");
-					write_string_line(2, "CARTAO INVALIDO");
+						clear_display();
+						write_string_line(1,"----- ERRO -----");
+						write_string_line(2, "CARTAO INVALIDO");
 					break;
 				}
 			} break;
 
 			case 'Q': { // Quantity - Result
-				buffer[2] = uart_receive(); // Response
-				// '0' - Compra efetivada com sucesso				// '1' - Compra com falha (produto inválido)
-				// '2' - Compra com falha (quantidade inválida)
+				switch (buffer[2]) {// Response
+					// '0' - Compra efetivada com sucesso
+					case '0':
+						// CODE HERE
+					break;					// '1' - Compra com falha (produto inválido)
+					case '1':
+						clear_display();
+						write_string_line(1,"----- ERRO -----");
+						write_string_line(2, "PRODUTO INVALIDO");
+					break;
+					// '2' - Compra com falha (quantidade inválida)
+					case '2':
+						clear_display();
+						write_string_line(1,"----- ERRO -----");
+						write_string_line(2, "QTD INVALIDA");
+					break;
+				}
 			} break;
 			
 			case 'R': { // Cash Removal - Result
+				clear_display();
+				write_string_line(1,"Dinheiro Removido");
 			} break;
 			
 			case 'A': { // Update Card - Result
-				buffer[2] = uart_receive(); // Response
-				// '0' - Atualização efetivada com sucesso				// '1' - Atualização com falha (valor inválido)
-				// '4' - Atualização com falha (cartão inválido)
+				switch (buffer[2]) {// Response
+					// '0' - Atualização efetivada com sucesso
+					case '0':
+						// CODE HERE
+					break;					// '1' - Atualização com falha (valor inválido)
+					case '1':
+						clear_display();
+						write_string_line(1,"----- ERRO -----");
+						write_string_line(2, "VALOR INVALIDO");
+					break;
+					// '4' - Atualização com falha (cartão inválido)
+					case '4':
+						clear_display();
+						write_string_line(1,"----- ERRO -----");
+						write_string_line(2, "CARTAO INVALIDO");
+					break;
+				}
 			} break;
 
 			case 'I': { // Add Card - Result
+				clear_display();
+				write_string_line(1,"Cartao Inserido");
 			} break;
-
-			default:
-			// Handle unexpected input
-			break;
 		}
 		break;
 
