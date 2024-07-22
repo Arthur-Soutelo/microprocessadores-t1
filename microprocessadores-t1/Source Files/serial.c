@@ -78,7 +78,7 @@ void send_confirm_cash_purchase(void){
 	}
 }
 
-void send_confirm_card_purchase(char *num){
+void send_confirm_card_purchase(const char *num){
 	for(char i=0; i<N_SEND; i++){
 		// Send Code
 		uart_send('V');
@@ -88,8 +88,6 @@ void send_confirm_card_purchase(char *num){
 		}
 	}
 }
-
-
 
 //void receive_product_data(char *buffer) {
 	//buffer[0] = uart_receive(); // 'A'
