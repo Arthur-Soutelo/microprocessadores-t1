@@ -58,40 +58,23 @@ void send_product_selection(ProductNumber product){
 }
 
 void send_confirm_cash_purchase(void){
-	for(char i=0; i<N_SEND; i++){
+	//for(char i=0; i<N_SEND; i++){
 		// Send Code
 		uart_send('V');
 		uart_send('E');
-	}
+	//}
 }
 
 void send_confirm_card_purchase(const char *num){
-	for(char i=0; i<N_SEND; i++){
+	//for(char i=0; i<N_SEND; i++){
 		// Send Code
 		uart_send('V');
 		uart_send('C');	
 		for (int i = 0; i < 6; i++) {
 			uart_send(num[i]);
 		}
-	}
-}
-
-//void receive_product_data(char *buffer) {
-	//buffer[0] = uart_receive(); // 'A'
-	//buffer[1] = uart_receive(); // 'P'
-	//buffer[2] = uart_receive(); // Size of data (22 or 16)
-	//for (int i = 0; i < buffer[2]; i++) {
-		//buffer[3 + i] = uart_receive();
 	//}
-	//buffer[3 + buffer[2]] = '\0';
-//}
-
-//void handle_purchase_response(char *response) {
-	//response[0] = uart_receive(); // 'A'
-	//response[1] = uart_receive(); // 'E'
-	//response[2] = uart_receive(); // Result code ('0', '1', '2', '3')
-	//response[3] = '\0';
-//}
+}
 
 void send_add_new_card(const char *card_number) {
 	for(char i=0; i<N_SEND; i++){
