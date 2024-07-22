@@ -26,9 +26,9 @@
 	void send_confirm_restock(ProductNumber product, ProductNumber quantity);
 	void send_confirm_cash_withdraw(void);
 	
-	void get_name_from_buffer(char *buffer, char *name);
-	void get_price_from_buffer(char *buffer, char *price);
-	void receive_data_from_uart(char *buffer);
+	void get_name_from_buffer(unsigned char *buffer, char *name);
+	void get_price_from_buffer(unsigned char *buffer, char *price);
+	void receive_data_from_uart(unsigned char *buffer);
 	
 	int uart_ready(void);
 

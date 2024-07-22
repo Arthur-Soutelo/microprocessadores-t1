@@ -125,14 +125,15 @@ int card_payment_menu(char *card_number, char *product_price){
 	}
 }
 
-void analyze_serial_command(char *buffer, char *product_name, char *product_price, float total_sum, char *card_number) {
+void analyze_serial_command(unsigned char *buffer, char *product_name, char *product_price, float total_sum, char *card_number){
 	switch (buffer[0]) {
 		case 'A':
 		switch (buffer[1]) {
 			case 'P': { // Product Information
 				get_name_from_buffer(buffer,product_name);
 				
-				//if(product_name!= "Nao localizado."){
+				// Verifica se a string é igual
+				 if (strcmp(product_name, "Nao localizado.") == 0){
 					get_price_from_buffer(buffer,product_price);	
 					// Escreve o produto e preço no LCD
 					clear_display();
@@ -175,9 +176,13 @@ void analyze_serial_command(char *buffer, char *product_name, char *product_pric
 							}
 						}
 					}
-				//}
-	
-			} break;
+				}
+				else{
+					clear_display();
+					write_string_line(1,"----- ERRO -----");
+					write_string_line(1,"NAO LOCALIZADO");
+				}
+			}break;
 
 			case 'E': { // Purchase Result - Cash
 				switch (buffer[2]) {// Response
@@ -229,29 +234,29 @@ void analyze_serial_command(char *buffer, char *product_name, char *product_pric
 						_delay_ms(3000);
 						turn_off_led();
 					}break;					// '1' - Compra com falha (produto inválido)
-					case '1':
+					case '1':{
 						clear_display();
 						write_string_line(1,"----- ERRO -----");
 						write_string_line(2, "PRODUTO INVALIDO");
-					break;
+					}break;
 					// '2' - Compra com falha (quantidade insuficiente)
-					case '2':
+					case '2':{
 						clear_display();
 						write_string_line(1,"----- ERRO -----");
 						write_string_line(2, "QTD INSUFICIENTE");
-					break;
+					}break;
 					// '3' - Compra com falha (validade vencida)
-					case '3':
+					case '3':{
 						clear_display();
 						write_string_line(1,"----- ERRO -----");
 						write_string_line(2, "VALIDADE VENCIDA");
-					break;
+					}break;
 					// '4' - Compra com falha (cartão inválido)
-					case '4':
+					case '4':{
 						clear_display();
 						write_string_line(1,"----- ERRO -----");
 						write_string_line(2, "CARTAO INVALIDO");
-					break;
+					}break;
 				}
 			} break;
 
@@ -272,7 +277,7 @@ void analyze_serial_command(char *buffer, char *product_name, char *product_pric
 						write_string_line(1,"----- ERRO -----");
 						write_string_line(2, "QTD INVALIDA");
 					break;
-				}
+				} break;
 			} break;
 			
 			case 'R': { // Cash Removal - Result
