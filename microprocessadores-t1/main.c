@@ -11,7 +11,6 @@ char product_name[NAME_SIZE];
 char product_price[NAME_SIZE];
 char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
 char key;
-char go_back_flag;
 
 unsigned char buffer_index = 0;
 ISR(USART0_RX_vect) {
@@ -27,7 +26,7 @@ ISR(USART0_RX_vect) {
 				analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
 			}
 		}
-		else{
+		else if (buffer_index == 4){
 			buffer_index = 0;
 			analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
 		}
@@ -63,9 +62,13 @@ int get_coins_menu(float *total_sum, const char *product_price){
 		write_string_line(1, "Preco: R$ ");
 		write_string_LCD(product_price);
 		write_string_line(2, buffer_price);
+		
+		if(*total_sum == atof(product_price)){
+			return 1;
+		}
 	}
 	
-	return 1;
+	return 0;
 	
 }
 
@@ -224,12 +227,10 @@ void analyze_serial_command(char *buffer, char *product_name, char *product_pric
 							result = get_coins_menu(&total_sum, product_price);
 							if(result == 1){
 								send_confirm_cash_purchase();
-								break;
 							}
 							else{
 								clear_display();
 								write_string_line(1,"Tempo Excedido");
-								break;
 							}
 							
 						}
@@ -240,12 +241,10 @@ void analyze_serial_command(char *buffer, char *product_name, char *product_pric
 							result = card_payment_menu(card_number, product_price);
 							if(result == 1){
 								send_confirm_card_purchase(card_number);
-								break;
 							}
 							else{
 								clear_display();
 								write_string_line(1,"Compra Cancelada");
-								break;
 							}
 						}
 					}
@@ -260,7 +259,7 @@ void analyze_serial_command(char *buffer, char *product_name, char *product_pric
 						clear_display();
 						write_string_line(1,"Compra Realizada");
 						turn_on_led();
-						_delay_ms(2000);
+						_delay_ms(3000);
 						turn_off_led();
 					break;				// '1' - Compra com falha (produto inválido)
 					case '1':
@@ -300,7 +299,7 @@ void analyze_serial_command(char *buffer, char *product_name, char *product_pric
 						write_string_line(2,"Saldo:");
 						write_string_LCD(balance_str);
 						turn_on_led();
-						_delay_ms(2000);
+						_delay_ms(3000);
 						turn_off_led();
 					}break;					// '1' - Compra com falha (produto inválido)
 					case '1':
@@ -387,41 +386,17 @@ int main(void){
 	init_components();
 		
 	while(1){
-		go_back_flag = 0;
 		stop_alarm();
 		clear_display();
 		write_string_line(1,"VenDELET");
 		write_string_line(2,"Digite o Produto");
 		while(!read_door_state()){	// While the door is closed
-			if (go_back_flag == 1) {
-				break; // Exit the product selection loop and the outer loop
-			}
-			
-			
 			total_sum = 0.0;
 			key = keypad_getkey();
 			// Seleção do produto pelo codigo
 			if(key!=0){
 				get_selected_product_menu(key);
-				// Se resposta valida
-				//
-				//while(!go_back_flag){
-					//receive_data_from_uart(buffer);
-					//analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
-					//
-				//}
-				
 			}
-			//else if (uart_ready()){
-					//receive_data_from_uart(buffer);
-					//
-					//clear_display();
-					//write_string_line(1,buffer);
-					//uart_send_string(buffer);
-					//
-					//analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
-			//}
-			
 			
 		}
 		
