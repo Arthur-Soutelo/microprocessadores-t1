@@ -70,7 +70,7 @@ void get_selected_product_menu(char key, char *buffer){
 	receive_data_from_uart(buffer);
 }
 
-void get_card_menu(void){
+int get_card_menu(char *product_price){
 	char buy_confirmation = 0;
 	char card_index;
 	char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
@@ -95,15 +95,30 @@ void get_card_menu(void){
 			write_string_LCD(balance_str);
 			_delay_ms(3000);
 			char key;
+			clear_display();
+			write_string_line(1,"Confirmar Compra?");
+			write_string_line(2,"[*]Nao    [#]Sim");
 			while(!buy_confirmation){
 				key = keypad_getkey();
-				write_string_line(1,"Confirmar Compra?");
-				write_string_line(2,"[*]Nao    [#]Sim");
 				if(key=='*'){
 					buy_confirmation = 1;
+					return 0;	// Compra NEGADA
 				}
 				else if (key=='#'){
+					subtract_from_card_balance(card_number, atof(product_price));
+					
+					card1 = read_card_data(card_index);
+					snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
+					clear_display();
+					write_string_line(1,"Compra Realizada");
+					write_string_line(2,"Saldo:");
+					write_string_LCD(balance_str);
+					turn_on_led();
+					_delay_ms(2000);
+					turn_off_led();
+					
 					buy_confirmation = 1;
+					return 1;	// Compra CONFIRMADA
 					
 				}
 			}
@@ -126,7 +141,7 @@ int main(void){
 	init_components();
 	
 
-	init_base_cards();
+	//init_base_cards();
 
     //sei();			// Ativa interrupt
 	
@@ -194,8 +209,11 @@ int main(void){
 						}
 						// Cartão
 						else if (key == '2'){
-							go_back_flag = 1;
-							get_card_menu();
+							char valid_buy;
+							valid_buy = get_card_menu(product_price);
+							if(valid_buy == 1){
+								
+							}
 						}
 					}
 				}

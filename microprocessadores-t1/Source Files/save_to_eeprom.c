@@ -101,3 +101,22 @@ void update_card_balance(const char *card_number, float new_balance) {
 		// Optionally, add new card if needed
 	}
 }
+
+// Function to subtract a value from a card balance
+void subtract_from_card_balance(const char *card_number, float amount_to_subtract) {
+	int index = find_card_index(card_number);
+	if (index != -1) {
+		// Card found, update balance
+		Card card;
+		eeprom_read_block(&card, &eeprom_cards[index], sizeof(Card));
+		
+		if (card.balance >= amount_to_subtract) {
+			card.balance -= amount_to_subtract;
+			eeprom_update_block(&card, &eeprom_cards[index], sizeof(Card));
+			} else {
+			// Handle insufficient balance, e.g., print error or notify user
+		}
+		} else {
+		// Handle card not found, e.g., print error or notify user
+	}
+}
