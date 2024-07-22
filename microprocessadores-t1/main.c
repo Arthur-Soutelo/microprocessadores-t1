@@ -131,7 +131,7 @@ int get_card_menu(char *product_price){
 }
 
 
-void receive_serial_command(char *buffer, char *product_name, char *product_price, float *total_sum) {
+void receive_serial_command(char *buffer, char *product_name, char *product_price, float total_sum) {
 	// Clear the buffer
 	for (int i = 0; i < BUFFER_SIZE; i++) {
 		buffer[i] = 0;
@@ -148,42 +148,48 @@ void receive_serial_command(char *buffer, char *product_name, char *product_pric
 		case 'A':
 		switch (buffer[1]) {
 			case 'P': { // Product Information
+				write_data_LCD(buffer[0]);
+				write_data_LCD(buffer[1]);
+				
+				//write_string_line(1,"ENTREI NO P");
 				buffer[2] = uart_receive(); // Size of data (22 or 16)
 				unsigned char data_size = buffer[2];
 				if (data_size <= BUFFER_SIZE - 3) { // Prevent buffer overrun
 					for (unsigned char i = 0; i < data_size; i++) {
 						buffer[3 + i] = uart_receive();
+						write_data_LCD(buffer[3+i]);
 					}
+					//write_string_line(1,buffer);
 				}
-				get_name_from_buffer(buffer,product_name);
-				
-				if(product_name!= "Nao localizado."){
-					get_price_from_buffer(buffer,product_price);
-					
-					// Escreve o produto e preço no LCD
-					clear_display();
-					write_string_line(1,product_name);
-					write_string_line(2, "Valor: R$ ");
-					write_string_LCD(product_price);
-					_delay_ms(3000);
+				//get_name_from_buffer(buffer,product_name);
+				//
+				//if(product_name!= "Nao localizado."){
+					//get_price_from_buffer(buffer,product_price);
+					//
+					//// Escreve o produto e preço no LCD
+					//clear_display();
+					//write_string_line(1,product_name);
+					//write_string_line(2, "Valor: R$ ");
+					//write_string_LCD(product_price);
+					//_delay_ms(3000);
 					
 					// Seleciona método de pagamento :
-					clear_display();
-					write_string_line(1,"1 - Dinheiro");
-					write_string_line(2, "2 - Cartao");
-					char key = keypad_getkey();
-					while(key!='1' && key!='2'){
-						key = keypad_getkey();
-						// Dinheiro
-						if(key == '1'){
-							get_coins_menu(&total_sum, product_price);
-						}
-						// Cartão
-						else if (key == '2'){
-							get_card_menu(product_price);
-						}
-					}
-				}
+					//clear_display();
+					//write_string_line(1,"1 - Dinheiro");
+					//write_string_line(2, "2 - Cartao");
+					//char key = keypad_getkey();
+					//while(key!='1' && key!='2'){
+						//key = keypad_getkey();
+						//// Dinheiro
+						//if(key == '1'){
+							//get_coins_menu(&total_sum, product_price);
+						//}
+						//// Cartão
+						//else if (key == '2'){
+							//get_card_menu(product_price);
+						//}
+					//}
+				//}
 	
 			} break;
 
@@ -240,6 +246,23 @@ int main(void){
 	char key;
 	char go_back_flag;
 	init_components();
+	//
+	//while(1){
+		////char test;
+		////clear_display();
+		////test = uart_receive();
+		////write_data_LCD(test);
+//
+		////
+		////receive_data_from_uart(buffer);
+////
+		////write_string_line(1,buffer);
+		//
+		////receive_data_from_uart(buffer);
+		//clear_display();
+		//receive_serial_command(buffer, product_name, product_price, total_sum);
+		////write_string_line(1,buffer);
+	//}
 	
 
 	//init_base_cards();

@@ -56,13 +56,14 @@ void uart_send_string(const char *data) {
 }
 
 void send_product_selection(ProductNumber product){
-	// Send Code
-	uart_send('V');
-	uart_send('P');
-	// Use the product number (first_key and second_key)
-	uart_send(product.first_key);
-	uart_send(product.second_key);
-	
+	for(char i=0; i<3; i++){
+		// Send Code
+		uart_send('V');
+		uart_send('P');
+		// Use the product number (first_key and second_key)
+		uart_send(product.first_key);
+		uart_send(product.second_key);
+	}
 }
 
 void send_choice_cash(void){
@@ -159,15 +160,18 @@ void receive_data_from_uart(char *buffer) {
 		buffer[i] = 0;
 	}
 	
-	unsigned int i = 0;
-	char received_char;
+	buffer[0] = uart_receive();					// 'A' - Aplicativo
+	buffer[1] = uart_receive();
 	
+	unsigned int i = 2;
+	
+	char received_char;
 	while (i < BUFFER_SIZE - 1) { // Leave space for null terminator
 		received_char = uart_receive(); // Function to receive a character
 		if (received_char != 0xFF) { // Check for timeout or valid data
-			if (received_char == '\n') { // End of line or message
-				break;
-			}
+			//if (received_char == '\n') { // End of line or message
+				//break;
+			//}
 			buffer[i++] = received_char;
 		}
 	}
