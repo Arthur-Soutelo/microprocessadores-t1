@@ -76,31 +76,25 @@ void init_buzzer(void) {
 	// Set the buzzer pin as output
 	DDRE |= (1 << BUZZER_PIN);
 
-	// Configure Timer3 for Fast PWM mode, 8-bit
-	//TCCR3A |= (1 << WGM30) | (1 << COM3B1);  // Fast PWM, clear OC3B on Compare Match
-	//TCCR3B |= (1 << WGM32) | (1 << CS31);    // Fast PWM, prescaler 8
+	// Configure Timer3 for Fast PWM mode, 16-bit
 	TCCR3A |= (1 << WGM31) | (1 << COM3B1);  // Fast PWM, clear OC3B on Compare Match
 	TCCR3B |= (1 << WGM32) | (1 << WGM33) | (1 << CS31); // Fast PWM, prescaler 8
-	OCR3B = 714;                             // Set duty cycle to 50%
-	
-	stop_alarm();
+
+	// Calculate the value for OCR3B to achieve 700 Hz
+	// Timer frequency = 16 MHz / (8 * (1 + 0xFFFF)) = 1 Hz (when OCR3B = 0)
+	// For 700 Hz, OCR3B = (16 MHz / (8 * 700)) - 1 = 1428 - 1 = 1427
+	OCR3B = 1427; // Set duty cycle to 50%
 }
 
 void sound_alarm(void) {
-	// Turn on the buzzer
+	// Turn on the buzzer and keep it sounding continuously
 	TCCR3A |= (1 << COM3B1);
+	PORTE |= (1 << BUZZER_PIN); // Ensure the buzzer pin is set high
+}
 
-	for (int i = 0; i < 10; i++) { // Beep pattern for alarm
-		_delay_ms(250);  // Beep for 250 ms
-		// Turn off the buzzer immediately
-		TCCR3A &= ~(1 << COM3B1);
-		PORTE &= ~(1 << BUZZER_PIN);
-		_delay_ms(250);  // Silence for 250 ms
-		// Turn on the buzzer
-		TCCR3A |= (1 << COM3B1);
-	}
-
-	stop_alarm();
+ISR(TIMER3_COMPA_vect) {
+	// Toggle the buzzer pin on each compare match interrupt
+	PORTE ^= (1 << BUZZER_PIN);
 }
 
 void stop_alarm(void){
