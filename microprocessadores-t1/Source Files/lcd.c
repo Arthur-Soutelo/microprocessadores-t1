@@ -1,4 +1,5 @@
 #include "lcd.h"
+#include "keypad.h"
 
 // Função para inicializar o LCD
 void init_LCD(void){
@@ -78,27 +79,74 @@ void clear_display(void) {
 
 void scroll_text(const char *text) {
 	char display_text[LCD_WIDTH + 1]; // Buffer para texto com largura do LCD
-
 	int text_length = strlen(text);
 
-	//// Loop infinito para rotação contínua
-	//while (1) {
-		// Adiciona espaços extras ao final do texto para permitir a rotação completa
-		char extended_text[text_length * 2 + 1];
-		strcpy(extended_text, text);
-		strcat(extended_text, text);
+	// Adiciona espaços extras ao final do texto para permitir a rotação completa
+	char extended_text[text_length * 2 + 1];
+	strcpy(extended_text, text);
+	strcat(extended_text, text);
 
-		for (int i = 0; i < text_length + LCD_WIDTH; i++) {
-			// Copia o segmento do texto que deve ser exibido no LCD
-			strncpy(display_text, extended_text + i, LCD_WIDTH);
-			display_text[LCD_WIDTH] = '\0'; // Assegura que a string esteja terminada
+	for (int i = 0; i < text_length + LCD_WIDTH; i++) {
+		// Copia o segmento do texto que deve ser exibido no LCD
+		strncpy(display_text, extended_text + i, LCD_WIDTH);
+		display_text[LCD_WIDTH] = '\0'; // Assegura que a string esteja terminada
 
-			// Limpa o display e exibe o texto
-			clear_display();
-			write_string_line(1,"MODO OPERADOR");
-			write_string_line(2,display_text);
-
-			_delay_ms(200); // Ajuste o delay para controlar a velocidade do scroll
+		// Limpa o display e exibe o texto
+		clear_display();
+		write_string_line(1,"MODO OPERADOR");
+		write_string_line(2,display_text);
+			
+		// Verifica se uma tecla foi pressionada
+		char key = keypad_getkey();
+		if (key != 0) {
+				
 		}
-	//}
+
+		_delay_ms(200); // Ajuste o delay para controlar a velocidade do scroll
+	}
+}
+
+// Função para exibir as opções e navegar entre elas
+int navigate_options(const char *options[], int num_options) {
+	int current_option = 0;
+
+
+	// Exibe a opção atual na primeira linha
+	clear_display();
+	write_string_line(1, options[current_option]);
+	// Exibe as instruções de navegação na segunda linha
+	write_string_line(2, "<-B  A->   [#OK]");
+	char key ;
+	while (1) {
+		// Espera a entrada do usuário
+		key = keypad_getkey();
+		if (key != 0) {
+			switch (key) {
+				case 'B':
+				// Vai para a opção anterior
+				current_option = (current_option - 1 + num_options) % num_options;
+				// Exibe a opção atual na primeira linha
+				clear_display();
+				write_string_line(1, options[current_option]);
+				// Exibe as instruções de navegação na segunda linha
+				write_string_line(2, "<-B  A->   [#OK]");
+				break;
+				case 'A':
+				// Vai para a próxima opção
+				current_option = (current_option + 1) % num_options;
+				// Exibe a opção atual na primeira linha
+				clear_display();
+				write_string_line(1, options[current_option]);
+				// Exibe as instruções de navegação na segunda linha
+				write_string_line(2, "<-B  A->   [#OK]");
+				break;
+				case '#':
+					// Seleciona a opção atual
+					return current_option;
+				default:
+					// Ignora outras teclas
+				break;
+			}
+		}
+	}
 }

@@ -124,7 +124,7 @@ void send_confirm_cash_withdraw(void) {
 
 // ---------------------------------------------------------- //
 
-void get_name_from_buffer(char *buffer, char *name) {
+void get_name_from_buffer(unsigned char *buffer, char *name) {
 	int data_size = buffer[2]; // Size of data
 	int name_start_index = 3; // Assuming name starts at the 4th byte
 
@@ -137,7 +137,7 @@ void get_name_from_buffer(char *buffer, char *name) {
 }
 
 
-void get_price_from_buffer(char *buffer, char *price) {
+void get_price_from_buffer(unsigned char *buffer, char *price) {
 	int data_size = buffer[2];
 	int name_start_index = 3;
 	int name_end_index = name_start_index;
@@ -161,7 +161,7 @@ void get_price_from_buffer(char *buffer, char *price) {
 	price[i] = '\0';
 }
 
-void receive_data_from_uart(char *buffer) {
+void receive_data_from_uart(unsigned char *buffer) {
 	// Clear the buffer (optional)
 	for (int i = 0; i < BUFFER_SIZE; i++) {
 		buffer[i] = 0xFF;
