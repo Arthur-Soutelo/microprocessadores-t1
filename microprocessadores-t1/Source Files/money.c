@@ -21,11 +21,16 @@ void buttons_init(void) {
 }
 
 
-void door_init(void) {
-	DDRH &= ~((1 << DOOR_PIN));
-	PORTH &= ~((1 << DOOR_PIN));
-}
+//void door_init(void) {
+	//DDRH &= ~((1 << DOOR_PIN));
+	//PORTH &= ~((1 << DOOR_PIN));
+//}
 
+void door_init(void) {
+	// Configura o pino do sensor da porta como entrada
+	DDRE &= ~(1 << DOOR_PIN);
+	PORTE |= (1 << DOOR_PIN); // Habilita o pull-up interno se necessário
+}
 unsigned char button50c_clicked(void) {
 	return debounce(BUTTON1_PIN);
 }
@@ -57,7 +62,7 @@ static unsigned char debounce(unsigned char pin) {
 
 unsigned char read_door_state(void) {
 	// Directly read the state of the switch
-	return (PINH & (1 << DOOR_PIN)) >> DOOR_PIN;  // Return 1 if switch is closed (pressed), 0 if open
+	return (PINE & (1 << DOOR_PIN)) >> DOOR_PIN;  // Return 1 if switch is closed (pressed), 0 if open
 }
 
 void init_led(void){
