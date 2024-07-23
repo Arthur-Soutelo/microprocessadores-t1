@@ -10,6 +10,8 @@
 	#define D5_PIN     PB6
 	#define D6_PIN     PB5
 	#define D7_PIN     PB4
+	
+	#define LCD_WIDTH 16
 
 	//#define LCD_PORT   PORTB
 	//#define LCD_DDR    DDRB
@@ -28,5 +30,6 @@
 	
 	void clear_display(void);
 	void write_string_line(char line, const char *text);
+	void scroll_text(const char *text);
 
 #endif // LCD_H_

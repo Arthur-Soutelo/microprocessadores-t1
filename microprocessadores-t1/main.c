@@ -125,6 +125,29 @@ int card_payment_menu(char *card_number, char *product_price){
 	}
 }
 
+void get_menu_operator(void){
+	scroll_text(" [1]Adicionar Cartao [2]Remover Cartao [3]Abastecer Maquina [4]Retirar Caixa ");
+	key = keypad_getkey();
+	// Seleção do produto pelo codigo
+	if(key!=0){
+		switch (key){
+			case '1':{
+				read_card_number(card_number);
+				add_new_card(card_number, 0.00);
+			}break;
+			//case '2':{
+				//
+			//}break;
+			//case '3':{
+				//
+			//}break;
+			//case '4':{
+				//
+			//}break;
+		}break;
+	}
+}
+
 void analyze_serial_command(unsigned char *buffer, char *product_name, char *product_price, float total_sum, char *card_number) {
 	switch (buffer[0]) {
 		case 'A':
@@ -318,6 +341,8 @@ int main(void){
 	init_components();
 		
 	while(1){
+		//get_menu_operator();
+		
 		stop_alarm();
 		clear_display();
 		write_string_line(1,"VenDELET");

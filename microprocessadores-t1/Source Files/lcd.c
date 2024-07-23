@@ -75,97 +75,30 @@ void clear_display(void) {
 	_delay_ms(2); // Wait for command to complete
 }
 
-//#include "lcd.h"
-//#include "timer.h"
-//
-//// Set the data pins to output
-//void init_LCD(void) {
-	//LCD_DDR |= (1 << RS_PIN) | (1 << E_PIN) | (1 << D4_PIN) | (1 << D5_PIN) | (1 << D6_PIN) | (1 << D7_PIN);
-	//delay_ms(500);				// Wait for LCD to power up
-	//
-	//// Send function set command sequence to initialize the LCD
-	//write_command_LCD(0x03); // Function set: 8-bit mode
-	//delay_ms(5);             // Wait
-	//write_command_LCD(0x03); // Function set: 8-bit mode (repeat)
-	//delay_ms(1);             // Wait
-	//write_command_LCD(0x03); // Function set: 8-bit mode (repeat)
-	//delay_ms(1);             // Wait
-	//
-	//write_command_LCD(0x02);	// Initialize in 4-bit mode
-	//write_command_LCD(0x28);	// Function set: 4-bit/2-line
-	//write_command_LCD(0x0C);	// Display on, cursor off
-	//write_command_LCD(0x06);	// Entry mode set: increment cursor, no display shift
-	//clear_display();
-	//write_command_LCD(0x80); // Set cursor to start of line 1
-//}
-//
-//void write_data_LCD(uint8_t data) {
-	//// Set RS to 1 for data mode
-	//LCD_PORT |= (1 << RS_PIN);
-//
-	//// Write high nibble
-	//LCD_PORT &= 0x0F;
-	//LCD_PORT |= (data & 0xF0);
-	//LCD_PORT |= (1 << E_PIN);
-	//delay_ms(1);
-	//LCD_PORT &= ~(1 << E_PIN);
-//
-	//// Write low nibble
-	//LCD_PORT &= 0x0F;
-	//LCD_PORT |= (data << 4);
-	//LCD_PORT |= (1 << E_PIN);
-	//delay_ms(1);
-	//LCD_PORT &= ~(1 << E_PIN);
-//
-	//delay_ms(2); // Adjust timing as needed
-//}
-//
-//void write_command_LCD(uint8_t command) {
-	//// Set RS to 0 for command mode
-	//LCD_PORT &= ~(1 << RS_PIN);
-//
-	//// Write high nibble
-	//LCD_PORT &= 0x0F;
-	//LCD_PORT |= (command & 0xF0);
-	//LCD_PORT |= (1 << E_PIN);
-	//delay_ms(1);
-	//LCD_PORT &= ~(1 << E_PIN);
-//
-	//// Write low nibble
-	//LCD_PORT &= 0x0F;
-	//LCD_PORT |= (command << 4);
-	//LCD_PORT |= (1 << E_PIN);
-	//delay_ms(1);
-	//LCD_PORT &= ~(1 << E_PIN);
-//
-	//delay_ms(2); // Adjust timing as needed
-//}
-//
-//void clear_display(void) {
-	//write_command_LCD(0x01); // Clear display
-	//delay_ms(2); // Wait for command to complete
-//}
-//
-//void write_string(char line, char *text) {
-	//if (line == 1)
-	//write_command_LCD(0x80); // Set cursor to start of line 1
-	//else if (line == 2)
-	//write_command_LCD(0xC0); // Set cursor to start of line 2
-//
-	//unsigned char c;
-	//for (c = 0; text[c] != '\0'; c++) {
-		//write_data_LCD(text[c]);
-		//write_command_LCD(0x06);	// Entry mode set
+
+void scroll_text(const char *text) {
+	char display_text[LCD_WIDTH + 1]; // Buffer para texto com largura do LCD
+
+	int text_length = strlen(text);
+
+	//// Loop infinito para rotação contínua
+	//while (1) {
+		// Adiciona espaços extras ao final do texto para permitir a rotação completa
+		char extended_text[text_length * 2 + 1];
+		strcpy(extended_text, text);
+		strcat(extended_text, text);
+
+		for (int i = 0; i < text_length + LCD_WIDTH; i++) {
+			// Copia o segmento do texto que deve ser exibido no LCD
+			strncpy(display_text, extended_text + i, LCD_WIDTH);
+			display_text[LCD_WIDTH] = '\0'; // Assegura que a string esteja terminada
+
+			// Limpa o display e exibe o texto
+			clear_display();
+			write_string_line(1,"MODO OPERADOR");
+			write_string_line(2,display_text);
+
+			_delay_ms(200); // Ajuste o delay para controlar a velocidade do scroll
+		}
 	//}
-//}
-//
-//void delay_ms(unsigned int ms) {
-	////unsigned char c;
-	////for (c=0; c<40*ms; c++);
-	//int i;
-	//for (i = 0; i < ms; i++) {
-		//_delay_us(1);
-	//}
-	//
-	////timer0_delay_us(ms*1000);
-//}
+}
