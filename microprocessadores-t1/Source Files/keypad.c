@@ -123,3 +123,68 @@ void read_card_number(char *card_number) {
 
 	card_number[index] = '\0'; // Null-terminate the card number
 }
+
+// Function to read a card number from the keypad
+void read_login(char *login_number, char *pwd) {
+	char key;
+	uint8_t index = 0;
+	
+	clear_display();
+	write_string_line(1,"User: ");
+	write_string_line(2,"Pwd: ");
+
+	// Initialize login buffer
+	memset(login_number, 0, CARD_NUMBER_LENGTH + 1);
+	while (index < CARD_NUMBER_LENGTH) {
+		key = keypad_getkey();
+		if (key != 0) { // Check if a key is pressed
+			if (key >= '0' && key <= '9') { // Check if the key is a digit
+				login_number[index++] = key; // Store the digit in the card_number buffer
+				//write_data_LCD(key);
+				clear_display();
+				write_string_line(1,"User: ");
+				write_string_LCD(login_number);
+				write_string_line(2,"Pwd: ");
+				} else if (key == '#') { // Use '#' as an enter key
+				break; // Exit loop when '#' is pressed
+				} else if (key == '*') { // Use '*' to cancel input
+				// Optionally, clear the card_number buffer
+				memset(login_number, 0, CARD_NUMBER_LENGTH + 1);
+				index = 0; // Reset index
+
+			}
+			// Add a small delay to debounce
+			_delay_ms(100); // Adjust delay as needed
+		}
+	}
+	login_number[index] = '\0'; // Null-terminate the card number
+	
+	index = 0;
+	
+	// Initialize login buffer
+	memset(pwd, 0, CARD_NUMBER_LENGTH + 1);
+	while (index < CARD_NUMBER_LENGTH) {
+		key = keypad_getkey();
+		if (key != 0) { // Check if a key is pressed
+			if (key >= '0' && key <= '9') { // Check if the key is a digit
+				pwd[index++] = key; // Store the digit in the card_number buffer
+				//write_data_LCD(key);
+				clear_display();
+				write_string_line(1,"User:");
+				write_string_LCD(login_number);
+				write_string_line(2,"Pwd: ");
+				write_string_LCD(pwd);
+				} else if (key == '#') { // Use '#' as an enter key
+				break; // Exit loop when '#' is pressed
+				} else if (key == '*') { // Use '*' to cancel input
+				// Optionally, clear the card_number buffer
+				memset(pwd, 0, CARD_NUMBER_LENGTH + 1);
+				index = 0; // Reset index
+
+			}
+			// Add a small delay to debounce
+			_delay_ms(100); // Adjust delay as needed
+		}
+	}
+	pwd[index] = '\0'; // Null-terminate the card number
+}

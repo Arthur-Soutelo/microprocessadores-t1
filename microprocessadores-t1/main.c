@@ -171,6 +171,17 @@ int card_payment_menu(char *card_number, char *product_price){
 //}
 
 
+void operator_login(void){
+	clear_display();
+	write_string_line(1, "Modo Operador");
+	_delay_ms(3000);
+	
+	char login[16]; // Ajuste o tamanho conforme necessário
+	char pwd[16]; // Ajuste o tamanho conforme necessário
+	
+	read_login(login, pwd);
+}
+
 // Função para obter a entrada do operador do menu
 void get_menu_operator(void) {
 	const char *options[] = {
@@ -186,13 +197,17 @@ void get_menu_operator(void) {
 
 	// Chama a função correspondente à opção selecionada
 	switch (current_option) {
+		// Adicionar Cartao
 		case 0: {
 			char card_number[16]; // Ajuste o tamanho conforme necessário
 			read_card_number(card_number);
 			add_new_card(card_number, 0.00);
 		} break;
+		// Remover Cartao
 		case 1: {
-			// Adicione a lógica para o caso '2'
+			char card_number[16]; // Ajuste o tamanho conforme necessário
+			read_card_number(card_number);
+			remove_card(card_number);
 		} break;
 		case 2: {
 			// Adicione a lógica para o caso '3'
@@ -397,34 +412,40 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 int main(void){
 	init_components();
 	
-	get_menu_operator();
+	//get_menu_operator();	
 		
-		//stop_alarm();
-		//clear_display();
-		//write_string_line(1,"VenDELET");
-		//write_string_line(2,"Digite o Produto");
-	//while(1){	
-		////while(!read_door_state()){	// While the door is closed
-			//total_sum = 0.0;
-			//key = keypad_getkey();
-			//// Seleção do produto pelo codigo
-			//if(key!=0){
-				//get_selected_product_menu(key);
-			//}
-			//
-		////}
-		//
-		//
-		////while(read_door_state()){ // While the door is open
-			////// Sound the alarm
-			////sound_alarm();
-			////// Door is open
-			////clear_display();
-			////write_string_line(1,"Porta Aberta");
-		////}
-//
-//
-	//}
+		stop_alarm();
+		clear_display();
+		write_string_line(1,"VenDELET");
+		write_string_line(2,"Digite o Produto");
+	while(1){	
+		//while(!read_door_state()){	// While the door is closed
+			total_sum = 0.0;
+			key = keypad_getkey();
+			// Seleção do produto pelo codigo
+			if(key!=0){
+				if(key=='D'){
+					operator_login();
+					get_menu_operator();	
+				}
+				else{
+					get_selected_product_menu(key);	
+				}
+			}
+			
+		//}
+		
+		
+		//while(read_door_state()){ // While the door is open
+			//// Sound the alarm
+			//sound_alarm();
+			//// Door is open
+			//clear_display();
+			//write_string_line(1,"Porta Aberta");
+		//}
+
+
+	}
 	
 	return 0;
 }
