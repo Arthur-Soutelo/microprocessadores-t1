@@ -10,7 +10,7 @@
 	#define BUTTON1_PIN     PH5 //50 centavos
 	#define BUTTON2_PIN     PH6 //1 real
 
-	#define DOOR_PIN	PH4
+	#define DOOR_PIN	PE5	//PH4
 
 	void buttons_init(void);
 	unsigned char button50c_clicked(void);

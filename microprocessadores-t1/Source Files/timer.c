@@ -71,7 +71,12 @@ void timer0_delay_us(unsigned int microseconds) {
 	TCCR0B = 0;              // Stops Timer 0 after the delay
 }
 
-
+void init_interrupts(void) {
+	// Configura a interrupção externa para o pino PE5 (INT5)
+	EICRB |= (1 << ISC51) | (1 << ISC50); // Configura INT5 para gerar interrupção em qualquer mudança de nível
+	EIMSK |= (1 << INT5);  // Habilita a interrupção INT5
+	sei(); // Habilita interrupções globais
+}
 
 void init_timer3_buzzer(void) {
 	// Set the buzzer pin as output
@@ -89,19 +94,15 @@ void init_timer3_buzzer(void) {
 
 void sound_alarm(void) {
 	// Turn on the buzzer and keep it sounding continuously
-	TCCR3A |= (1 << COM3B1);
+	TCCR3A |= (1 << COM3B1); //Ativa PWM
 	PORTE |= (1 << BUZZER_PIN); // Ensure the buzzer pin is set high
 }
 
-ISR(TIMER3_COMPA_vect) {
-	// Toggle the buzzer pin on each compare match interrupt
-	PORTE ^= (1 << BUZZER_PIN);
-}
 
 void stop_alarm(void){
 	// Turn off the buzzer immediately
-	TCCR3A &= ~(1 << COM3B1);
-	PORTE &= ~(1 << BUZZER_PIN);
+	TCCR3A &= ~(1 << COM3B1); //Desativa PWM
+	PORTE &= ~(1 << BUZZER_PIN); //Garante que o pino do buzzer está baixo
 }
 
 void init_timer4(void) {

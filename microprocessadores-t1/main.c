@@ -336,18 +336,22 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 	}
 }
 
-
 int main(void){
 	init_components();
+<<<<<<< HEAD
 		
 	while(1){
 		//get_menu_operator();
 		
+=======
+>>>>>>> 9362bf12697143ee71f7215998fac02884816172
 		stop_alarm();
 		clear_display();
 		write_string_line(1,"VenDELET");
 		write_string_line(2,"Digite o Produto");
-		while(!read_door_state()){	// While the door is closed
+	while(1){
+		
+		//while(!read_door_state()){	// While the door is closed
 			total_sum = 0.0;
 			key = keypad_getkey();
 			// Seleção do produto pelo codigo
@@ -355,19 +359,36 @@ int main(void){
 				get_selected_product_menu(key);
 			}
 			
-		}
+		//}
 		
 		
-		while(read_door_state()){ // While the door is open
-			// Sound the alarm
-			sound_alarm();
-			// Door is open
-			clear_display();
-			write_string_line(1,"Porta Aberta");
-		}
+		//while(read_door_state()){ // While the door is open
+			//// Sound the alarm
+			//sound_alarm();
+			//// Door is open
+			//clear_display();
+			//write_string_line(1,"Porta Aberta");
+		//}
 
 
 	}
 	
 	return 0;
+}
+
+ISR(TIMER3_COMPA_vect) {
+	// Toggle the buzzer pin on each compare match interrupt
+	PORTE ^= (1 << PE4);
+}
+
+ISR(INT5_vect){
+	
+	if (read_door_state()) { // Verifica o estado da porta
+		stop_alarm(); // Para o buzzer se estiver tocando
+
+		} else{
+		sound_alarm(); // Toca o buzzer
+		clear_display();
+		write_string_line(1, "Porta Aberta");
+	}
 }

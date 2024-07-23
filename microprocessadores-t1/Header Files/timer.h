@@ -18,6 +18,7 @@
 	void init_timer3_buzzer(void);
 	void sound_alarm(void);
 	void stop_alarm(void);
+	void init_interrupts(void);
 		
 	extern volatile uint8_t TIMEOUT_FLAG;
 	void init_timer1(void);
