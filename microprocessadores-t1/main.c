@@ -12,6 +12,7 @@ char product_price[NAME_SIZE];
 char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
 char key;
 
+// UART RECIVE INTERRUPT
 unsigned char buffer_index = 0;
 ISR(USART0_RX_vect) {
 	char receivedChar = UDR0; // Leia o caractere recebido
@@ -30,6 +31,23 @@ ISR(USART0_RX_vect) {
 			buffer_index = 0;
 			analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
 		}
+	}
+}
+
+ISR(TIMER3_COMPA_vect) {
+	// Toggle the buzzer pin on each compare match interrupt
+	PORTE ^= (1 << PE4);
+}
+
+ISR(INT5_vect){
+	
+	if (read_door_state()) { // Verifica o estado da porta
+		stop_alarm(); // Para o buzzer se estiver tocando
+
+		} else{
+		sound_alarm(); // Toca o buzzer
+		clear_display();
+		write_string_line(1, "Porta Aberta");
 	}
 }
 
@@ -129,23 +147,23 @@ void get_menu_operator(void){
 	scroll_text(" [1]Adicionar Cartao [2]Remover Cartao [3]Abastecer Maquina [4]Retirar Caixa ");
 	key = keypad_getkey();
 	// Seleção do produto pelo codigo
-	if(key!=0){
-		switch (key){
-			case '1':{
-				read_card_number(card_number);
-				add_new_card(card_number, 0.00);
-			}break;
-			//case '2':{
-				//
-			//}break;
-			//case '3':{
-				//
-			//}break;
-			//case '4':{
-				//
-			//}break;
-		}break;
-	}
+	//if(key!=0){
+		//switch (key){
+			//case '1':{
+				//read_card_number(card_number);
+				//add_new_card(card_number, 0.00);
+			//}
+			////case '2':{
+				////
+			////}break;
+			////case '3':{
+				////
+			////}break;
+			////case '4':{
+				////
+			////}break;
+		//}break;
+	//}
 }
 
 void analyze_serial_command(unsigned char *buffer, char *product_name, char *product_price, float total_sum, char *card_number) {
@@ -338,13 +356,9 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 
 int main(void){
 	init_components();
-<<<<<<< HEAD
 		
-	while(1){
 		//get_menu_operator();
 		
-=======
->>>>>>> 9362bf12697143ee71f7215998fac02884816172
 		stop_alarm();
 		clear_display();
 		write_string_line(1,"VenDELET");
@@ -374,21 +388,4 @@ int main(void){
 	}
 	
 	return 0;
-}
-
-ISR(TIMER3_COMPA_vect) {
-	// Toggle the buzzer pin on each compare match interrupt
-	PORTE ^= (1 << PE4);
-}
-
-ISR(INT5_vect){
-	
-	if (read_door_state()) { // Verifica o estado da porta
-		stop_alarm(); // Para o buzzer se estiver tocando
-
-		} else{
-		sound_alarm(); // Toca o buzzer
-		clear_display();
-		write_string_line(1, "Porta Aberta");
-	}
 }
