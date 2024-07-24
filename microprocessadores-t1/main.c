@@ -69,6 +69,7 @@ ISR(INT5_vect) {
 		write_string_line(1, "----- ERRO -----");
 		write_string_line(2, "PORTA ABERTA");
 		flag_porta_aberta = 1;
+		_delay_ms(3000);
 	}else{
 		stop_alarm();
 		display_main_menu();
@@ -435,41 +436,31 @@ int main(void){
 			display_main_menu();
 			flag_porta_aberta = 0;
 		}
-		//while(!read_door_state()){	// While the door is closed
-			total_sum = 0.0;
-			key = keypad_getkey();
-			// Seleção do produto pelo codigo
-			if(key!=0){
-				if(key=='D'){	// MODO OPERADOR
-					char response;
-					response = operator_login();
-					if (response){
-						get_menu_operator();	
-					}
-					else{
-						clear_display();
-						write_string_line(1, "----- ERRO -----");
-						write_string_line(2, " LOGIN INVALIDO");
-						_delay_ms(3000);
-						display_main_menu();
-					}
+		total_sum = 0.0;
+		key = keypad_getkey();
+		// Seleção do produto pelo codigo
+		if(key!=0){
+			// MODO OPERADOR
+			if(key=='D'){	
+				char response;
+				response = operator_login();
+				if (response){
+					get_menu_operator();	
 				}
 				else{
-					get_selected_product_menu(key);	
+					clear_display();
+					write_string_line(1, "----- ERRO -----");
+					write_string_line(2, " LOGIN INVALIDO");
+					_delay_ms(3000);
+					display_main_menu();
 				}
 			}
+			// SELEÇÃO PRODUTO
+			else{
+				get_selected_product_menu(key);	
+			}
+		}
 			
-		//}
-		
-		
-		//while(read_door_state()){ // While the door is open
-			//// Sound the alarm
-			//sound_alarm();
-			//// Door is open
-			//clear_display();
-			//write_string_line(1,"Porta Aberta");
-		//}
-
 
 	}
 	
