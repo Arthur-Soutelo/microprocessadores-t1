@@ -78,31 +78,38 @@ void init_interrupts(void) {
 	sei(); // Habilita interrupções globais
 }
 
-void init_timer3_buzzer(void) {
-	// Set the buzzer pin as output
-	DDRE |= (1 << BUZZER_PIN);
+void init_door_buzzer(void) {
+	 // Set BUZZER_PIN as output
+	 DDRE |= (1 << BUZZER_PIN);
+	 // Set CIRCUIT_PIN as input
+	 DDRE &= ~(1 << DOOR_PIN);
+	 // Enable pull-up resistor on CIRCUIT_PIN
+	 PORTE |= (1 << DOOR_PIN);
+	 
+	 // Configure Timer 3 for 700 Hz
+	 TCCR3A = 0; // Normal mode
+	 TCCR3B = (1 << WGM32) | (1 << CS31); // CTC mode, prescaler 8
+	 OCR3A = (F_CPU / (2 * 8 * 700)) - 1; // Set compare value for 700 Hz
 
-	// Configure Timer3 for Fast PWM mode, 16-bit
-	TCCR3A |= (1 << WGM31) | (1 << COM3B1);  // Fast PWM, clear OC3B on Compare Match
-	TCCR3B |= (1 << WGM32) | (1 << WGM33) | (1 << CS31); // Fast PWM, prescaler 8
-
-	// Calculate the value for OCR3B to achieve 700 Hz
-	// Timer frequency = 16 MHz / (8 * (1 + 0xFFFF)) = 1 Hz (when OCR3B = 0)
-	// For 700 Hz, OCR3B = (16 MHz / (8 * 700)) - 1 = 1428 - 1 = 1427
-	OCR3B = 1427; // Set duty cycle to 50%
+	 // Enable Timer 3 compare interrupt
+	 TIMSK3 |= (1 << OCIE3A);
+	 
+	 // Enable external interrupt on INT5
+	 //EICRB |= (1 << ISC51) | (1 << ISC50); // Configura INT5 para gerar interrupção em qualquer mudança de nível
+	 EICRB |= (1 << ISC51);  // Trigger on falling edge
+	 EIMSK |= (1 << INT5);   // Enable INT5
 }
 
 void sound_alarm(void) {
-	// Turn on the buzzer and keep it sounding continuously
-	TCCR3A |= (1 << COM3B1); //Ativa PWM
-	PORTE |= (1 << BUZZER_PIN); // Ensure the buzzer pin is set high
+	// Start Timer 3
+	TCCR3B |= (1 << CS31); // Start Timer3 with prescaler 8
 }
 
 
 void stop_alarm(void){
-	// Turn off the buzzer immediately
-	TCCR3A &= ~(1 << COM3B1); //Desativa PWM
-	PORTE &= ~(1 << BUZZER_PIN); //Garante que o pino do buzzer está baixo
+	// Stop Timer 3 and turn off the buzzer
+	TCCR3B &= ~(1 << CS31); // Stop Timer3 by clearing the clock source
+	PORTE &= ~(1 << BUZZER_PIN); // Ensure buzzer is turned off
 }
 
 void init_timer4(void) {

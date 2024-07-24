@@ -61,9 +61,8 @@ static unsigned char debounce(unsigned char pin) {
 	return keynow;
 }
 
-unsigned char read_door_state(void) {
-	// Directly read the state of the switch
-	return (PINE & (1 << DOOR_PIN)) >> DOOR_PIN;  // Return 1 if switch is closed (pressed), 0 if open
+char read_door_state(void) {
+	 return (PINE & (1 << DOOR_PIN)); // Active low (0 = closed, 1 = open)
 }
 
 void init_led(void){

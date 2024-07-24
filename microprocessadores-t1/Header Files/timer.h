@@ -15,7 +15,7 @@
 	
 	void timer0_delay_us(unsigned int microseconds);
 
-	void init_timer3_buzzer(void);
+	void init_door_buzzer(void);
 	void sound_alarm(void);
 	void stop_alarm(void);
 	void init_interrupts(void);

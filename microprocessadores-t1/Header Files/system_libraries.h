@@ -10,6 +10,8 @@
 	
 	#define F_CPU 16000000UL  // Define the clock frequency as 16 MHz
 	
+	#define DOOR_PIN	PE5	//PH4
+	
 	#include <avr/io.h>
 	#include <avr/interrupt.h>
 	#include <avr/eeprom.h>
