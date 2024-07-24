@@ -63,6 +63,12 @@ void init_components(void){
 	UCSR0B |= (1 << RXCIE0); // Ativa a interrupção de recepção
 	sei(); // Habilita as interrupções globais
  }
+ 
+ void display_main_menu(void){
+	 clear_display();
+	 write_string_line(1,"VenDELET");
+	 write_string_line(2,"Digite o Produto");
+ }
 
 int get_coins_menu(float *total_sum, const char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
@@ -82,7 +88,8 @@ int get_coins_menu(float *total_sum, const char *product_price){
 		write_string_LCD(product_price);
 		write_string_line(2, buffer_price);
 		
-		if(*total_sum == atof(product_price)){
+		if(*total_sum >= atof(product_price)){
+			break;
 			return 1;
 		}
 	}
@@ -161,8 +168,12 @@ int operator_login(void){
 	char pwd[7]; // Ajuste o tamanho conforme necessário
 	read_pwd(login_line, pwd);
 	
+	uart_send_string(login);
+	uart_send_string(pwd);
+	
 	char response;
 	response = validate_user(login, pwd);
+	uart_send(response);
 	return response;
 }
 
@@ -197,7 +208,10 @@ void get_menu_operator(void) {
 			// Adicione a lógica para o caso '3'
 		} break;
 		case 3: {
-			// Adicione a lógica para o caso '4'
+			// Adicione a lógica para o caso '3'
+		} break;
+		case 4: {
+			display_main_menu();
 		} break;
 		default: {
 			// Opcional: Lógica para tecla inválida
@@ -213,7 +227,8 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 				get_name_from_buffer(buffer, product_name);
 				
 				// Verifica se a string é igual
-				if (strcmp(product_name, "Nao localizado.") == 0) {
+				if (strcmp(product_name, "Nao localizado.") != 0) {
+					
 					get_price_from_buffer(buffer, product_price);
 					
 					// Escreve o produto e preço no LCD
@@ -238,7 +253,8 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 							send_confirm_cash_purchase();
 							} else {
 							clear_display();
-							write_string_line(1, "Tempo Excedido");
+							write_string_line(1, "Compra Cancelada");
+							write_string_line(2, "Tempo Excedido");
 						}
 					}
 					// Compra por Cartão
@@ -255,7 +271,9 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 					} else {
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
-					write_string_line(2, "NAO LOCALIZADO");
+					write_string_line(2, " NAO LOCALIZADO");
+					_delay_ms(3000);
+					display_main_menu();
 				}
 			} break;
 
@@ -399,9 +417,7 @@ int main(void){
 	//get_menu_operator();	
 		
 		stop_alarm();
-		clear_display();
-		write_string_line(1,"VenDELET");
-		write_string_line(2,"Digite o Produto");
+		display_main_menu();
 	while(1){	
 		//while(!read_door_state()){	// While the door is closed
 			total_sum = 0.0;
@@ -411,13 +427,15 @@ int main(void){
 				if(key=='D'){
 					char response;
 					response = operator_login();
-					if (response!=-1){
+					if (response){
 						get_menu_operator();	
 					}
 					else{
 						clear_display();
 						write_string_line(1, "----- ERRO -----");
 						write_string_line(2, " LOGIN INVALIDO");
+						_delay_ms(3000);
+						display_main_menu();
 					}
 					
 				}

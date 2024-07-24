@@ -3,8 +3,8 @@
 #ifndef SAVE_TO_EEPROM_H
 	#define SAVE_TO_EEPROM_H
 	
-	extern Card EEMEM eeprom_cards[MAX_CARDS];
-	extern UserCredentials EEMEM eeprom_users[MAX_LOGINS];
+	extern Card eeprom_cards[MAX_CARDS];
+	extern UserCredentials eeprom_users[MAX_LOGINS];
 	
 	void eeprom_write(unsigned int address, unsigned char data);
 	unsigned char eeprom_read(unsigned int address);
@@ -21,8 +21,8 @@
 	
 	void save_user_credentials(uint8_t index, const char* login, const char* password);
 	UserCredentials read_user_credentials(uint8_t index);
-	int add_new_user(const char* login, const char* password);
-	int validate_user(const char* login, const char* password);
+	char add_new_user(const char* login, const char* password);
+	char validate_user(const char* login, const char* password);
 	void init_operator(void);
 
 #endif // SAVE_TO_EEPROM_H

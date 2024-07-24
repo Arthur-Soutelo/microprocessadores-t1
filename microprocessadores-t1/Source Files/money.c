@@ -1,7 +1,8 @@
 #include "money.h"
+#include "save_to_eeprom.h"
+
 
 static unsigned char debounce(unsigned char pin);
-Card EEMEM eeprom_cards[10]; // Armazena os cartões na EEPROM
 
 
 // Function to handle button clicks and update the total sum

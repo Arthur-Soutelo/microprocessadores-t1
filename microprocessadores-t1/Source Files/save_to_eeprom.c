@@ -1,6 +1,6 @@
 #include "save_to_eeprom.h"
 
-extern Card EEMEM eeprom_cards[MAX_CARDS];
+Card EEMEM eeprom_cards[MAX_CARDS];
 UserCredentials EEMEM eeprom_users[MAX_LOGINS];
 
 void eeprom_write(unsigned int address, unsigned char data) {
@@ -143,8 +143,8 @@ UserCredentials read_user_credentials(uint8_t index) {
 	return user;
 }
 
-int add_new_user(const char* login, const char* password) {
-	for (uint8_t i = 0; i < MAX_LOGINS; i++) {
+char add_new_user(const char* login, const char* password) {
+	for (char i = 0; i < MAX_LOGINS; i++) {
 		UserCredentials user = read_user_credentials(i);
 		if (user.login[0] == '\0') { // Empty slot
 			save_user_credentials(i, login, password);
@@ -155,27 +155,27 @@ int add_new_user(const char* login, const char* password) {
 }
 
 
-int validate_user(const char* login, const char* password) {
-	for (uint8_t i = 0; i < MAX_LOGINS; i++) {
+char validate_user(const char* login, const char* password) {
+	for (char i = 0; i < MAX_LOGINS; i++) {
 		UserCredentials user = read_user_credentials(i);
 		if (strcmp(user.login, login) == 0 && strcmp(user.password, password) == 0) {
-			return i; // Return the index if credentials match
+			return 1; 
 		}
 	}
-	return -1; // Credentials not found
+	return 0; // Credentials not found
 }
 
 
 void init_operator(void){
-	char login[LOGIN_SIZE];
-	char pwd[PASSWORD_SIZE];
+	char login[7];
+	char pwd[7];
 	
 	// Copy strings into arrays
-	strncpy(login, "012987", LOGIN_SIZE - 1);
-	login[LOGIN_SIZE - 1] = '\0';  // Ensure null termination
+	strncpy(login, "012987", 7 - 1);
+	login[7 - 1] = '\0';  // Ensure null termination
 
-	strncpy(pwd, "974896", PASSWORD_SIZE - 1);
-	pwd[PASSWORD_SIZE - 1] = '\0';  // Ensure null termination
+	strncpy(pwd, "974896", 7 - 1);
+	pwd[7 - 1] = '\0';  // Ensure null termination
 	
 	add_new_user(login, pwd);
 }
