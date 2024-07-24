@@ -79,6 +79,11 @@ ISR(INT5_vect) {
 	}
 }
 
+ISR(TIMER4_COMPA_vect) {
+	if (flag_porta_aberta) {
+		blink_led();
+	}
+}
 
 
 int get_coins_menu(float *total_sum, const char *product_price){
@@ -100,7 +105,6 @@ int get_coins_menu(float *total_sum, const char *product_price){
 		write_string_line(2, buffer_price);
 		
 		if(*total_sum >= atof(product_price)){
-			break;
 			return 1;
 		}
 	}
@@ -294,7 +298,7 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 							} else {
 							clear_display();
 							write_string_line(1, "Compra Cancelada");
-							write_string_line(2, "Tempo Excedido");
+							write_string_line(2, " Tempo Excedido");
 						}
 					}
 					// Compra por Cartão

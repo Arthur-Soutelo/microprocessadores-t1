@@ -3,8 +3,7 @@
 unsigned short MY_VARIABLE_TCNT1 = 52202;
 volatile uint8_t TIMEOUT_FLAG;
 volatile uint8_t seconds_count = 0;
-volatile uint8_t door_open = 0;
-#define BUZZER_PIN	PE4
+
 
 // ####### Timer 1 => 600Hz ####### //
 // Para 600 Hz: TCNT1 = 65535 - (F_CPU / (600 * 2)) = 65535 - 13333 = 52202
@@ -79,8 +78,8 @@ void init_interrupts(void) {
 }
 
 void init_door_buzzer(void) {
-	 // Set BUZZER_PIN as output
-	 DDRE |= (1 << BUZZER_PIN);
+	 // Set PE4 as output
+	 DDRE |= (1 << PE4);
 	 // Set CIRCUIT_PIN as input
 	 DDRE &= ~(1 << DOOR_PIN);
 	 // Enable pull-up resistor on CIRCUIT_PIN
@@ -109,7 +108,7 @@ void sound_alarm(void) {
 void stop_alarm(void){
 	// Stop Timer 3 and turn off the buzzer
 	TCCR3B &= ~(1 << CS31); // Stop Timer3 by clearing the clock source
-	PORTE &= ~(1 << BUZZER_PIN); // Ensure buzzer is turned off
+	PORTE &= ~(1 << PE4); // Ensure buzzer is turned off
 }
 
 void init_timer4(void) {
@@ -130,8 +129,3 @@ void blink_led(void) {
 	PORTH ^= (1 << PH3);
 }
 
-ISR(TIMER4_COMPA_vect) {
-	if (door_open) {
-		blink_led();
-	}
-}
