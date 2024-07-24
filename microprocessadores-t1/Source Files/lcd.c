@@ -107,9 +107,8 @@ void scroll_text(const char *text) {
 }
 
 // Função para exibir as opções e navegar entre elas
-int navigate_options(const char *options[], int num_options) {
-	int current_option = 0;
-
+char navigate_options(const char *options[], char num_options) {
+	char current_option = 0;
 
 	// Exibe a opção atual na primeira linha
 	clear_display();

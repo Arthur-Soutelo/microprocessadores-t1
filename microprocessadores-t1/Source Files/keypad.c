@@ -94,12 +94,12 @@ ProductNumber get_product_number(char key) {
 // Function to read a card number from the keypad
 void read_card_number(char *card_number) {
 	char key;
-	uint8_t index = 0;
+	char index = 0;
 
 	// Initialize card_number buffer
-	memset(card_number, 0, CARD_NUMBER_LENGTH + 1);
+	memset(card_number, 0, 6 + 1);
 
-	while (index < CARD_NUMBER_LENGTH) {
+	while (index < 6) {
 		key = keypad_getkey();
 		if (key != 0) { // Check if a key is pressed
 			if (key >= '0' && key <= '9') { // Check if the key is a digit
@@ -112,9 +112,11 @@ void read_card_number(char *card_number) {
 				break; // Exit loop when '#' is pressed
 				} else if (key == '*') { // Use '*' to cancel input
 				// Optionally, clear the card_number buffer
-				memset(card_number, 0, CARD_NUMBER_LENGTH + 1);
+				memset(card_number, 0, 6 + 1);
 				index = 0; // Reset index
-
+				clear_display();
+				write_string_line(1,"Digite o Cartao:");
+				write_string_line(2,card_number);
 			}
 			// Add a small delay to debounce
 			_delay_ms(100); // Adjust delay as needed
@@ -212,9 +214,9 @@ void read_login(char *login_number) {
 	write_string_line(2,"Pwd : ");
 
 	// Initialize login buffer
-	memset(login_number, 0, LOGIN_SIZE + 1);
+	memset(login_number, 0, 6 + 1);
 	
-	while (index_login < LOGIN_SIZE) {
+	while (index_login < 6) {
 		key = keypad_getkey();
 		if (key != 0) { // Check if a key is pressed
 			if (key >= '0' && key <= '9') { // Check if the key is a digit
@@ -227,7 +229,7 @@ void read_login(char *login_number) {
 				break; // Exit loop when '#' is pressed
 				} else if (key == '*') { // Use '*' to cancel input
 				// Optionally, clear the card_number buffer
-				memset(login_number, 0, LOGIN_SIZE + 1);
+				memset(login_number, 0, 6 + 1);
 				index_login = 0; // Reset index
 				clear_display();
 				write_string_line(1,"User: ");
@@ -252,9 +254,9 @@ void read_pwd(const char *login_line, char *pwd) {
 	write_string_line(2,"Pwd : ");
 
 	// Initialize pwd buffer
-	memset(pwd, 0, PASSWORD_SIZE + 1);
+	memset(pwd, 0, 6 + 1);
 	
-	while (index_pwd < PASSWORD_SIZE) {
+	while (index_pwd < 6) {
 		key = keypad_getkey();
 		if (key != 0) { // Check if a key is pressed
 			if (key >= '0' && key <= '9') { // Check if the key is a digit
@@ -270,7 +272,7 @@ void read_pwd(const char *login_line, char *pwd) {
 				break; // Exit loop when '#' is pressed
 				} else if (key == '*') { // Use '*' to cancel input
 				// Optionally, clear the card_number buffer
-				memset(pwd, 0, PASSWORD_SIZE + 1);
+				memset(pwd, 0, 6 + 1);
 				index_pwd = 0; // Reset index
 				clear_display();
 				write_string_line(1,login_line);

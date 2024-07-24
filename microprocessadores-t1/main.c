@@ -9,7 +9,7 @@ static float total_sum = 0.0;	// Define total sum variable
 unsigned char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
 char product_name[NAME_SIZE];
 char product_price[NAME_SIZE];
-char card_number[CARD_NUMBER_LENGTH + 1]; // Buffer to hold the card number
+char card_number[CARD_NUMBER_LENGTH]; // Buffer to hold the card number
 char key;
 
 // UART RECIVE INTERRUPT
@@ -57,7 +57,7 @@ void init_components(void){
 	uart_init(19200);	// Initialize the UART with desired baud rate
 	buttons_init();		// Initialize coins reading
 	door_init();		// Initialize door sensor reading
-	//init_timer3_buzzer();
+	init_timer3_buzzer();
 	init_base_cards();
 	init_operator();
 	UCSR0B |= (1 << RXCIE0); // Ativa a interrupção de recepção
@@ -66,7 +66,7 @@ void init_components(void){
  
  void display_main_menu(void){
 	 clear_display();
-	 write_string_line(1,"VenDELET");
+	 write_string_line(1,"    VenDELET");
 	 write_string_line(2,"Digite o Produto");
  }
 
@@ -151,7 +151,6 @@ int card_payment_menu(char *card_number, char *product_price){
 	}
 }
 
-
 int operator_login(void){
 	clear_display();
 	write_string_line(1, "Modo Operador");
@@ -168,12 +167,8 @@ int operator_login(void){
 	char pwd[7]; // Ajuste o tamanho conforme necessário
 	read_pwd(login_line, pwd);
 	
-	uart_send_string(login);
-	uart_send_string(pwd);
-	
 	char response;
 	response = validate_user(login, pwd);
-	uart_send(response);
 	return response;
 }
 
@@ -182,39 +177,49 @@ void get_menu_operator(void) {
 	const char *options[] = {
 		"Adicionar Cartao",
 		"Remover Cartao",
-		"Abastecer",
+		"Carregar Cartao",
+		"Abastecer Maq.",
 		"Retirar Caixa",
 		"Sair"
 	};
-	int num_options = sizeof(options) / sizeof(options[0]);
-
-	int current_option = navigate_options(options, num_options);
-
+	char num_options = sizeof(options) / sizeof(options[0]);
+	char current_option = navigate_options(options, num_options);
+	
 	// Chama a função correspondente à opção selecionada
 	switch (current_option) {
 		// Adicionar Cartao
 		case 0: {
-			char card_number[16]; // Ajuste o tamanho conforme necessário
-			read_card_number(card_number);
+			get_card_number(card_number);
 			add_new_card(card_number, 0.00);
+			send_add_new_card(card_number);
 		} break;
 		// Remover Cartao
 		case 1: {
-			char card_number[16]; // Ajuste o tamanho conforme necessário
-			read_card_number(card_number);
+			get_card_number(card_number);
 			remove_card(card_number);
 		} break;
+		// Carregar Cartao
 		case 2: {
-			// Adicione a lógica para o caso '3'
+			get_card_number(card_number);
+			clear_display();
+			write_string_line(1,"Recarga Cartao");
+			// TO DO
+			//send_update_card_balance(card_number, ProductNumber value);
 		} break;
+		// Abastecer Maquina
 		case 3: {
-			// Adicione a lógica para o caso '3'
+			//send_confirm_restock(ProductNumber product, ProductNumber quantity);
 		} break;
+		// Retirar Caixa
 		case 4: {
+			send_confirm_cash_withdraw();
+		} break;
+		// Sair
+		case 5: {
 			display_main_menu();
 		} break;
 		default: {
-			// Opcional: Lógica para tecla inválida
+			display_main_menu();
 		} break;
 	}
 }
@@ -413,18 +418,16 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 
 int main(void){
 	init_components();
-	
-	//get_menu_operator();	
 		
-		stop_alarm();
-		display_main_menu();
+	stop_alarm();
+	display_main_menu();
 	while(1){	
 		//while(!read_door_state()){	// While the door is closed
 			total_sum = 0.0;
 			key = keypad_getkey();
 			// Seleção do produto pelo codigo
 			if(key!=0){
-				if(key=='D'){
+				if(key=='D'){	// MODO OPERADOR
 					char response;
 					response = operator_login();
 					if (response){
@@ -437,7 +440,6 @@ int main(void){
 						_delay_ms(3000);
 						display_main_menu();
 					}
-					
 				}
 				else{
 					get_selected_product_menu(key);	
