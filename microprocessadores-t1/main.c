@@ -12,6 +12,8 @@ char product_price[NAME_SIZE];
 char card_number[CARD_NUMBER_LENGTH]; // Buffer to hold the card number
 char key;
 
+char flag_porta_aberta;
+
 // UART RECIVE INTERRUPT
 unsigned char buffer_index = 0;
 ISR(USART0_RX_vect) {
@@ -34,23 +36,6 @@ ISR(USART0_RX_vect) {
 	}
 }
 
-ISR(TIMER3_COMPA_vect) {
-	// Toggle the buzzer pin on each compare match interrupt
-	PORTE ^= (1 << PE4);
-}
-
-ISR(INT5_vect){
-	
-	if (read_door_state()) { // Verifica o estado da porta
-		stop_alarm(); // Para o buzzer se estiver tocando
-
-		} else{
-		sound_alarm(); // Toca o buzzer
-		clear_display();
-		write_string_line(1, "Porta Aberta");
-	}
-}
-
 void init_components(void){
 	clear_eeprom_vectors();
 	
@@ -59,18 +44,39 @@ void init_components(void){
 	uart_init(19200);	// Initialize the UART with desired baud rate
 	buttons_init();		// Initialize coins reading
 	door_init();		// Initialize door sensor reading
-	init_timer3_buzzer();
+	init_door_buzzer();
 	init_base_cards();
 	init_operator();
 	UCSR0B |= (1 << RXCIE0); // Ativa a interrupção de recepção
 	sei(); // Habilita as interrupções globais
- }
- 
- void display_main_menu(void){
-	 clear_display();
-	 write_string_line(1,"    VenDELET");
-	 write_string_line(2,"Digite o Produto");
- }
+}
+
+void display_main_menu(void){
+	clear_display();
+	write_string_line(1,"    VenDELET");
+	write_string_line(2,"Digite o Produto");
+}
+
+ISR(TIMER3_COMPA_vect) {
+	// Toggle the buzzer pin
+	PORTE ^= (1 << BUZZER_PIN);
+}
+
+ISR(INT5_vect) {
+	if(!read_door_state()) { // DOOR IS OPEN
+		sound_alarm();
+		clear_display();
+		write_string_line(1, "----- ERRO -----");
+		write_string_line(2, "PORTA ABERTA");
+		flag_porta_aberta = 1;
+	}else{
+		stop_alarm();
+		display_main_menu();
+		flag_porta_aberta = 0;
+	}
+}
+
+
 
 int get_coins_menu(float *total_sum, const char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
@@ -423,7 +429,12 @@ int main(void){
 		
 	stop_alarm();
 	display_main_menu();
-	while(1){	
+	while(1){
+		if(read_door_state() && flag_porta_aberta) { // DOOR IS CLOSED
+			stop_alarm();
+			display_main_menu();
+			flag_porta_aberta = 0;
+		}
 		//while(!read_door_state()){	// While the door is closed
 			total_sum = 0.0;
 			key = keypad_getkey();
