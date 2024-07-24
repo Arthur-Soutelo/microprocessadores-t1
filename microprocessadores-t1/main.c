@@ -150,7 +150,7 @@ int operator_login(void){
 	write_string_line(1, "Modo Operador");
 	_delay_ms(3000);
 	
-	char login[LOGIN_SIZE]; // Ajuste o tamanho conforme necessário
+	char login[7]; // Ajuste o tamanho conforme necessário
 	read_login(login);
 	
 	// Define the source string
@@ -158,19 +158,8 @@ int operator_login(void){
 	// Concatenate the source string to the destination string
 	strncat(login_line, login, LOGIN_SIZE);
 	
-	char pwd[PASSWORD_SIZE]; // Ajuste o tamanho conforme necessário
+	char pwd[7]; // Ajuste o tamanho conforme necessário
 	read_pwd(login_line, pwd);
-	
-	
-	uart_send_string(login);
-	uart_send_string(pwd);
-	
-	clear_display();
-	_delay_ms(5);
-	write_string_line(1, login);
-	write_string_line(2, pwd);
-	while(1);
-	
 	return validate_user(login, pwd);
 }
 
@@ -417,7 +406,7 @@ int main(void){
 			// Seleção do produto pelo codigo
 			if(key!=0){
 				if(key=='D'){
-					if (operator_login()==1){
+					if (operator_login()!=-1){
 						get_menu_operator();	
 					}
 					else{
