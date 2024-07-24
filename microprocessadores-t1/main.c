@@ -58,7 +58,8 @@ void init_components(void){
 	buttons_init();		// Initialize coins reading
 	door_init();		// Initialize door sensor reading
 	//init_timer3_buzzer();
-	//init_base_cards();
+	init_base_cards();
+	init_operator();
 	UCSR0B |= (1 << RXCIE0); // Ativa a interrupção de recepção
 	sei(); // Habilita as interrupções globais
  }
@@ -143,43 +144,34 @@ int card_payment_menu(char *card_number, char *product_price){
 	}
 }
 
-//void get_menu_operator(void){
-	////scroll_text(" [1]Adicionar Cartao [2]Remover Cartao [3]Abastecer Maquina [4]Retirar Caixa ");
-	////key = keypad_getkey();
-	//// Seleção do produto pelo codigo
-	////if(key!=0){
-		////switch (key){
-			////case '1':{
-				////read_card_number(card_number);
-				////add_new_card(card_number, 0.00);
-			////}
-			//////case '2':{
-				//////
-			//////}break;
-			//////case '3':{
-				//////
-			//////}break;
-			//////case '4':{
-				//////
-			//////}break;
-		////}break;
-	////}
-	//const char text[] = " [1]Adicionar Cartao [2]Remover Cartao [3]Abastecer Maquina [4]Retirar Caixa ";
-	//
-	//navigate_options(text,)
-//
-//}
 
-
-void operator_login(void){
+int operator_login(void){
 	clear_display();
 	write_string_line(1, "Modo Operador");
 	_delay_ms(3000);
 	
-	char login[16]; // Ajuste o tamanho conforme necessário
-	char pwd[16]; // Ajuste o tamanho conforme necessário
+	char login[LOGIN_SIZE]; // Ajuste o tamanho conforme necessário
+	read_login(login);
 	
-	read_login(login, pwd);
+	// Define the source string
+	char login_line[16] = "User: ";
+	// Concatenate the source string to the destination string
+	strncat(login_line, login, LOGIN_SIZE);
+	
+	char pwd[PASSWORD_SIZE]; // Ajuste o tamanho conforme necessário
+	read_pwd(login_line, pwd);
+	
+	
+	uart_send_string(login);
+	uart_send_string(pwd);
+	
+	clear_display();
+	_delay_ms(5);
+	write_string_line(1, login);
+	write_string_line(2, pwd);
+	while(1);
+	
+	return validate_user(login, pwd);
 }
 
 // Função para obter a entrada do operador do menu
@@ -425,8 +417,15 @@ int main(void){
 			// Seleção do produto pelo codigo
 			if(key!=0){
 				if(key=='D'){
-					operator_login();
-					get_menu_operator();	
+					if (operator_login()==1){
+						get_menu_operator();	
+					}
+					else{
+						clear_display();
+						write_string_line(1, "----- ERRO -----");
+						write_string_line(2, " LOGIN INVALIDO");
+					}
+					
 				}
 				else{
 					get_selected_product_menu(key);	

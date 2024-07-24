@@ -1,6 +1,7 @@
 #include "save_to_eeprom.h"
 
 extern Card EEMEM eeprom_cards[MAX_CARDS];
+UserCredentials EEMEM eeprom_users[MAX_LOGINS];
 
 void eeprom_write(unsigned int address, unsigned char data) {
 	eeprom_update_byte((uint8_t*)address, data);
@@ -119,4 +120,62 @@ void subtract_from_card_balance(const char *card_number, float amount_to_subtrac
 		} else {
 		// Handle card not found, e.g., print error or notify user
 	}
+}
+
+// ------------------------------------------
+
+void save_user_credentials(uint8_t index, const char* login, const char* password) {
+	if (index < MAX_LOGINS) {
+		UserCredentials user;
+		strncpy(user.login, login, LOGIN_SIZE - 1);
+		user.login[LOGIN_SIZE - 1] = '\0';  // Ensure null-termination
+		strncpy(user.password, password, PASSWORD_SIZE - 1);
+		user.password[PASSWORD_SIZE - 1] = '\0';  // Ensure null-termination
+		eeprom_update_block((const void*)&user, (void*)&eeprom_users[index], sizeof(UserCredentials));
+	}
+}
+
+UserCredentials read_user_credentials(uint8_t index) {
+	UserCredentials user = {0};
+	if (index < MAX_LOGINS) {
+		eeprom_read_block((void*)&user, (const void*)&eeprom_users[index], sizeof(UserCredentials));
+	}
+	return user;
+}
+
+int add_new_user(const char* login, const char* password) {
+	for (uint8_t i = 0; i < MAX_LOGINS; i++) {
+		UserCredentials user = read_user_credentials(i);
+		if (user.login[0] == '\0') { // Empty slot
+			save_user_credentials(i, login, password);
+			return i; // Return the index where the user was added
+		}
+	}
+	return -1; // No empty slot found
+}
+
+
+int validate_user(const char* login, const char* password) {
+	for (uint8_t i = 0; i < MAX_LOGINS; i++) {
+		UserCredentials user = read_user_credentials(i);
+		if (strcmp(user.login, login) == 0 && strcmp(user.password, password) == 0) {
+			return i; // Return the index if credentials match
+		}
+	}
+	return -1; // Credentials not found
+}
+
+
+void init_operator(void){
+	char login[LOGIN_SIZE];
+	char pwd[PASSWORD_SIZE];
+	
+	// Copy strings into arrays
+	strncpy(login, "012987", LOGIN_SIZE - 1);
+	login[LOGIN_SIZE - 1] = '\0';  // Ensure null termination
+
+	strncpy(pwd, "974896", PASSWORD_SIZE - 1);
+	pwd[PASSWORD_SIZE - 1] = '\0';  // Ensure null termination
+	
+	add_new_user(login, pwd);
 }

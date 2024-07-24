@@ -21,5 +21,8 @@
 	char keypad_getkey(void);
 	ProductNumber get_product_number(char key);
 	void read_card_number(char *card_number) ;
+	
+	void read_login(char *login_number);
+	void read_pwd(const char *login_line, char *pwd);
 
 #endif // KEYPAD_H
