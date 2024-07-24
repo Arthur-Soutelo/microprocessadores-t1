@@ -160,7 +160,10 @@ int operator_login(void){
 	
 	char pwd[7]; // Ajuste o tamanho conforme necessário
 	read_pwd(login_line, pwd);
-	return validate_user(login, pwd);
+	
+	char response;
+	response = validate_user(login, pwd);
+	return response;
 }
 
 // Função para obter a entrada do operador do menu
@@ -406,7 +409,9 @@ int main(void){
 			// Seleção do produto pelo codigo
 			if(key!=0){
 				if(key=='D'){
-					if (operator_login()!=-1){
+					char response;
+					response = operator_login();
+					if (response!=-1){
 						get_menu_operator();	
 					}
 					else{
