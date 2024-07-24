@@ -179,3 +179,9 @@ void init_operator(void){
 	
 	add_new_user(login, pwd);
 }
+
+void erase_eeprom(void) {
+	for (uint16_t i = 0; i < 4096; i++) {
+		eeprom_write_byte((uint8_t*)i, 0xFF);
+	}
+}

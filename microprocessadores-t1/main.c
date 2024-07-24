@@ -52,6 +52,8 @@ ISR(INT5_vect){
 }
 
 void init_components(void){
+	erase_eeprom();
+	
 	init_LCD();			// Inicializa o LCD
 	keypad_init();		// Inicializa o Teclado
 	uart_init(19200);	// Initialize the UART with desired baud rate

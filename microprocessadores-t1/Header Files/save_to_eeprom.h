@@ -24,5 +24,6 @@
 	char add_new_user(const char* login, const char* password);
 	char validate_user(const char* login, const char* password);
 	void init_operator(void);
+	void erase_eeprom(void);
 
 #endif // SAVE_TO_EEPROM_H
