@@ -210,7 +210,7 @@ int operator_login(void){
 void get_menu_operator(void) {
 	const char *options[] = {
 		"Adicionar Cartao",
-		"Remover Cartao",
+		//"Remover Cartao",
 		"Carregar Cartao",
 		"Abastecer Maq.",
 		"Retirar Caixa",
@@ -233,24 +233,24 @@ void get_menu_operator(void) {
 			//remove_card(card_number);
 		//} break;
 		// Carregar Cartao
-		case 2: {
+		case 1: {
 			get_card_number(card_number);
 			clear_display();
 			get_card_balance(card_number, card_balance);
-			//update_card_balance(card_number, card_balance);
-			//send_update_card_balance(card_number, ProductNumber value);
+			update_card_balance(card_number, balance);
+			send_update_card_balance(card_number, card_balance);
 		} break;
 		// Abastecer Maquina
-		case 3: {
+		case 2: {
 			//send_confirm_restock(ProductNumber product, ProductNumber quantity);
 		} break;
 		// Retirar Caixa
-		case 4: {
+		case 3: {
 			withdraw_menu(key);
 			send_confirm_cash_withdraw();
 		} break;
 		// Sair
-		case 5: {
+		case 4: {
 			display_main_menu();
 		} break;
 		default: {
@@ -425,7 +425,9 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 				switch (buffer[2]) {
 					// '0' - Atualização efetivada com sucesso
 					case '0':
-					// CODE HERE
+					clear_display();
+					write_string_line(1, "     Saldo");
+					write_string_line(2, "   Atualizado");
 					break;
 					// '1' - Atualização com falha (valor inválido)
 					case '1':
@@ -444,7 +446,8 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 
 			case 'I': { // Add Card - Result
 				clear_display();
-				write_string_line(1, "Cartao Inserido");
+				write_string_line(1, "     Cartao");
+				write_string_line(2, "   Adicionado");
 			} break;
 		}
 		break;

@@ -17,7 +17,7 @@
 	void update_card_balance(const char *card_number, float new_balance) ;
 	void subtract_from_card_balance(const char *card_number, float amount_to_subtract) ;
 
-	void init_base_cards(void);;
+	void init_base_cards(void);
 	
 	void save_user_credentials(uint8_t index, const char* login, const char* password);
 	UserCredentials read_user_credentials(uint8_t index);

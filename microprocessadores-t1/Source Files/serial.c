@@ -89,7 +89,7 @@ void send_add_new_card(const char *card_number) {
 	}
 }
 
-void send_update_card_balance(const char *card_number, ProductNumber value) {
+void send_update_card_balance(const char *card_number, const char *balance) {
 	for(char i=0; i<N_SEND; i++){
 		uart_send('V');
 		uart_send('A');
@@ -99,8 +99,8 @@ void send_update_card_balance(const char *card_number, ProductNumber value) {
 		uart_send(card_number[3]);
 		uart_send(card_number[4]);
 		uart_send(card_number[5]);
-		uart_send(value.first_key);
-		uart_send(value.second_key);
+		uart_send(balance[0]);
+		uart_send(balance[1]);
 	}
 }
 
