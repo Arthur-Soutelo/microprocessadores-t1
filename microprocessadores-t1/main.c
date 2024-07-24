@@ -13,7 +13,7 @@ char card_number[CARD_NUMBER_LENGTH]; // Buffer to hold the card number
 char card_balance[3];
 char key;
 float balance;
-
+char flag_operator_active;
 char flag_porta_aberta;
 
 // UART RECIVE INTERRUPT
@@ -66,12 +66,21 @@ ISR(TIMER3_COMPA_vect) {
 
 ISR(INT5_vect) {
 	if(!read_door_state()) { // DOOR IS OPEN
-		sound_alarm();
-		clear_display();
-		write_string_line(1, "----- ERRO -----");
-		write_string_line(2, "PORTA ABERTA");
-		flag_porta_aberta = 1;
-		_delay_ms(3000);
+		char response;
+		response = operator_login();
+		if (response){
+			get_menu_operator();
+			flag_porta_aberta = 0;
+			flag_operator_active = 1;
+		}else{
+			sound_alarm();
+			clear_display();
+			write_string_line(1, "----- ERRO -----");
+			write_string_line(2, "PORTA ABERTA");
+			flag_porta_aberta = 1;
+			_delay_ms(3000);
+		}
+		
 	}else{
 		stop_alarm();
 		display_main_menu();
@@ -255,7 +264,12 @@ void get_menu_operator(void) {
 		} break;
 		// Sair
 		case 4: {
+			flag_operator_active = 0;
+			if(read_door_state()){ // Active low (0 = closed, 1 = open)
+				 flag_porta_aberta = 1;
+			}
 			display_main_menu();
+			_delay_ms(100);
 		} break;
 		default: {
 			display_main_menu();
@@ -459,6 +473,7 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 }
 
 int main(void){
+	flag_porta_aberta = 0;
 	init_components();
 		
 	stop_alarm();
@@ -469,6 +484,16 @@ int main(void){
 			display_main_menu();
 			flag_porta_aberta = 0;
 		}
+		if(flag_operator_active) { // DOOR IS CLOSED
+			get_menu_operator();	
+		}
+		if(read_door_state() && flag_porta_aberta && !flag_operator_active){
+			sound_alarm();
+			clear_display();
+			write_string_line(1, "----- ERRO -----");
+			write_string_line(2, "PORTA ABERTA");
+			_delay_ms(3000);
+		}
 		total_sum = 0.0;
 		key = keypad_getkey();
 		// Seleção do produto pelo codigo
@@ -478,6 +503,7 @@ int main(void){
 				char response;
 				response = operator_login();
 				if (response){
+					flag_operator_active = 1;
 					get_menu_operator();	
 				}
 				else{
