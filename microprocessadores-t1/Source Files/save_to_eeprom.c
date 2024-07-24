@@ -169,19 +169,25 @@ char validate_user(const char* login, const char* password) {
 void init_operator(void){
 	char login[7];
 	char pwd[7];
-	
 	// Copy strings into arrays
 	strncpy(login, "012987", 7 - 1);
 	login[7 - 1] = '\0';  // Ensure null termination
-
 	strncpy(pwd, "974896", 7 - 1);
 	pwd[7 - 1] = '\0';  // Ensure null termination
-	
 	add_new_user(login, pwd);
 }
 
-void erase_eeprom(void) {
-	for (uint16_t i = 0; i < 4096; i++) {
-		eeprom_write_byte((uint8_t*)i, 0xFF);
+// Function to clear EEPROM vectors
+void clear_eeprom_vectors(void) {
+	// Clear eeprom_cards
+	for (uint8_t i = 0; i < MAX_CARDS; i++) {
+		Card empty_card = {{0}, 0.0};
+		eeprom_update_block((const void*)&empty_card, (void*)&eeprom_cards[i], sizeof(Card));
+	}
+
+	// Clear eeprom_users
+	for (uint8_t i = 0; i < MAX_LOGINS; i++) {
+		UserCredentials empty_user = {{0}, {0}};
+		eeprom_update_block((const void*)&empty_user, (void*)&eeprom_users[i], sizeof(UserCredentials));
 	}
 }

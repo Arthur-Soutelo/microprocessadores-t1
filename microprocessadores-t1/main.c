@@ -52,7 +52,7 @@ ISR(INT5_vect){
 }
 
 void init_components(void){
-	erase_eeprom();
+	clear_eeprom_vectors();
 	
 	init_LCD();			// Inicializa o LCD
 	keypad_init();		// Inicializa o Teclado
