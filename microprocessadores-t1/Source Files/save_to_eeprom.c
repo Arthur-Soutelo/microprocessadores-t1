@@ -92,14 +92,14 @@ int remove_card(const char* card_number) {
 void update_card_balance(const char *card_number, float new_balance) {
 	int index = find_card_index(card_number);
 	if (index != -1) {
-		// Card found, update balance
+	// Card found, update balance
 		Card card;
 		eeprom_read_block(&card, &eeprom_cards[index], sizeof(Card));
-		card.balance = new_balance;
+		card.balance = card.balance + new_balance;
 		eeprom_update_block(&card, &eeprom_cards[index], sizeof(Card));
-		} else {
-		// Handle card not found
-		// Optionally, add new card if needed
+	} else {
+	// Handle card not found
+	// Optionally, add new card if needed
 	}
 }
 

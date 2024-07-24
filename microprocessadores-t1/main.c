@@ -10,7 +10,9 @@ unsigned char buffer[BUFFER_SIZE];		// Buffer to hold the uart response
 char product_name[NAME_SIZE];
 char product_price[NAME_SIZE];
 char card_number[CARD_NUMBER_LENGTH]; // Buffer to hold the card number
+char card_balance[3];
 char key;
+float balance;
 
 // UART RECIVE INTERRUPT
 unsigned char buffer_index = 0;
@@ -119,6 +121,12 @@ void get_card_number(char *card_number){
 	read_card_number(card_number);
 }
 
+void get_card_balance(char *card_number, char *card_balance){
+	//clear_display();
+	write_string_line(1,"Digite o Valor:");
+	balance = read_card_balance(card_balance);
+}
+
 int card_payment_menu(char *card_number, char *product_price){
 	char card_index;
 	card_index = find_card_index(card_number);
@@ -149,6 +157,23 @@ int card_payment_menu(char *card_number, char *product_price){
 				return 1;	// Compra CONFIRMADA
 					
 			}
+		}
+	}
+}
+
+int withdraw_menu(char key){
+	clear_display();
+	write_string_line(1,"Coleta do cofre?");
+	write_string_line(2,"[*]Nao    [#]Sim");
+	while(1){
+		key = keypad_getkey();
+		if(key=='*'){
+			return 0;	// Coleta não realizada
+		}
+		else if (key=='#'){
+			clear_display();
+			write_string_line(1,"COLETA FEITA");
+			return 1;	// Coleta realizada
 		}
 	}
 }
@@ -196,16 +221,16 @@ void get_menu_operator(void) {
 			send_add_new_card(card_number);
 		} break;
 		// Remover Cartao
-		case 1: {
-			get_card_number(card_number);
-			remove_card(card_number);
-		} break;
+		//case 1: {
+			//get_card_number(card_number);
+			//remove_card(card_number);
+		//} break;
 		// Carregar Cartao
 		case 2: {
 			get_card_number(card_number);
 			clear_display();
-			write_string_line(1,"Recarga Cartao");
-			// TO DO
+			get_card_balance(card_number, card_balance);
+			//update_card_balance(card_number, card_balance);
 			//send_update_card_balance(card_number, ProductNumber value);
 		} break;
 		// Abastecer Maquina
@@ -214,6 +239,7 @@ void get_menu_operator(void) {
 		} break;
 		// Retirar Caixa
 		case 4: {
+			withdraw_menu(key);
 			send_confirm_cash_withdraw();
 		} break;
 		// Sair
@@ -460,7 +486,7 @@ int main(void){
 		//}
 
 
-	}
-	
+}
+
 	return 0;
 }

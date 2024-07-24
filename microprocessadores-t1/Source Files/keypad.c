@@ -126,6 +126,50 @@ void read_card_number(char *card_number) {
 	card_number[index] = '\0'; // Null-terminate the card number
 }
 
+float read_card_balance(char *card_balance) {
+	char key;
+	char index = 0;
+	float balance_value;
+
+	// Initialize card_number buffer
+	memset(card_balance, 0, 2 + 1);
+
+	while (index < 2) {
+		key = keypad_getkey();
+		if (key != 0) { // Check if a key is pressed
+			if (key >= '0' && key <= '9') { // Check if the key is a digit
+				card_balance[index++] = key; // Store the digit in the card_number buffer
+				//write_data_LCD(key);
+				clear_display();
+				write_string_line(1,"Digite o Valor:");
+				write_string_line(2,card_balance);
+				} else if (key == '#') { // Use '#' as an enter key
+				break; // Exit loop when '#' is pressed
+				} else if (key == '*') { // Use '*' to cancel input
+				// Optionally, clear the card_number buffer
+				memset(card_balance, 0, 2 + 1);
+				index = 0; // Reset index
+				clear_display();
+				write_string_line(1,"Digite o Valor:");
+				write_string_line(2,card_balance);
+			}
+			// Add a small delay to debounce
+			_delay_ms(100); // Adjust delay as needed
+		}
+	}
+	card_balance[index] = '\0'; // Null-terminate the card number
+	
+	balance_value = atof(card_balance);
+	if (balance_value <= 70.0) {
+		return balance_value;
+		} else {
+		clear_display();
+		write_string_line(1,"Valor Invalido!");
+		_delay_ms(2000); // Exibe a mensagem de erro por 2 segundos
+		return 0; // Reseta o valor do saldo para 0
+	}
+	
+}
 //// Function to read a card number from the keypad
 //void read_login(char *login_number, char *pwd) {
 	//char key;
