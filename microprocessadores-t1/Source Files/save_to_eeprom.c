@@ -156,12 +156,15 @@ char add_new_user(const char* login, const char* password) {
 
 
 char validate_user(const char* login, const char* password) {
-	for (char i = 0; i < MAX_LOGINS; i++) {
-		UserCredentials user = read_user_credentials(i);
-		if (strcmp(user.login, login) == 0 && strcmp(user.password, password) == 0) {
-			return 1; 
+	if(login[0] != 0 && password[0] != 0){
+		for (char i = 0; i < MAX_LOGINS; i++) {
+			UserCredentials user = read_user_credentials(i);
+			if (strcmp(user.login, login) == 0 && strcmp(user.password, password) == 0) {
+				return 1;
+			}
 		}
 	}
+	
 	return 0; // Credentials not found
 }
 

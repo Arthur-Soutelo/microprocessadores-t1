@@ -3,30 +3,12 @@
 unsigned short MY_VARIABLE_TCNT1 = 52202;
 volatile uint8_t TIMEOUT_FLAG;
 volatile uint8_t seconds_count = 0;
-volatile uint8_t door_open = 0;
-#define BUZZER_PIN	PE4
+volatile uint16_t elapsed_time_2 = 0; // Track elapsed time
 
-// ####### Timer 1 => 600Hz ####### //
-// Para 600 Hz: TCNT1 = 65535 - (F_CPU / (600 * 2)) = 65535 - 13333 = 52202
-void config_timer1_600Hz(){
-	TCCR1A = 0;		// Modo Normal
-	TCCR1B = 1;	// Sem Prescaler
-	MY_VARIABLE_TCNT1 = 52202;
-	TCNT1 = MY_VARIABLE_TCNT1;		// = 65.535 - 13 333
-	TIMSK1 = (1<<0); // Ativa interrupção por overflow TIMER 1
 
-}
+// ================================= Timer 1 ================================= //
+// ========================== TIMEOUT INSERT COINS ========================== //
 
-// ####### Timer 1 => 2000Hz ####### //
-// Para 2000 Hz: TCNT1 = 65535 - (F_CPU / (2000 * 2)) = 65535 - 4000 = 61535
-void config_timer1_2kHz(){
-	TCCR1A = 0;		// Modo Normal
-	TCCR1B = 1;	// Sem Prescaler
-	MY_VARIABLE_TCNT1 = 61535;
-	TCNT1 = MY_VARIABLE_TCNT1;		// = 65.535 - 4000
-	TIMSK1 = (1<<0); // Ativa interrupção por overflow TIMER 1
-
-}
 
 void init_timer1(void) {
 	// Configure Timer1
@@ -51,36 +33,42 @@ void timer1_stop(void) {
 	PORTB &= ~(1<<PB5);
 }
 
+// ================================= Timer 2  ================================= //
+// ========================= OPERATOR LOGIN TIMEOUT ========================= //
 
-void timer0_delay_us(unsigned int microseconds) {
-	// Calculate the number of timer ticks needed for the given microseconds
-	unsigned int timer_ticks = (microseconds * (F_CPU / 1000000UL)) / 8;
-	
-	// Ensure timer ticks fit within an 8-bit register (TCNT0 is 8-bit)
-	if (timer_ticks > 255) {
-		timer_ticks = 255; // Cap the maximum delay to 255 microseconds
-	}	
-
-	TCCR0A = 0;					// Configures Timer 0 in normal mode
-	TCCR0B = (1 << CS01);		// Configures Timer 0 in normal mode
-	TCNT0 = 256 - timer_ticks;	// Sets the initial timer count based on the calculated timer ticks
-
-	while ((TIFR0 & (1 << TOV0)) == 0); // Wait for overflow flag
-
-	TIFR0 = (1 << TOV0);     // CClears the overflow flag
-	TCCR0B = 0;              // Stops Timer 0 after the delay
+// login timeout
+void timer2_init(void) {
+	// Set Timer2 to CTC mode
+	TCCR2A = (1 << WGM21);
+	// Set prescaler to 64 and start Timer2
+	TCCR2B = (1 << CS22);
+	// Set compare match value for 1ms interrupt
+	OCR2A = 249; // Assuming 16MHz clock, prescaler 64, results in 1ms period
+	// Enable Timer2 compare match A interrupt
+	TIMSK2 = (1 << OCIE2A);
+	// Enable global interrupts
+	sei();
 }
 
-void init_interrupts(void) {
-	// Configura a interrupção externa para o pino PE5 (INT5)
-	EICRB |= (1 << ISC51) | (1 << ISC50); // Configura INT5 para gerar interrupção em qualquer mudança de nível
-	EIMSK |= (1 << INT5);  // Habilita a interrupção INT5
-	sei(); // Habilita interrupções globais
+void reset_timer_2(void) {
+	elapsed_time_2 = 0;
 }
+
+char is_timeout_2(void) {
+	return (elapsed_time_2 >= 12000); // Timeout period in milliseconds
+}
+
+void stop_timer2(void) {
+	// Clear the prescaler bits in TCCR2B to stop the timer
+	TCCR2B &= ~((1 << CS22) | (1 << CS21) | (1 << CS20));
+}
+
+// ================================= Timer 3  ================================= //
+// ================================= BUZZER ================================= //
 
 void init_door_buzzer(void) {
-	 // Set BUZZER_PIN as output
-	 DDRE |= (1 << BUZZER_PIN);
+	 // Set PE4 as output
+	 DDRE |= (1 << PE4);
 	 // Set CIRCUIT_PIN as input
 	 DDRE &= ~(1 << DOOR_PIN);
 	 // Enable pull-up resistor on CIRCUIT_PIN
@@ -109,14 +97,17 @@ void sound_alarm(void) {
 void stop_alarm(void){
 	// Stop Timer 3 and turn off the buzzer
 	TCCR3B &= ~(1 << CS31); // Stop Timer3 by clearing the clock source
-	PORTE &= ~(1 << BUZZER_PIN); // Ensure buzzer is turned off
+	PORTE &= ~(1 << PE4); // Ensure buzzer is turned off
 }
+
+// ================================= Timer 4  ================================= //
+// ================================ DOOR LED ================================ //
 
 void init_timer4(void) {
 	// Configure Timer4 for CTC mode
 	TCCR4A = 0;
 	TCCR4B = (1 << WGM42) | (1 << CS42) | (1 << CS40); // CTC mode, prescaler 1024
-	OCR4A = 7812; // Set compare value for 2Hz (0.5 second period)
+	OCR4A = (F_CPU / (1024 * 4)) - 1; // Set compare value for 2 Hz
 	TIMSK4 = (1 << OCIE4A); // Enable Timer4 compare interrupt
 }
 
@@ -128,10 +119,4 @@ void init_led_porta(void) {
 void blink_led(void) {
 	// Toggle the LED pin
 	PORTH ^= (1 << PH3);
-}
-
-ISR(TIMER4_COMPA_vect) {
-	if (door_open) {
-		blink_led();
-	}
 }

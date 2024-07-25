@@ -13,10 +13,10 @@ char card_number[CARD_NUMBER_LENGTH]; // Buffer to hold the card number
 char card_balance[3];
 char key;
 float balance;
-ProductNumber product;
-ProductNumber quantity;
 
+char flag_operator_active;
 char flag_porta_aberta;
+
 
 // UART RECIVE INTERRUPT
 unsigned char buffer_index = 0;
@@ -48,7 +48,10 @@ void init_components(void){
 	uart_init(19200);	// Initialize the UART with desired baud rate
 	buttons_init();		// Initialize coins reading
 	door_init();		// Initialize door sensor reading
+	
 	init_door_buzzer();
+	init_timer4();		// DOOR LED
+	
 	init_base_cards();
 	init_operator();
 	UCSR0B |= (1 << RXCIE0); // Ativa a interrupção de recepção
@@ -61,19 +64,18 @@ void display_main_menu(void){
 	write_string_line(2,"Digite o Produto");
 }
 
-ISR(TIMER3_COMPA_vect) {
-	// Toggle the buzzer pin
-	PORTE ^= (1 << BUZZER_PIN);
-}
-
+// OPEN DOOR INTERRUPT
 ISR(INT5_vect) {
 	if(!read_door_state()) { // DOOR IS OPEN
-		sound_alarm();
-		clear_display();
-		write_string_line(1, "----- ERRO -----");
-		write_string_line(2, "PORTA ABERTA");
-		flag_porta_aberta = 1;
-		_delay_ms(3000);
+		_delay_ms(300);
+		if(!read_door_state()){  // DOOR STILL OPEN
+			timer2_init();	// Init timeout for operator login
+			
+			flag_porta_aberta = 1;
+			clear_display();
+			write_string_line(1, "  PORTA ABERTA");
+			write_string_line(2, " REALIZAR LOGIN");
+		}
 	}else{
 		stop_alarm();
 		display_main_menu();
@@ -81,7 +83,33 @@ ISR(INT5_vect) {
 	}
 }
 
+// BLINK OPEN DOOR LED INTERRUPT
+ISR(TIMER4_COMPA_vect) {
+	if (flag_porta_aberta) {
+		blink_led();
+	}
+}
 
+// OPERATOR AND BUZZER LOGIN TIMEOUT INTERRUPT
+ISR(TIMER2_COMPA_vect) {
+	elapsed_time_2++;
+	if (is_timeout_2() && !read_door_state()){
+		// Timeout occurred
+		clear_display();
+		write_string_line(1, "----- ERRO -----");
+		write_string_line(2, "  PORTA ABERTA");
+		sound_alarm();
+		flag_porta_aberta = 1;
+		elapsed_time_2=0;
+		stop_timer2();
+	}
+}
+
+// START BUZZER OPEN DOOR INTERRUPT
+ISR(TIMER3_COMPA_vect) {
+	// Toggle the buzzer pin
+	PORTE ^= (1 << BUZZER_PIN);
+}
 
 int get_coins_menu(float *total_sum, const char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
@@ -102,7 +130,6 @@ int get_coins_menu(float *total_sum, const char *product_price){
 		write_string_line(2, buffer_price);
 		
 		if(*total_sum >= atof(product_price)){
-			break;
 			return 1;
 		}
 	}
@@ -284,7 +311,12 @@ void get_menu_operator(void) {
 		} break;
 		// Sair
 		case 4: {
+			flag_operator_active = 0;
+			if(read_door_state()){ // Active low (0 = closed, 1 = open)
+				 flag_porta_aberta = 1;
+			}
 			display_main_menu();
+			_delay_ms(100);
 		} break;
 		default: {
 			display_main_menu();
@@ -327,7 +359,7 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 							} else {
 							clear_display();
 							write_string_line(1, "Compra Cancelada");
-							write_string_line(2, "Tempo Excedido");
+							write_string_line(2, " Tempo Excedido");
 						}
 					}
 					// Compra por Cartão
@@ -488,6 +520,7 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 }
 
 int main(void){
+	flag_porta_aberta = 0;
 	init_components();
 		
 	stop_alarm();
@@ -500,6 +533,16 @@ int main(void){
 			display_main_menu();
 			flag_porta_aberta = 0;
 		}
+		if(flag_operator_active) { // DOOR IS CLOSED
+			get_menu_operator();	
+		}
+		if(read_door_state() && flag_porta_aberta && !flag_operator_active){
+			sound_alarm();
+			clear_display();
+			write_string_line(1, "----- ERRO -----");
+			write_string_line(2, "PORTA ABERTA");
+			_delay_ms(3000);
+		}
 		total_sum = 0.0;
 		key = keypad_getkey();
 		// Seleção do produto pelo codigo
@@ -509,6 +552,9 @@ int main(void){
 				char response;
 				response = operator_login();
 				if (response){
+					flag_operator_active = 1;
+					stop_alarm();
+					flag_porta_aberta = 0;
 					get_menu_operator();	
 				}
 				else{
