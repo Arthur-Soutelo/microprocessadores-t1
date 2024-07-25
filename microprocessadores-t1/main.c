@@ -281,7 +281,7 @@ int add_product_menu(void){
 
 int operator_login(void){
 	clear_display();
-	write_string_line(1, "Modo Operador");
+	write_string_line(1, " MODO OPERADOR");
 	_delay_ms(3000);
 	
 	char login[7]; // Ajuste o tamanho conforme necessário
@@ -537,7 +537,7 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 					case '2':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
-					write_string_line(2, "QTD INVALIDA");
+					write_string_line(2, "  QTD INVALIDA");
 					_delay_ms(3000);
 					display_main_menu();
 					break;
