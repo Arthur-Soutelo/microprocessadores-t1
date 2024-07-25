@@ -1,170 +1,79 @@
-# ATmega2560 Microcontroller Project
+# Vending Machine Project (VenDELET)
 
-This project demonstrates the use of an ATmega2562 microcontroller to handle multiple functionalities including keypad input, LCD display control, EEPROM manipulation, and button debouncing for calculating and storing values.
+## Overview
 
-## Table of Contents
+This project involves creating a vending machine system using the ATmega2560 microcontroller. The vending machine supports both cash and card payments and includes features like product selection, balance checking, and administrative operations. 
 
-1. [Introduction](#introduction)
-2. [Hardware Requirements](#hardware-requirements)
-3. [Software Requirements](#software-requirements)
-4. [Project Structure](#project-structure)
-5. [Configuration](#configuration)
-6. [Usage](#usage)
-7. [Functions](#functions)
-8. [Notes](#notes)
-9. [License](#license)
+## Authors
 
-## Introduction
+- **Arthur Antonio Soutelo Araujo** - 00304292
+- **Gabriel Rosado dos Santos Mendes** - 00301564
 
-This project includes code for reading keypad inputs with debouncing, displaying information on an LCD, calculating values based on button presses, and storing/retrieving these values from EEPROM. The project files are structured into separate modules for keypad handling, LCD control, EEPROM operations, and other utility functions.
+## Hardware
 
-## Hardware Requirements
+- **Microcontroller**: ATmega2560
+- **LCD Display**: For user interface and status messages
+- **Keypad**: For user input
+- **Card Reader**: For card transactions
+- **Buzzer and LEDs**: For auditory and visual feedback
+- **Door Sensor**: To detect if the door is open or closed
 
-- ATmega2560 microcontroller
-- 4x4 keypad
-- 16x2 LCD display
-- Two buttons with pull-down resistors
-- Microchip Studio for AVR programming
+## Features
 
-## Software Requirements
+- **Product Selection**: Choose a product by entering its code on the keypad.
+- **Cash Payment**: Insert coins to pay for the selected product.
+- **Card Payment**: Use a card for transactions. Supports adding and updating card balances.
+- **Operator Mode**: Allows for administrative functions such as adding cards, restocking products, and cash withdrawal.
+- **Error Handling**: Provides feedback for invalid operations, such as invalid product codes or insufficient funds.
 
-- Microchip Studio
-- AVR-GCC compiler
+## Components
 
-## Project Structure
+### Main Code
 
-The project consists of the following files:
+- **UART Communication**: Handles data reception and processing.
+- **LCD Display Management**: Updates the display with relevant information.
+- **Keypad Input Handling**: Processes user input for product selection and menu navigation.
+- **Card Management**: Handles card transactions and balance updates.
+- **Error Reporting**: Displays error messages for various issues.
 
-- `main.c`: The main file containing the main loop and example usage.
-- `keypad.h` & `keypad.c`: Header and source files for keypad handling functions.
-- `lcd.h` & `lcd.c`: Header and source files for LCD control functions.
-- `money.h` & `money.c`: Header and source files for calculating and handling monetary values.
-- `save_to_eeprom.h` & `save_to_eeprom.c`: Header and source files for EEPROM handling functions.
-- `serial.h` & `serial.c`: Header and source files for serial communication functions.
-- `timer.h` & `timer.c`: Header and source files for timer utility functions.
-- `main_header.h`: General header file for global definitions.
-- `system_libraries.h`: Header file for including necessary system libraries.
+### Main Interrupt Service Routines (ISRs)
 
-## Configuration
+- **UART RX Interrupt**: Processes incoming UART data.
+- **Door Sensor Interrupt**: Manages door state and login timeouts.
+- **Timer Interrupts**: Controls LED blinking and buzzer alerts.
 
-### Pin Definitions
+## Setup
 
-In `keypad.h`:
-```c
-#define KEYPAD_ROW_PORT  PORTA
-#define KEYPAD_COL_PORT  PORTB
-#define KEYPAD_ROW_DDR   DDRA
-#define KEYPAD_COL_DDR   DDRB
-#define KEYPAD_ROW_PIN   PINA
-#define KEYPAD_COL_PIN   PINB
-```
+1. **Hardware Connections**:
+   - Connect the LCD, keypad, card reader, buzzer, and door sensor to the ATmega2560 as per the project's circuit diagram.
 
-In `lcd.h`:
-```c
-#define RS_PIN     PB0
-#define E_PIN      PB1
-#define D4_PIN     PB4
-#define D5_PIN     PB5
-#define D6_PIN     PB6
-#define D7_PIN     PB7
-#define LCD_PORT   PORTB
-#define LCD_DDR    DDRB
-```
+2. **Software Setup**:
+   - Install Microchip Studio or any compatible IDE for ATmega2560 development.
+   - Load the project files into the IDE.
 
-### EEPROM Address
-
-In `money.h`:
-```c
-#define TOTAL_VALUE_ADDR    0x00 // EEPROM address to store the total value
-```
+3. **Compiling and Flashing**:
+   - Compile the code using the IDE.
+   - Flash the compiled code to the ATmega2560 microcontroller.
 
 ## Usage
 
-1. Clone or download the project files.
-2. Open Microchip Studio and create a new project for the ATmega2562 microcontroller.
-3. Add the provided source and header files to your project.
-4. Connect the hardware components as per the pin configurations.
-5. Compile and upload the project to your ATmega2562 microcontroller.
+1. **Starting the Machine**:
+   - Power on the vending machine.
+   - The main menu will be displayed on the LCD.
 
-### Example Usage
+2. **Selecting a Product**:
+   - Enter the product code on the keypad.
+   - Choose payment method (cash or card).
 
-In `main.c`:
-```c
-#include <avr/io.h>
-#include <util/delay.h>
-#include "buttons.h"
-#include "save_to_eeprom.h"
-#include "money.h"
-#include "lcd.h"
-#include "keypad.h"
+3. **Making a Payment**:
+   - **Cash**: Insert coins until the total sum matches or exceeds the product price.
+   - **Card**: Enter the card number and confirm the purchase.
 
-int main(void) {
-    unsigned char total = 0;
+4. **Operator Mode**:
+   - Access operator mode by entering the operator login credentials.
+   - Perform administrative tasks like adding cards, restocking products, and withdrawing cash.
 
-    // Initialize peripherals
-    buttons_init();
-    lcd_init();
-    keypad_init();
+## Troubleshooting
 
-    // Load previously saved total from EEPROM
-    total = eeprom_read(TOTAL_VALUE_ADDR);
-
-    while (1) {
-        if (button1_clicked()) {
-            total += BUTTON1_VALUE;
-        }
-
-        if (button2_clicked()) {
-            total += BUTTON2_VALUE;
-        }
-
-        // Display total on LCD
-        lcd_clear();
-        lcd_write_string("Total: ");
-        lcd_write_value(total / 100.0); // Assuming total is in cents
-
-        // Save total to EEPROM periodically
-        eeprom_write(TOTAL_VALUE_ADDR, total);
-
-        _delay_ms(100);
-    }
-
-    return 0;
-}
-```
-
-## Functions
-
-### Button Handling Functions
-
-- `void buttons_init(void)`: Initializes button pins as inputs with pull-down resistors.
-- `unsigned char button1_clicked(void)`: Returns `1` if Button 1 is clicked, `0` otherwise.
-- `unsigned char button2_clicked(void)`: Returns `1` if Button 2 is clicked, `0` otherwise.
-
-### EEPROM Handling Functions
-
-- `void eeprom_write(unsigned int address, unsigned char data)`: Writes a byte to EEPROM at the specified address.
-- `unsigned char eeprom_read(unsigned int address)`: Reads a byte from EEPROM at the specified address.
-
-### Keypad Handling Functions
-
-- `void keypad_init(void)`: Initializes the keypad pins.
-- `unsigned char keypad_get_key(void)`: Returns the key pressed on the keypad.
-
-### LCD Control Functions
-
-- `void lcd_init(void)`: Initializes the LCD.
-- `void lcd_clear(void)`: Clears the LCD display.
-- `void lcd_write_string(char *str)`: Writes a string to the LCD.
-- `void lcd_write_value(float value)`: Writes a float value to the LCD.
-
-### Timer Utility Functions
-
-- `void timer_init(void)`: Initializes the timer.
-- `void timer_delay_us(unsigned int us)`: Delays execution by the specified number of microseconds.
-
-## Notes
-
-- Ensure that the buttons are connected to the specified pins with pull-down resistors.
-- Adjust the debounce delay in `debounce()` function if necessary to suit your hardware configuration.
-- EEPROM write operations have a limited number of write cycles. Minimize frequent writes to extend EEPROM life.
+- **Display Issues**: Check connections and ensure the LCD is properly initialized.
+- **Keypad Input**: Verify keypad wiring and ensure correct handling of key presses.
