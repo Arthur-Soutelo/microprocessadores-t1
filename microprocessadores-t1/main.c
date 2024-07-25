@@ -6,7 +6,7 @@
 #include "main_header.h"
 
 static float total_sum = 0.0;	// Define total sum variable
-char buffer[100];		// Buffer to hold the uart response
+char buffer[25];		// Buffer to hold the uart response
 char product_name[NAME_SIZE];
 char product_price[NAME_SIZE];
 char card_number[CARD_NUMBER_LENGTH]; // Buffer to hold the card number
@@ -19,37 +19,37 @@ char flag_porta_aberta;
 
 
 // UART RECIVE INTERRUPT
-volatile unsigned char buffer_index = 0;
-ISR(USART0_RX_vect) {
+volatile unsigned int buffer_index = 0;
+ISR(USART0_RX_vect) {	
 	// Clean the buffer if it's the first byte
 	if (buffer_index == 0) {
 		memset(buffer, 0, sizeof(buffer));
 	}
 
 	char receivedChar = UDR0; // Read the received character
-	buffer[buffer_index++] = receivedChar;
-
-	// Send the received data as it comes
-	//uart_send(receivedChar);
+	buffer[buffer_index] = receivedChar;
+	
+	buffer_index++;
 
 	// Process the buffer when enough data is received
-	if (buffer_index >= 2 && buffer[0] == 'A') {
+	if (buffer_index > 3) {
+		//uart_send(buffer[buffer_index-1]);
+		if(buffer[0] == 'A'  && buffer[1] == 'P'){	
+			unsigned int size = (unsigned char) buffer[2]; // Convert to short
+
+			if (buffer_index == size + 3) {
+				buffer[buffer_index] = '\0'; // Null-terminate the string
+				buffer_index = 0; // Reset the buffer index
+				analyze_serial_command(buffer, product_name, product_price, total_sum, card_number);
+			}
+		}
+	}else if (buffer_index >= 2 && buffer[0] == 'A'  && buffer[1] != 'P') {
 		switch (buffer[1]){
-			case 'P':{
-				uart_send_string(buffer);
-				if (buffer_index == (short)buffer[2] + 3) {
-					buffer[buffer_index] = '\0'; // Null-terminate the string
-					buffer_index = 0; // Reset the buffer index
-					// analyze_serial_command(buffer, product_name, product_price, total_sum, card_number);
-					//uart_send_string(buffer); // Send the full message
-				}
-			}break;
 			case 'I':{
 				if (buffer_index == 2) {
 					buffer[buffer_index] = '\0'; // Null-terminate the string
 					buffer_index = 0; // Reset the buffer index
 					analyze_serial_command(buffer, product_name, product_price, total_sum, card_number);
-					//uart_send_string(buffer); // Send the full message
 				}
 			}break;
 			case 'R':{
@@ -57,7 +57,6 @@ ISR(USART0_RX_vect) {
 					buffer[buffer_index] = '\0'; // Null-terminate the string
 					buffer_index = 0; // Reset the buffer index
 					analyze_serial_command(buffer, product_name, product_price, total_sum, card_number);
-					//uart_send_string(buffer); // Send the full message
 				}
 			}break;
 			default:{
@@ -65,11 +64,11 @@ ISR(USART0_RX_vect) {
 					buffer[buffer_index] = '\0'; // Null-terminate the string
 					buffer_index = 0; // Reset the buffer index
 					analyze_serial_command(buffer, product_name, product_price, total_sum, card_number);
-					//uart_send_string(buffer); // Send the full message
 				}
 			}break;
 		}
 	}
+	
 	// Reset the buffer index if it exceeds its size
 	if (buffer_index >= sizeof(buffer)) {
 		buffer_index = 0;

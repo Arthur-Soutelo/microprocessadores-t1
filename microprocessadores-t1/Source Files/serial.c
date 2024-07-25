@@ -45,6 +45,12 @@ void uart_send_string(const char *data) {
 		uart_send(*data++);
 	}
 }
+//
+//void uart_send_string_2(const char *data, char length) {
+	//for (char i = 0; i < length; i++) {
+		//uart_send(data[i]);
+	//}
+//}
 
 void send_product_selection(ProductNumber product){
 	for(char i=0; i<N_SEND; i++){
