@@ -53,14 +53,14 @@ void uart_send_string(const char *data) {
 //}
 
 void send_product_selection(ProductNumber product){
-	for(char i=0; i<N_SEND; i++){
+	//for(char i=0; i<N_SEND; i++){
 		// Send Code
 		uart_send('V');
 		uart_send('P');
 		// Use the product number (first_key and second_key)
 		uart_send(product.first_key);
 		uart_send(product.second_key);
-	}
+	//}
 }
 
 void send_confirm_cash_purchase(void){

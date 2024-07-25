@@ -30,8 +30,8 @@ Card read_card_data(uint8_t index) {
 	return card;
 }
 
-int find_card_index(const char* card_number) {
-	for (uint8_t i = 0; i < MAX_CARDS; i++) {
+short find_card_index(const char* card_number) {
+	for (short i = 0; i < MAX_CARDS; i++) {
 		Card card = read_card_data(i);
 		if (strcmp(card.card_number, card_number) == 0) {
 			return i; // Return the index if card number matches
