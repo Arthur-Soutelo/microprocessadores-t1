@@ -22,20 +22,26 @@ char flag_porta_aberta;
 unsigned char buffer_index = 0;
 ISR(USART0_RX_vect) {
 	char receivedChar = UDR0; // Leia o caractere recebido
+	if(buffer_index == 0){
+		// Initialize card_number buffer
+		memset(buffer, 0, BUFFER_SIZE + 1);
+	}
 	buffer[buffer_index] = receivedChar;
-	
 	buffer_index++;
 	if(buffer_index >= 4){
 		if(buffer[0]=='A' && buffer[1]=='P'){
 			unsigned char message_size = buffer[2];
-			if(message_size == buffer_index-3){
-				buffer_index = 0;
-				analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
+			if (buffer_index == message_size + 3) {
+				buffer[buffer_index] = '\0'; // Termina a string
+				buffer_index = 0; // Reinicia o índice do buffer
+				//analyze_serial_command(buffer, product_name, product_price, total_sum, card_number);
+				uart_send_string(buffer);
 			}
 		}
 		else if (buffer_index == 4){
 			buffer_index = 0;
-			analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
+			uart_send_string(buffer);
+			//analyze_serial_command(buffer, product_name, product_price, total_sum,card_number);
 		}
 	}
 }
@@ -360,6 +366,8 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 							clear_display();
 							write_string_line(1, "Compra Cancelada");
 							write_string_line(2, " Tempo Excedido");
+							_delay_ms(3000);
+							display_main_menu();
 						}
 					}
 					// Compra por Cartão
@@ -371,6 +379,8 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 							} else {
 							clear_display();
 							write_string_line(1, "Compra Cancelada");
+							_delay_ms(3000);
+							display_main_menu();
 						}
 					}
 					} else {
@@ -391,24 +401,31 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 					turn_on_led();
 					_delay_ms(3000);
 					turn_off_led();
+					display_main_menu();
 					break;
 					// '1' - Compra com falha (produto inválido)
 					case '1':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "PRODUTO INVALIDO");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 					// '2' - Compra com falha (quantidade insuficiente)
 					case '2':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "QTD INSUFICIENTE");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 					// '3' - Compra com falha (validade vencida)
 					case '3':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "VALIDADE VENCIDA");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 				}
 			} break;
@@ -432,30 +449,39 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 						turn_on_led();
 						_delay_ms(3000);
 						turn_off_led();
+						display_main_menu();
 					} break;
 					// '1' - Compra com falha (produto inválido)
 					case '1':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "PRODUTO INVALIDO");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 					// '2' - Compra com falha (quantidade insuficiente)
 					case '2':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "QTD INSUFICIENTE");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 					// '3' - Compra com falha (validade vencida)
 					case '3':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "VALIDADE VENCIDA");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 					// '4' - Compra com falha (cartão inválido)
 					case '4':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "CARTAO INVALIDO");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 				}
 			} break;
@@ -464,19 +490,27 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 				switch (buffer[2]) {
 					// '0' - Compra efetivada com sucesso
 					case '0':
-					// CODE HERE
+					clear_display();
+					write_string_line(1, "  Atualizacao");
+					write_string_line(2, "   Realizada");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 					// '1' - Compra com falha (produto inválido)
 					case '1':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "PRODUTO INVALIDO");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 					// '2' - Compra com falha (quantidade inválida)
 					case '2':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "QTD INVALIDA");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 				}
 			} break;
@@ -484,7 +518,9 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 			case 'R': { // Cash Removal - Result
 				clear_display();
 				write_string_line(1, " Cofre Coletado");
-				write_string_line(2, " Ate a proxima");
+				write_string_line(2, " Ate a proxima!");
+				_delay_ms(3000);
+				display_main_menu();
 			} break;
 
 			case 'A': { // Update Card - Result
@@ -494,18 +530,24 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 					clear_display();
 					write_string_line(1, "     Saldo");
 					write_string_line(2, "   Atualizado");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 					// '1' - Atualização com falha (valor inválido)
 					case '1':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
-					write_string_line(2, "VALOR INVALIDO");
+					write_string_line(2, " VALOR INVALIDO");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 					// '4' - Atualização com falha (cartão inválido)
 					case '4':
 					clear_display();
 					write_string_line(1, "----- ERRO -----");
 					write_string_line(2, "CARTAO INVALIDO");
+					_delay_ms(3000);
+					display_main_menu();
 					break;
 				}
 			} break;
@@ -514,6 +556,8 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 				clear_display();
 				write_string_line(1, "     Cartao");
 				write_string_line(2, "   Adicionado");
+				_delay_ms(3000);
+				display_main_menu();
 			} break;
 		}
 		break;
@@ -526,6 +570,7 @@ int main(void){
 		
 	stop_alarm();
 	display_main_menu();
+
 
 	while(1){
 		if(read_door_state() && flag_porta_aberta) { // DOOR IS CLOSED

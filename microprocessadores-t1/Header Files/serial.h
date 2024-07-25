@@ -5,7 +5,7 @@
 	
 	#define N_SEND 3
 	
-	#define BUFFER_SIZE 50
+	#define BUFFER_SIZE 30
 	#define PRICE_SIZE 10
 	#define NAME_SIZE 20		// Adjust based on the expected max name length
 	#define UART_TIMEOUT 10000  // Timeout in milliseconds
