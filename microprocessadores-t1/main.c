@@ -483,7 +483,8 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 
 			case 'R': { // Cash Removal - Result
 				clear_display();
-				write_string_line(1, "Dinheiro Removido");
+				write_string_line(1, " Cofre Coletado");
+				write_string_line(2, " Ate a proxima");
 			} break;
 
 			case 'A': { // Update Card - Result
@@ -525,8 +526,7 @@ int main(void){
 		
 	stop_alarm();
 	display_main_menu();
-	
-	add_product_menu();
+
 	while(1){
 		if(read_door_state() && flag_porta_aberta) { // DOOR IS CLOSED
 			stop_alarm();
