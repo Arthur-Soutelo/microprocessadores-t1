@@ -90,7 +90,6 @@ ProductNumber get_product_number(char key) {
 	return result;
 }
 
-
 // Function to read a card number from the keypad
 void read_card_number(char *card_number) {
 	char key;
@@ -324,9 +323,77 @@ void read_pwd(const char *login_line, char *pwd) {
 				write_string_LCD(pwd);
 
 			}
-			// Add a small delay to debounce
 			_delay_ms(100); // Adjust delay as needed
 		}
 	}
 	pwd[index_pwd] = '\0'; // Null-terminate the card number
+}
+
+// Função para coletar o n° do produto (2 dígitos)
+void read_product(char *product) {
+	char key;
+	char index_product = 0;
+	
+	clear_display();
+	write_string_line(1,"Num. produto: ");
+	write_string_line(2,"Quantidade: ");
+	
+	// Initialize product buffer
+	memset(product, 0, 2 + 1);
+	
+	while (index_product < 2) {
+		key = keypad_getkey();
+		if (key != 0) { // Check if a key is pressed
+			if (key >= '0' && key <= '9') { // Check if the key is a digit
+				product[index_product++] = key; // Store the digit in the product number buffer
+				clear_display();
+				write_string_line(1,"Num. produto: ");
+				write_string_LCD(product);
+				write_string_line(2,"Quantidade: ");
+				} else if (key == '#') { // Use '#' as an enter key
+				break; // Exit loop when '#' is pressed
+				} else if (key == '*') { // Use '*' to cancel input
+				index_product = 0; // Reset index
+				clear_display();
+				write_string_line(1,"Num. produto: ");
+				write_string_LCD(product);
+				write_string_line(2,"Quantidade: ");
+			}
+			// Add a small delay to debounce
+			_delay_ms(100); // Adjust delay as needed
+		}
+	}
+	product[index_product] = '\0'; // Null-terminate the product number
+}
+
+// Função para coletar a quantidade (2 dígitos)
+void read_quantity(const char *product_line, char *quantity) {
+	char key;
+	char index_qtd = 0;
+	
+	// Initialize quantity buffer
+	memset(quantity, 0, 2 + 1);
+	
+	while (index_qtd < 2) {
+		key = keypad_getkey();
+		if (key != 0) { // Check if a key is pressed
+			if (key >= '0' && key <= '9') {
+				quantity[index_qtd++] = key; // Store the digit in the quantity buffer
+				clear_display();
+				write_string_line(1,product_line);
+				write_string_line(2,"Quantidade : ");
+				write_string_LCD(quantity);
+				} else if (key == '#') { // Use '#' as an enter key
+				break; // Exit loop when '#' is pressed
+				} else if (key == '*') { // Use '*' to cancel input
+				index_qtd = 0; // Reset index
+				clear_display();
+				write_string_line(1,product_line);
+				write_string_line(2,"Quantidade : ");
+				write_string_LCD(quantity);
+			}
+			_delay_ms(100); // Adjust delay as needed
+		}
+	}
+	quantity[index_qtd] = '\0'; // Null-terminate the quantity number
 }

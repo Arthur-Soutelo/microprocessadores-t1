@@ -23,7 +23,7 @@
 	void send_product_selection(ProductNumber product);
 	void send_add_new_card(const char *card_number);
 	void send_update_card_balance(const char *card_number, const char *balance);
-	void send_confirm_restock(ProductNumber product, ProductNumber quantity);
+	void send_confirm_restock(const char *product, const char *quantity);
 	void send_confirm_cash_withdraw(void);
 	
 	void get_name_from_buffer(unsigned char *buffer, char *name);

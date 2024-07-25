@@ -13,6 +13,8 @@ char card_number[CARD_NUMBER_LENGTH]; // Buffer to hold the card number
 char card_balance[3];
 char key;
 float balance;
+ProductNumber product;
+ProductNumber quantity;
 
 char flag_porta_aberta;
 
@@ -185,6 +187,36 @@ int withdraw_menu(char key){
 	}
 }
 
+int add_product_menu(void){
+	clear_display();
+	write_string_line(1,"Add produto?");
+	write_string_line(2,"[*]Nao    [#]Sim");
+	
+	while(1){
+		key = keypad_getkey();
+		if(key=='*'){
+		return 0;	// Coleta não realizada
+		}
+		else if (key=='#'){
+			char product[3]; // Ajuste o tamanho conforme necessário
+			read_product(product);
+			
+			// Define the source string
+			char product_line[16] = "Num. produto: ";
+			// Concatenate the source string to the destination string
+			strncat(product_line, product, 3);
+			
+			char quantity[3]; // Ajuste o tamanho conforme necessário
+			read_quantity(product_line, quantity);
+			
+			send_confirm_restock(product, quantity);
+			//char response;
+			//response = validate_user(login, pwd);
+			//return response;
+		}
+	}
+}
+
 int operator_login(void){
 	clear_display();
 	write_string_line(1, "Modo Operador");
@@ -242,6 +274,7 @@ void get_menu_operator(void) {
 		} break;
 		// Abastecer Maquina
 		case 2: {
+			add_product_menu();
 			//send_confirm_restock(ProductNumber product, ProductNumber quantity);
 		} break;
 		// Retirar Caixa
@@ -459,6 +492,8 @@ int main(void){
 		
 	stop_alarm();
 	display_main_menu();
+	
+	add_product_menu();
 	while(1){
 		if(read_door_state() && flag_porta_aberta) { // DOOR IS CLOSED
 			stop_alarm();

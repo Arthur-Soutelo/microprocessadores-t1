@@ -77,7 +77,7 @@ void send_confirm_card_purchase(const char *num){
 }
 
 void send_add_new_card(const char *card_number) {
-	for(char i=0; i<N_SEND; i++){
+	//for(char i=0; i<N_SEND; i++){
 		uart_send('V');
 		uart_send('I');
 		uart_send(card_number[0]);
@@ -86,11 +86,11 @@ void send_add_new_card(const char *card_number) {
 		uart_send(card_number[3]);
 		uart_send(card_number[4]);
 		uart_send(card_number[5]);
-	}
+	//}
 }
 
 void send_update_card_balance(const char *card_number, const char *balance) {
-	for(char i=0; i<N_SEND; i++){
+	//for(char i=0; i<N_SEND; i++){
 		uart_send('V');
 		uart_send('A');
 		uart_send(card_number[0]);
@@ -101,18 +101,18 @@ void send_update_card_balance(const char *card_number, const char *balance) {
 		uart_send(card_number[5]);
 		uart_send(balance[0]);
 		uart_send(balance[1]);
-	}
+	//}
 }
 
-void send_confirm_restock(ProductNumber product, ProductNumber quantity){
-	for(char i=0; i<N_SEND; i++){
+void send_confirm_restock(const char *product, const char *quantity){
+	//for(char i=0; i<N_SEND; i++){
 		uart_send('V');
 		uart_send('Q');
-		uart_send(product.first_key);
-		uart_send(product.second_key);
-		uart_send(quantity.first_key);
-		uart_send(quantity.second_key);
-	}
+		uart_send(product[0]);
+		uart_send(product[1]);
+		uart_send(quantity[0]);
+		uart_send(quantity[1]);
+	//}
 }
 
 void send_confirm_cash_withdraw(void) {

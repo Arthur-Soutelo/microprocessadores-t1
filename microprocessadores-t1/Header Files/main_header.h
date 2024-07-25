@@ -20,6 +20,7 @@
 	void get_card_balance(char *card_number, char *card_balance);
 	int card_payment_menu(char *card_number, char *product_price);
 	int withdraw_menu(char key);
+	int add_product_menu(void);
 	void analyze_serial_command(unsigned char *buffer, char *product_name, char *product_price, float total_sum, char *card_number);
 
 #endif // MAIN_HEADER_H_

@@ -25,5 +25,7 @@
 	
 	void read_login(char *login_number);
 	void read_pwd(const char *login_line, char *pwd);
+	void read_product(char *product);
+	void read_quantity(const char *product_line, char *quantity);
 
 #endif // KEYPAD_H
