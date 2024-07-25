@@ -8,31 +8,36 @@
 	#endif
 
 	#define BUZZER_PIN	PE4
-
-	void config_timer1_600Hz();
-	void config_timer1_2kHz();
-	void timer1_stop(void);
 	
-	void timer0_delay_us(unsigned int microseconds);
-
-	void init_door_buzzer(void);
-	void sound_alarm(void);
-	void stop_alarm(void);
-	void init_interrupts(void);
-		
-	void stop_timer2(void);
-		
+	// ================================= Timer 1 ================================= //
+	// ========================== TIMEOUT INSERT COINS ========================== //
+	
 	extern volatile uint8_t TIMEOUT_FLAG;
+	void timer1_stop(void);
 	void init_timer1(void);
-	void init_timer4(void);
-	void init_led_porta(void);
-	void blink_led(void);	
-	extern volatile uint8_t door_open;
+	
+	// ================================= Timer 2  ================================= //
+	// ========================= OPERATOR LOGIN TIMEOUT ========================= //
 	
 	void timer2_init(void);
 	char is_timeout_2(void);
-	void reset_timer(void);
+	void reset_timer_2(void);
+	void stop_timer2(void);
 	extern volatile uint16_t elapsed_time_2; // Track elapsed time
 	
+	// ================================= Timer 3  ================================= //
+	// ================================= BUZZER ================================= //
+	
+	void init_door_buzzer(void);
+	void sound_alarm(void);
+	void stop_alarm(void);
+	
+	// ================================= Timer 4  ================================= //
+	// ================================ DOOR LED ================================ //
+	
+	void init_timer4(void);
+	void init_led_porta(void);
+	void blink_led(void);	
+
 
 #endif /* TIMER_H_ */
