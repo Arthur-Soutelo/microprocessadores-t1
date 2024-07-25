@@ -101,9 +101,10 @@ void display_main_menu(void){
 
 // OPEN DOOR INTERRUPT
 ISR(INT5_vect) {
-	if(!read_door_state()) { // DOOR IS OPEN
+	if(!read_door_state() && !flag_operator_active) { // DOOR IS OPEN
 		_delay_ms(300);
 		if(!read_door_state()){  // DOOR STILL OPEN
+			reset_timer_2();
 			timer2_init();	// Init timeout for operator login
 			
 			flag_porta_aberta = 1;
@@ -111,11 +112,12 @@ ISR(INT5_vect) {
 			write_string_line(1, "  PORTA ABERTA");
 			write_string_line(2, " REALIZAR LOGIN");
 		}
-	}else{
-		stop_alarm();
-		display_main_menu();
-		flag_porta_aberta = 0;
 	}
+	//else{
+		//stop_alarm();
+		//display_main_menu();
+		//flag_porta_aberta = 0;
+	//}
 }
 
 // BLINK OPEN DOOR LED INTERRUPT
@@ -199,7 +201,7 @@ void get_card_balance(char *card_number, char *card_balance){
 }
 
 int card_payment_menu(char *card_number, char *product_price){
-	char card_index;
+	short card_index;
 	card_index = find_card_index(card_number);
 	
 	// Card Found :
@@ -596,6 +598,11 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 int main(void){
 	flag_porta_aberta = 0;
 	init_components();
+	
+	// Clean the buffer
+	if (buffer_index == 0) {
+		memset(buffer, 0, sizeof(buffer));
+	}
 		
 	stop_alarm();
 	display_main_menu();
@@ -606,6 +613,7 @@ int main(void){
 			stop_alarm();
 			display_main_menu();
 			flag_porta_aberta = 0;
+			PORTH &= ~(1 << PH3); // Stop ED
 		}
 		if(flag_operator_active) { // DOOR IS CLOSED
 			get_menu_operator();	

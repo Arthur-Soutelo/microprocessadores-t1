@@ -11,7 +11,7 @@
 	
 	void save_card_data(uint8_t index, const char* card_number, float balance);
 	Card read_card_data(uint8_t index) ;
-	int find_card_index(const char* card_number);
+	short find_card_index(const char* card_number);
 	int add_new_card(const char* card_number, float balance);
 	int remove_card(const char* card_number) ;
 	void update_card_balance(const char *card_number, float new_balance) ;
