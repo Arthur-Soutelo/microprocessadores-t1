@@ -20,6 +20,8 @@
 	void stop_alarm(void);
 	void init_interrupts(void);
 		
+	void stop_timer2(void);
+		
 	extern volatile uint8_t TIMEOUT_FLAG;
 	void init_timer1(void);
 	void init_timer4(void);
@@ -27,7 +29,10 @@
 	void blink_led(void);	
 	extern volatile uint8_t door_open;
 	
+	void timer2_init(void);
+	char is_timeout_2(void);
+	void reset_timer(void);
+	extern volatile uint16_t elapsed_time_2; // Track elapsed time
 	
-
 
 #endif /* TIMER_H_ */
