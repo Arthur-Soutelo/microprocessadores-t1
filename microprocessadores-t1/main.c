@@ -410,8 +410,12 @@ void get_menu_operator(void) {
 		// Sair
 		case 4: {
 			flag_operator_active = 0;
-			if(read_door_state()){ // Active low (0 = closed, 1 = open)
+			if(!read_door_state()){ // Active low (1 = closed, 0 = open)
 				 flag_porta_aberta = 1;
+				 reset_timer_2();
+				 timer2_init();	// Init timeout for operator login
+			}else{
+				stop_alarm();
 			}
 			display_main_menu();
 			_delay_ms(100);
@@ -675,21 +679,25 @@ int main(void){
 
 
 	while(1){
-		if(read_door_state() && flag_porta_aberta) { // DOOR IS CLOSED
-			stop_alarm();
+		// DOOR IS CLOSED BUT FLAG IS OPEN (DOOR JUST CLOSED)
+		if(read_door_state() && flag_porta_aberta) {
 			display_main_menu();
 			flag_porta_aberta = 0;
 			PORTH &= ~(1 << PH3); // Stop ED
+			stop_alarm();
 		}
-		if(flag_operator_active) { // DOOR IS CLOSED
-			get_menu_operator();	
-		}
-		if(read_door_state() && flag_porta_aberta && !flag_operator_active){
+		// DOOR IS CLOSED FLAG IS OPEN AND OPERATOR IS NOT LOGGED IN
+		if(read_door_state() && flag_porta_aberta && !flag_operator_active){ 
 			sound_alarm();
 			clear_display();
 			write_string_line(1, "----- ERRO -----");
 			write_string_line(2, "PORTA ABERTA");
 			_delay_ms(3000);
+		}
+		
+		// Menu Operador
+		if(flag_operator_active) {
+			get_menu_operator();
 		}
 		total_sum = 0.0;
 		key = keypad_getkey();
