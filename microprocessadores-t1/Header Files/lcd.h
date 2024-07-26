@@ -13,16 +13,6 @@
 	
 	#define LCD_WIDTH 16
 
-	//#define LCD_PORT   PORTB
-	//#define LCD_DDR    DDRB
-//
-	//void init_LCD(void);
-	//void write_data_LCD(unsigned char data);
-	//void write_command_LCD(unsigned char command);
-	//void clear_display(void);
-	//void write_string(char line, char *text);
-	//void delay_ms(unsigned int ms);
-
 	void init_LCD(void);
 	void write_command_LCD(uint8_t command);
 	void write_data_LCD(uint8_t data);
