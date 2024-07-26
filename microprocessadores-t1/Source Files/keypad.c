@@ -308,7 +308,7 @@ void read_quantity(const char *product_line, char *quantity) {
 				quantity[index_qtd++] = key; // Store the digit in the quantity buffer
 				clear_display();
 				write_string_line(1,product_line);
-				write_string_line(2,"Quantidade : ");
+				write_string_line(2,"Quantidade: ");
 				write_string_LCD(quantity);
 				} else if (key == '#') { // Use '#' as an enter key
 				break; // Exit loop when '#' is pressed
@@ -316,7 +316,7 @@ void read_quantity(const char *product_line, char *quantity) {
 				index_qtd = 0; // Reset index
 				clear_display();
 				write_string_line(1,product_line);
-				write_string_line(2,"Quantidade : ");
+				write_string_line(2,"Quantidade: ");
 				write_string_LCD(quantity);
 			}
 			_delay_ms(100); // Adjust delay as needed

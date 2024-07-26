@@ -15,6 +15,7 @@
 	extern volatile uint8_t TIMEOUT_FLAG;
 	void timer1_stop(void);
 	void init_timer1(void);
+	void reset_timer_1(void);
 	
 	// ================================= Timer 2  ================================= //
 	// ========================= OPERATOR LOGIN TIMEOUT ========================= //

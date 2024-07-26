@@ -33,6 +33,12 @@ void timer1_stop(void) {
 	PORTB &= ~(1<<PB5);
 }
 
+
+void reset_timer_1(void) {
+	seconds_count = 0;
+}
+
+
 // ================================= Timer 2  ================================= //
 // ========================= OPERATOR LOGIN TIMEOUT ========================= //
 

@@ -176,6 +176,7 @@ void display_main_menu(void){
 // DISPLAY COINS INSERTED
 int get_coins_menu(float *total_sum, const char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
+	reset_timer_1();
 	init_timer1();
 	
 	while(*total_sum <= atof(product_price)){
@@ -317,7 +318,7 @@ int add_product_menu(void){
 	while(1){
 		key = keypad_getkey();
 		if(key=='*'){
-		return 0;	// Coleta não realizada
+			return 0;	// Coleta não realizada
 		}
 		else if (key=='#'){
 			char product[3]; // Ajuste o tamanho conforme necessário
@@ -332,6 +333,7 @@ int add_product_menu(void){
 			read_quantity(product_line, quantity);
 			
 			send_confirm_restock(product, quantity);
+			break;
 			//char response;
 			//response = validate_user(login, pwd);
 			//return response;
@@ -379,8 +381,23 @@ void get_menu_operator(void) {
 		// Adicionar Cartao
 		case 0: {
 			get_card_number(card_number);
-			add_new_card(card_number, 0.00);
-			send_add_new_card(card_number);
+			int result;
+			result = add_new_card(card_number, 0.00);
+			if(result == -2){
+				clear_display();
+				write_string_line(1, "Cartão existente");
+				write_string_line(2, "Tente novamente");
+				_delay_ms(3000);
+			}else if (result == -1){
+				clear_display();
+				write_string_line(1, "----- ERRO -----");
+				write_string_line(2, "  MEMORIA CHEIA");
+				_delay_ms(3000);
+			}
+			else{
+			
+				send_add_new_card(card_number);
+			}
 		} break;
 		// Remover Cartao
 		//case 1: {
@@ -450,7 +467,7 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 					write_string_line(1, "1 - Dinheiro");
 					write_string_line(2, "2 - Cartao");
 					char key = keypad_getkey();
-					while (key != '1' && key != '2') {
+					while (key != '1' && key != '2' && key != '#') {
 						key = keypad_getkey();
 						if(key == '#'){
 							break;
