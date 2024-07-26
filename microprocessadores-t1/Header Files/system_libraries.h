@@ -1,4 +1,9 @@
 #ifndef SYSTEM_LIBRARIES_H_
+	
+	/*****************************************************************************/
+	/*					  GLOBAL DEFINITIONS & LIBRARIES						 */
+	/*****************************************************************************/
+	
 	#define SYSTEM_LIBRARIES_H_
 	
 	#define MAX_LOGINS 5
@@ -10,8 +15,9 @@
 	
 	#define F_CPU 16000000UL  // Define the clock frequency as 16 MHz
 	
-	#define DOOR_PIN	PE5	//PH4
+	#define DOOR_PIN	PE5	
 	
+	// Bibliotecas externas
 	#include <avr/io.h>
 	#include <avr/interrupt.h>
 	#include <avr/eeprom.h>

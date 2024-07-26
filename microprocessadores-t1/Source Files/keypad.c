@@ -1,3 +1,7 @@
+/*****************************************************************************/
+/*					         KEYPAD FUNCTIONS   							 */
+/*****************************************************************************/
+
 #include "keypad.h"
 #include "lcd.h"
 
@@ -247,7 +251,7 @@ float read_card_balance(char *card_balance) {
 //}
 
 
-// Function to read a card number from the keypad
+// Function to read login number from the keypad
 void read_login(char *login_number) {
 	char key;
 	char index_login = 0;

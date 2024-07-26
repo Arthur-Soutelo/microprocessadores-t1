@@ -1,7 +1,23 @@
-// Tabalho 1- Microprocessadores	-	Turma : B	-	2024
-// ATmega2560 //
-// Author: Arthur Antonio Soutelo Araujo	- 00304292
-// Author: Gabriel Rosado dos Santos Mendes - 00301564
+/*****************************************************************************/
+/*					UNIVERSIDADE FEDERAL DO RIO GRANDE DO SUL				 */
+/*							   ESCOLA DE ENGENHARIA						     */
+/*					   DEPARTAMENTO DE ENGENHARIA ELÉTRICA					 */
+/*					CURSO DE GRADUAÇÃO EM ENGENHARIA ELETRICA				 */
+/*						ENG04475 - MICROPROCESSADORES I						 */
+/*																			 */
+/*								PROJETO 1 – 8BITS							 */
+/*					                VENDELET	                			 */
+/*																			 */
+/*		Profesor: Ronaldo Husemann											 */
+/*																			 */
+/*		Alunos:  														  	 */
+/*			00304292 Arthur Antonio Soutelo Araujo							 */
+/*			00301564 Gabriel Rosado dos Santos Mendes						 */
+/*																			 */
+/*																			 */
+/*																			 */
+/*							      Julho/2024								 */
+/*****************************************************************************/
 
 #include "main_header.h"
 
@@ -16,11 +32,14 @@ float balance;
 
 char flag_operator_active;
 char flag_porta_aberta;
-
-
-// UART RECIVE INTERRUPT
 volatile unsigned int buffer_index = 0;
-ISR(USART0_RX_vect) {	
+
+/*****************************************************************************/
+/*					           INTERRUPT                       				 */
+/*****************************************************************************/
+
+// UART RECEIVE INTERRUPT
+ISR(USART0_RX_vect) {
 	// Clean the buffer if it's the first byte
 	if (buffer_index == 0) {
 		memset(buffer, 0, sizeof(buffer));
@@ -75,30 +94,6 @@ ISR(USART0_RX_vect) {
 	}
 }
 
-void init_components(void){
-	clear_eeprom_vectors();
-	
-	init_LCD();			// Inicializa o LCD
-	keypad_init();		// Inicializa o Teclado
-	uart_init(19200);	// Initialize the UART with desired baud rate
-	buttons_init();		// Initialize coins reading
-	door_init();		// Initialize door sensor reading
-	
-	init_door_buzzer();
-	init_timer4();		// DOOR LED
-	
-	init_base_cards();
-	init_operator();
-	UCSR0B |= (1 << RXCIE0); // Ativa a interrupção de recepção
-	sei(); // Habilita as interrupções globais
-}
-
-void display_main_menu(void){
-	clear_display();
-	write_string_line(1,"    VenDELET");
-	write_string_line(2,"Digite o Produto");
-}
-
 // OPEN DOOR INTERRUPT
 ISR(INT5_vect) {
 	if(!read_door_state() && !flag_operator_active) { // DOOR IS OPEN
@@ -148,6 +143,37 @@ ISR(TIMER3_COMPA_vect) {
 	PORTE ^= (1 << BUZZER_PIN);
 }
 
+/*****************************************************************************/
+/*					     LOGICAL & MENUS FUNCTIONS  						 */
+/*****************************************************************************/
+
+// INITIALIZE COMPONENTS & TIMERS
+void init_components(void){
+	clear_eeprom_vectors();
+	
+	init_LCD();			// Inicializa o LCD
+	keypad_init();		// Inicializa o Teclado
+	uart_init(19200);	// Initialize the UART with desired baud rate
+	buttons_init();		// Initialize coins reading
+	door_init();		// Initialize door sensor reading
+	
+	init_door_buzzer();
+	init_timer4();		// DOOR LED
+	
+	init_base_cards();
+	init_operator();
+	UCSR0B |= (1 << RXCIE0); // Ativa a interrupção de recepção
+	sei(); // Habilita as interrupções globais
+}
+
+// DISPLAY MENU
+void display_main_menu(void){
+	clear_display();
+	write_string_line(1,"    VenDELET");
+	write_string_line(2,"Digite o Produto");
+}
+
+// DISPLAY COINS INSERTED
 int get_coins_menu(float *total_sum, const char *product_price){
 	char buffer_price[16];  // Buffer to hold the formatted string
 	init_timer1();
@@ -175,6 +201,7 @@ int get_coins_menu(float *total_sum, const char *product_price){
 	
 }
 
+// SHOW SELECTED PRODUCT AND SEND SERIAL PRODUCT DATA
 void get_selected_product_menu(char key){
 	// Get the pressed key
 	clear_display();
@@ -188,18 +215,21 @@ void get_selected_product_menu(char key){
 	send_product_selection(product);
 }
 
+// CARD NUMBER INPUT
 void get_card_number(char *card_number){
 	clear_display();
 	write_string_line(1,"Digite o Cartao:");
 	read_card_number(card_number);
 }
 
+// RECHARGE CARD INPUT - OPERATOR
 void get_card_balance(char *card_number, char *card_balance){
 	//clear_display();
 	write_string_line(1,"Digite o Valor:");
 	balance = read_card_balance(card_balance);
 }
 
+// CARD PAYMENT MENU
 int card_payment_menu(char *card_number, char *product_price){
 	short card_index;
 	card_index = find_card_index(card_number);
@@ -234,6 +264,7 @@ int card_payment_menu(char *card_number, char *product_price){
 	}
 }
 
+// WITHDRAW MENU - OPERATOR
 int withdraw_menu(char key){
 	clear_display();
 	write_string_line(1,"Coleta do cofre?");
@@ -251,6 +282,7 @@ int withdraw_menu(char key){
 	}
 }
 
+// ADD PRODUCT MENU - OPERATOR
 int add_product_menu(void){
 	clear_display();
 	write_string_line(1,"Add produto?");
@@ -281,6 +313,7 @@ int add_product_menu(void){
 	}
 }
 
+// OPERATOR LOGIN
 int operator_login(void){
 	clear_display();
 	write_string_line(1, " MODO OPERADOR");
@@ -302,7 +335,7 @@ int operator_login(void){
 	return response;
 }
 
-// Função para obter a entrada do operador do menu
+// OPERATOR MENU INPUT
 void get_menu_operator(void) {
 	const char *options[] = {
 		"Adicionar Cartao",
@@ -365,6 +398,7 @@ void get_menu_operator(void) {
 	}
 }
 
+// SERIAL DATA PROCESSING CASES
 void analyze_serial_command(unsigned char *buffer, char *product_name, char *product_price, float total_sum, char *card_number) {
 	switch (buffer[0]) {
 		case 'A':
@@ -598,6 +632,10 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 		break;
 	}
 }
+
+/***************************************************************************/
+/***************************** MAIN PROGRAM CODE ***************************/
+/***************************************************************************/
 
 int main(void){
 	flag_porta_aberta = 0;
