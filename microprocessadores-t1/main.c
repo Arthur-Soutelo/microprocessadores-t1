@@ -372,7 +372,6 @@ void get_menu_operator(void) {
 		// Abastecer Maquina
 		case 2: {
 			add_product_menu();
-			//send_confirm_restock(ProductNumber product, ProductNumber quantity);
 		} break;
 		// Retirar Caixa
 		case 3: {
@@ -425,6 +424,9 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 					char key = keypad_getkey();
 					while (key != '1' && key != '2') {
 						key = keypad_getkey();
+						if(key == '#'){
+							break;
+						}
 					}
 					// Compra por Dinheiro
 					if (key == '1') {
