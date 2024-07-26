@@ -395,7 +395,6 @@ void get_menu_operator(void) {
 				_delay_ms(3000);
 			}
 			else{
-			
 				send_add_new_card(card_number);
 			}
 		} break;

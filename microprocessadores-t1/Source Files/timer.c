@@ -36,6 +36,7 @@ void timer1_stop(void) {
 
 void reset_timer_1(void) {
 	seconds_count = 0;
+	TIMEOUT_FLAG = 0;
 }
 
 
