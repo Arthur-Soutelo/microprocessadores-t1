@@ -233,7 +233,7 @@ void get_card_balance(char *card_number, char *card_balance){
 		snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
 		clear_display();
 		write_string_line(1,"Cartao Valido");
-		write_string_line(2,"Saldo:");
+		write_string_line(2,"Saldo: R$");
 		write_string_LCD(balance_str);
 		_delay_ms(3000);
 		clear_display();
@@ -269,7 +269,7 @@ int card_payment_menu(char *card_number, char *product_price){
 		snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
 		clear_display();
 		write_string_line(1,"Cartao Valido");
-		write_string_line(2,"Saldo:");
+		write_string_line(2,"Saldo: R$");
 		write_string_LCD(balance_str);
 		_delay_ms(3000);
 		
@@ -395,7 +395,6 @@ void get_menu_operator(void) {
 				_delay_ms(3000);
 			}
 			else{
-			
 				send_add_new_card(card_number);
 			}
 		} break;
@@ -561,7 +560,7 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 						
 						clear_display();
 						write_string_line(1, "Compra Realizada");
-						write_string_line(2, "Saldo:");
+						write_string_line(2, "Saldo: R$");
 						write_string_LCD(balance_str);
 						turn_on_led();
 						_delay_ms(3000);
