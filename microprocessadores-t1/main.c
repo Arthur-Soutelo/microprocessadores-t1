@@ -224,9 +224,35 @@ void get_card_number(char *card_number){
 
 // RECHARGE CARD INPUT - OPERATOR
 void get_card_balance(char *card_number, char *card_balance){
-	//clear_display();
-	write_string_line(1,"Digite o Valor:");
-	balance = read_card_balance(card_balance);
+	short card_index = find_card_index(card_number);
+	if(card_index != -1){
+		Card card1 = read_card_data(card_index);
+	
+		char balance_str[10];
+		snprintf(balance_str, sizeof(balance_str), "%.2f", card1.balance);
+		clear_display();
+		write_string_line(1,"Cartao Valido");
+		write_string_line(2,"Saldo:");
+		write_string_LCD(balance_str);
+		_delay_ms(3000);
+		clear_display();
+		write_string_line(1,"Digite o Valor:");
+		balance = read_card_balance(card_balance);
+	
+		if(card1.balance + balance > 70.0){
+			balance = 0;
+			clear_display();
+			write_string_line(1,"Saldo Excedido!");
+			write_string_line(2,"Saldo Max: R$70");
+			_delay_ms(2000); // Exibe a mensagem de erro por 2 segundos
+		}
+	}else{
+		clear_display();
+		write_string_line(1, "----- ERRO -----");
+		write_string_line(2, " CARTAO INVALIDO");
+		_delay_ms(2000);
+	}
+	
 }
 
 // CARD PAYMENT MENU
@@ -366,8 +392,10 @@ void get_menu_operator(void) {
 			get_card_number(card_number);
 			clear_display();
 			get_card_balance(card_number, card_balance);
-			update_card_balance(card_number, balance);
-			send_update_card_balance(card_number, card_balance);
+			if(balance!=0){
+				update_card_balance(card_number, balance);
+				send_update_card_balance(card_number, card_balance);
+			}
 		} break;
 		// Abastecer Maquina
 		case 2: {
