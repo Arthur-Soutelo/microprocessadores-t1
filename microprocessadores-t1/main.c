@@ -469,8 +469,9 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 					char key = keypad_getkey();
 					while (key != '1' && key != '2' && key != '#') {
 						key = keypad_getkey();
-						if(key == '#'){
-							break;
+						if(key == '*'){
+							display_main_menu();
+							return;
 						}
 					}
 					// Compra por Dinheiro
