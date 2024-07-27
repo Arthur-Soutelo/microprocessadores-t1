@@ -149,7 +149,10 @@ ISR(TIMER3_COMPA_vect) {
 
 // INITIALIZE COMPONENTS & TIMERS
 void init_components(void){
-	clear_eeprom_vectors();
+	//clear_eeprom_vectors();	// APAGA TODOS OS CARTÔES E OPERADORES DA MEMORIA EEPROM
+	init_base_cards();  // SALVA OS CARTÔES DE BASE NA MEMORIA EEPROM
+	init_operator();	// SALVA O LOGIN DO OPERADOR DE BASE NA MEMORIA EEPROM
+	
 	
 	init_LCD();			// Inicializa o LCD
 	keypad_init();		// Inicializa o Teclado
@@ -157,11 +160,10 @@ void init_components(void){
 	buttons_init();		// Initialize coins reading
 	door_init();		// Initialize door sensor reading
 	
-	init_door_buzzer();
+	init_door_buzzer();	// DOOR BUZZER	
 	init_timer4();		// DOOR LED
 	
-	init_base_cards();
-	init_operator();
+	
 	UCSR0B |= (1 << RXCIE0); // Ativa a interrupção de recepção
 	sei(); // Habilita as interrupções globais
 }
