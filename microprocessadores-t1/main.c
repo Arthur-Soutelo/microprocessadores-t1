@@ -136,7 +136,7 @@ ISR(TIMER2_COMPA_vect) {
 		stop_timer2();
 	}
 }
-
+	
 // START BUZZER OPEN DOOR INTERRUPT
 ISR(TIMER3_COMPA_vect) {
 	// Toggle the buzzer pin
@@ -196,8 +196,6 @@ int get_coins_menu(float *total_sum, const char *product_price){
 		write_string_line(2, buffer_price);
 		
 		if(*total_sum >= atof_with_comma(product_price)){
-			uart_send_string(buffer_price);
-			uart_send_string(product_price);
 			return 1;
 		}
 	}

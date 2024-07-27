@@ -5,7 +5,7 @@
 	
 	#define BUFFER_SIZE 30
 	#define PRICE_SIZE 10
-	#define NAME_SIZE 20		// Adjust based on the expected max name length
+	#define NAME_SIZE 20		
 	
 	void uart_init(unsigned long baudrate);
 	unsigned char uart_receive(void);
