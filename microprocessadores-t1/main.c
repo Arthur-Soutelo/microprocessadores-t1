@@ -285,8 +285,13 @@ int card_payment_menu(char *card_number, char *product_price){
 				return 0;	// Compra NEGADA
 			}
 			else if (key=='#'){
-				subtract_from_card_balance(card_number, atof(product_price));
-				return 1;	// Compra CONFIRMADA
+				char response;
+				response = subtract_from_card_balance(card_number, atof(product_price));
+				if(response == 1){
+					return 1;	// Compra CONFIRMADA
+				}else{
+					return 2;	// Compra NEGADA (SALDO INSUFICIENTE)
+				}
 					
 			}
 		}
@@ -494,12 +499,18 @@ void analyze_serial_command(unsigned char *buffer, char *product_name, char *pro
 						char result = card_payment_menu(card_number, product_price);
 						if (result == 1) {
 							send_confirm_card_purchase(card_number);
-							} else {
+							} else if (result == 0){
 							clear_display();
 							write_string_line(1, "Compra Cancelada");
 							_delay_ms(3000);
 							display_main_menu();
-						}
+						} else if (result == 2){
+						clear_display();
+						write_string_line(1, "----- ERRO -----");
+						write_string_line(2, "  FALTA SALDO");
+						_delay_ms(3000);
+						display_main_menu();
+					}
 					}
 					} else {
 					clear_display();
