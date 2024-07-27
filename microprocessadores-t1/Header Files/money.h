@@ -21,13 +21,5 @@
 	void init_led(void);
 	void turn_on_led(void);
 	void turn_off_led(void);
-	
-	
-	//void init_cards();
-	//short find_card(uint32_t code);
-	//float get_card_credit(uint32_t code);
-	//void update_card_credit(uint32_t code, float new_credit);
-	//void add_new_card(uint32_t code, float credit);
-	//void display_card_info(short card_index);
 
 #endif // MONEY_H
