@@ -21,5 +21,6 @@
 	void init_led(void);
 	void turn_on_led(void);
 	void turn_off_led(void);
+	float atof_with_comma(const char* str);
 
 #endif // MONEY_H

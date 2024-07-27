@@ -57,6 +57,31 @@ static unsigned char debounce(unsigned char pin) {
 	return keynow;
 }
 
+// Passa para float
+float atof_with_comma(const char* str) {
+	// Create a copy of the input string
+	char* copy = strdup(str);
+	if (copy == NULL) {
+		// Handle memory allocation failure
+		return 0.0;
+	}
+
+	// Replace comma with dot
+	for (char* p = copy; *p != '\0'; p++) {
+		if (*p == ',') {
+			*p = '.';
+		}
+	}
+
+	// Convert the modified string to float
+	float result = atof(copy);
+
+	// Free the allocated memory
+	free(copy);
+
+	return result;
+}
+
 /*****************************************************************************/
 /*										  PORTA	  	        	    		 */
 /*****************************************************************************/

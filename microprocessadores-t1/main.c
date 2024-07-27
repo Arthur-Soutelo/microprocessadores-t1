@@ -195,7 +195,7 @@ int get_coins_menu(float *total_sum, const char *product_price){
 		write_string_LCD(product_price);
 		write_string_line(2, buffer_price);
 		
-		if(*total_sum >= atof(product_price)){
+		if(*total_sum >= atof_with_comma(product_price)){
 			uart_send_string(buffer_price);
 			uart_send_string(product_price);
 			return 1;
@@ -288,7 +288,7 @@ int card_payment_menu(char *card_number, char *product_price){
 			}
 			else if (key=='#'){
 				char response;
-				response = subtract_from_card_balance(card_number, atof(product_price));
+				response = subtract_from_card_balance(card_number, atof_with_comma(product_price));
 				if(response == 1){
 					return 1;	// Compra CONFIRMADA
 				}else{
