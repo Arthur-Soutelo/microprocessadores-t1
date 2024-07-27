@@ -20,7 +20,6 @@
 	
 	void clear_display(void);
 	void write_string_line(char line, const char *text);
-	void scroll_text(const char *text);
 	char navigate_options(const char *options[], char num_options);
 
 #endif // LCD_H_
