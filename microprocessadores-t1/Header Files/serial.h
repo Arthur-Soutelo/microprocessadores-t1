@@ -3,12 +3,9 @@
 #ifndef SERIAL_H_
 	#define SERIAL_H_
 	
-	#define N_SEND 3
-	
 	#define BUFFER_SIZE 30
 	#define PRICE_SIZE 10
 	#define NAME_SIZE 20		// Adjust based on the expected max name length
-	#define UART_TIMEOUT 10000  // Timeout in milliseconds
 	
 	void uart_init(unsigned long baudrate);
 	unsigned char uart_receive(void);
@@ -29,13 +26,5 @@
 	void get_name_from_buffer(unsigned char *buffer, char *name);
 	void get_price_from_buffer(unsigned char *buffer, char *price);
 	void receive_data_from_uart(unsigned char *buffer);
-	
-	int uart_ready(void);
-
-
-	
-	//void uart_init(void);
-	//unsigned char uart_receive(void);
-	//void uart_send(unsigned char data);
 
 #endif // SERIAL_H_
