@@ -196,6 +196,8 @@ int get_coins_menu(float *total_sum, const char *product_price){
 		write_string_line(2, buffer_price);
 		
 		if(*total_sum >= atof(product_price)){
+			uart_send_string(buffer_price);
+			uart_send_string(product_price);
 			return 1;
 		}
 	}
