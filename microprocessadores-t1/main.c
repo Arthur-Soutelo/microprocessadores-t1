@@ -181,7 +181,7 @@ int get_coins_menu(float *total_sum, const char *product_price){
 	reset_timer_1();
 	init_timer1();
 	
-	while(*total_sum <= atof(product_price)){
+	while(1){
 		if (TIMEOUT_FLAG) {
 			return 0;
 		}
