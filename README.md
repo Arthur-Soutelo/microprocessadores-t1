@@ -4,11 +4,6 @@
 
 This project involves creating a vending machine system using the ATmega2560 microcontroller. The vending machine supports both cash and card payments and includes features like product selection, balance checking, and administrative operations. 
 
-## Authors
-
-- **Arthur Antonio Soutelo Araujo** - 00304292
-- **Gabriel Rosado dos Santos Mendes** - 00301564
-
 ## Hardware
 
 - **Microcontroller**: ATmega2560
